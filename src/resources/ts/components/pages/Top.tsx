@@ -5,13 +5,13 @@ import { breakPoint } from "../../theme/setting/breakPoint";
 import { colors } from "../../theme/setting/colors";
 import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
-import { SignUpButton } from "../atoms/button/BaseButton";
 
 import topimg1 from "../../img/top/top-image1.jpg";
 import topimg2 from "../../img/top/top-image2.jpg";
-import topimg3 from "../../img/top/top-image3.jpg";
-import topimg4 from "../../img/top/top-image4.jpg";
-import topimg5 from "../../img/top/top-image5.jpg";
+
+import topDatas from "../../data/top/data.json";
+import { TopCard } from "../organisms/top/TopCard";
+import { CatchContainer } from "../molecules/top/CatchContainer";
 
 export const Top: VFC = memo(() => {
     return (
@@ -28,12 +28,10 @@ export const Top: VFC = memo(() => {
                 </SContainer>
             </SHero>
 
-            <section>
-                <SCatch>
-                    <SCatchTitle>「この順番でこんなことを学ぶ」</SCatchTitle>
-                    <SCatchButton>今すぐ始める</SCatchButton>
-                </SCatch>
-            </section>
+            <CatchContainer
+                title="「この順番でこんなことを学ぶ」"
+                button="今すぐ始める"
+            />
 
             <SAbout>
                 <SAboutContainer>
@@ -55,73 +53,18 @@ export const Top: VFC = memo(() => {
             <SMerit>
                 <SMeritTitle>MyMoveの特徴</SMeritTitle>
                 <SMeritContainer>
-                    <SMeritCard>
-                        <div>
-                            <SMeritImgframe>
-                                <SMeritImg src={topimg3} alt="Mymoveの特徴1" />
-                            </SMeritImgframe>
-
-                            <SMeritTextBox>
-                                <SMeritCardTitle>
-                                    効率の良い学習方法を簡単に知る。
-                                </SMeritCardTitle>
-                                <SMeritCardOverView>
-                                    学習で大変なことは調べる作業です。
-                                    参考書をたくさん購入したり、ネットに溢れる情報を読み漁ったりと非常に時間がかかります。
-                                    MyMoveでは、みんなが投稿した「この方法で上手く学習できた」投稿内容を見るだけで効率の良い学習方法を知ることができます。
-                                </SMeritCardOverView>
-                            </SMeritTextBox>
-                        </div>
-                    </SMeritCard>
-
-                    <SMeritCard>
-                        <div>
-                            <SMeritImgframe>
-                                <SMeritImg src={topimg4} alt="MyMoveの特徴2" />
-                            </SMeritImgframe>
-
-                            <SMeritTextBox>
-                                <SMeritCardTitle>
-                                    みんなが投稿したMyMoveにチャレンジしよう。
-                                </SMeritCardTitle>
-                                <SMeritCardOverView>
-                                    みんながとうこうしたMyMoveを実際にチャレンジしてみましょう。
-                                    ゲーム感覚でチャレンジすることができるため、スムーズに学習をすることができます。
-                                </SMeritCardOverView>
-                            </SMeritTextBox>
-                        </div>
-                    </SMeritCard>
-
-                    <SMeritCard>
-                        <div>
-                            <SMeritImgframe>
-                                <SMeritImg src={topimg5} alt="MyMoveの特徴3" />
-                            </SMeritImgframe>
-
-                            <SMeritTextBox>
-                                <SMeritCardTitle>
-                                    モチベーションを共有しよう。
-                                </SMeritCardTitle>
-                                <SMeritCardOverView>
-                                    学習は継続することが大切です。
-                                    一緒に頑張れる仲間がいれば格段に
-                                    モチベーションを維持できます。
-                                    TwitterでMyMoveを共有し、学習する仲間を見つけましょう。
-                                </SMeritCardOverView>
-                            </SMeritTextBox>
-                        </div>
-                    </SMeritCard>
+                    {topDatas.map((item) => (
+                        <TopCard
+                            key={item.id}
+                            title={item.title}
+                            description={item.description}
+                            imagePath={item.imagePath}
+                        />
+                    ))}
                 </SMeritContainer>
             </SMerit>
 
-            <section>
-                <SCatch className="p-catch">
-                    <SCatchTitle className="p-catch__title">
-                        さっそく始めよう。
-                    </SCatchTitle>
-                    <SCatchButton>無料会員登録</SCatchButton>
-                </SCatch>
-            </section>
+            <CatchContainer title="さっそく始めよう。" button="無料会員登録" />
         </div>
     );
 });
@@ -162,40 +105,6 @@ const SHeroLine = styled.br`
     ${breakPoint.sm`
 display: block;
 `}
-`;
-
-const SCatch = styled.div`
-    width: 100%;
-    padding: ${space.m} ${space.xxl};
-    box-sizing: border-box;
-    margin-top: ${space.xxl};
-    margin-bottom: ${space.xxl};
-    text-align: center;
-    ${breakPoint.sm`
-        padding: ${space.m};
-    `}
-    ${breakPoint.md`
-        padding: ${space.m};
-    `}
-`;
-
-const SCatchTitle = styled.h1`
-    text-align: center;
-    font-size: ${fonts.size.xxxl};
-    font-family: ${fonts.family.catch};
-    margin-bottom: ${space.xl};
-    ${breakPoint.sm`
-    font-size: ${fonts.size.l};
-    `}
-    ${breakPoint.md`
-    font-size: ${fonts.size.xl};
-    `}
-`;
-
-const SCatchButton = styled(SignUpButton)`
-    padding: ${space.m} ${space.xl};
-    font-size: ${fonts.size.l};
-    display: inline-block;
 `;
 
 const SAbout = styled.section`
@@ -251,57 +160,4 @@ const SMeritContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-right: -${space.l};
-`;
-
-const SMeritCard = styled.div`
-    width: calc(33.3% - ${space.l});
-    margin-right: ${space.l};
-    margin-bottom: ${space.xxl};
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    background: ${colors.base.paletteTrueWhite};
-    &:last-child {
-        ${breakPoint.sm`
-        margin-bottom: initial;
-        `}
-    }
-    ${breakPoint.sm`
-        width: 100%;
-    `}
-    ${breakPoint.md`
-    width: 100%;
-    `}
-`;
-
-const SMeritImgframe = styled.div`
-    width: 100%;
-    padding-top: 65%;
-    position: relative;
-    box-sizing: border-box;
-`;
-
-const SMeritImg = styled.img`
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-`;
-
-const SMeritTextBox = styled.div`
-    width: 100%;
-    padding: ${space.xl} ${space.l};
-    box-sizing: border-box;
-    background: ${colors.base.paletteTrueWhite};
-`;
-
-const SMeritCardTitle = styled.h3`
-    font-size: ${fonts.size.l};
-    margin-bottom: ${space.l};
-    font-weight: bold;
-    line-height: 125%;
-`;
-
-const SMeritCardOverView = styled.p`
-    font-size: ${fonts.size.s};
-    line-height: 150%;
 `;

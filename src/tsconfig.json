@@ -3,6 +3,7 @@
       "outDir": "./built/",
       "sourceMap": true,
       "strict": true,
+      "resolveJsonModule": true,
       "noImplicitReturns": true,
       "noImplicitAny": true,
       "module": "es2015", //フロント使用予定なのでcommonjsは使用しません
