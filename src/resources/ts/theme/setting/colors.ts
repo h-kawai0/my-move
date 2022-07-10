@@ -19,7 +19,10 @@ export const colors = {
     font: {
         fontColorDefault: () => colors.base.paletteVeryDarkBlack,
         fontColorSub: () => colors.base.paletteTrueWhite,
-        errColorInputText: () => colors.base.palettePastelRed,
-        errColorBorder: () => colors.base.paletteBrightRed,
+    },
+    valid: {
+        validColorInputText: () => colors.base.paletteTrueRed,
+        validColorBackGround: () => colors.base.palettePastelRed,
+        validColorBorder: () => colors.base.paletteBrightRed,
     },
 };
