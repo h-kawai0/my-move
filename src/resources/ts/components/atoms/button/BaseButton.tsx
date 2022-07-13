@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom';
+
 import styled from "styled-components";
 import { colors } from "../../../theme/setting/colors";
 import { space } from "../../../theme/setting/space";
 
-export const BaseButton = styled.button`
+export const BaseButton = styled(Link)`
     color: ${colors.font.fontColorSub};
     text-align: center;
     padding: ${space.m};

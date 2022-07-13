@@ -20,17 +20,26 @@ export const Login: VFC = memo(() => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
+        remember: false,
         error_list: {
             email: "",
             password: "",
         },
     });
 
+    const [isChecked, setIsChecked] = useState(false);
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
         setFormData({ ...formData, [name]: value });
     };
+
+    const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+        const { checked } = e.target;
+        setIsChecked(checked);
+
+    }
 
     const loginSubmit = (e: FormEvent<HTMLFormElement>) => {
         setIsLoading(true);
@@ -39,6 +48,7 @@ export const Login: VFC = memo(() => {
         const data = {
             email: formData.email,
             password: formData.password,
+            remember: isChecked,
         };
 
         axios.get("/sanctum/csrf-cookie").then((res) => {
@@ -48,7 +58,6 @@ export const Login: VFC = memo(() => {
                     if (res.status === 200) {
                         console.log(res.data);
                         history.push("/");
-
                     }
                 })
                 .catch((err) => {
@@ -106,7 +115,12 @@ export const Login: VFC = memo(() => {
             </UserComponent>
 
             <Label>
-                <SCheck type="checkbox" name="remember" />
+                <SCheck
+                    type="checkbox"
+                    name="remember"
+                    checked={isChecked}
+                    onChange={handleCheck}
+                />
                 ログインしたままにする
             </Label>
 

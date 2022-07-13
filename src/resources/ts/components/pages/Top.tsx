@@ -1,4 +1,4 @@
-import React, { memo, VFC } from "react";
+import React, { memo, useCallback, VFC } from "react";
 import styled from "styled-components";
 
 import { breakPoint } from "../../theme/setting/breakPoint";
@@ -12,8 +12,10 @@ import topimg2 from "../../img/top/top-image2.jpg";
 import topDatas from "../../data/top/data.json";
 import { TopCard } from "../organisms/top/TopCard";
 import { CatchContainer } from "../molecules/top/CatchContainer";
+import { SignUpButton } from "../atoms/button/BaseButton";
 
 export const Top: VFC = memo(() => {
+    
     return (
         <div>
             <SHero>
@@ -28,10 +30,12 @@ export const Top: VFC = memo(() => {
                 </SContainer>
             </SHero>
 
-            <CatchContainer
-                title="「この順番でこんなことを学ぶ」"
-                button="今すぐ始める"
-            />
+            <CatchContainer>
+                <SCatchTitle>「この順番でこんなことを学ぶ」</SCatchTitle>
+                <SCatchButton to="/register">
+                    今すぐ始める
+                </SCatchButton>
+            </CatchContainer>
 
             <SAbout>
                 <SAboutContainer>
@@ -64,7 +68,10 @@ export const Top: VFC = memo(() => {
                 </SMeritContainer>
             </SMerit>
 
-            <CatchContainer title="さっそく始めよう。" button="無料会員登録" />
+            <CatchContainer>
+                <SCatchTitle>さっそく始めよう。</SCatchTitle>
+                <SCatchButton to="/register">無料会員登録</SCatchButton>
+            </CatchContainer>
         </div>
     );
 });
@@ -160,4 +167,23 @@ const SMeritContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-right: -${space.l};
+`;
+
+const SCatchTitle = styled.h1`
+    text-align: center;
+    font-size: ${fonts.size.xxxl};
+    font-family: ${fonts.family.catch};
+    margin-bottom: ${space.xl};
+    ${breakPoint.sm`
+    font-size: ${fonts.size.l};
+    `}
+    ${breakPoint.md`
+    font-size: ${fonts.size.xl};
+    `}
+`;
+
+const SCatchButton = styled(SignUpButton)`
+    padding: ${space.m} ${space.xl};
+    font-size: ${fonts.size.l};
+    display: inline-block;
 `;

@@ -1,4 +1,5 @@
 import React, { memo, VFC } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { breakPoint } from "../../../theme/setting/breakPoint";
@@ -9,9 +10,9 @@ import { space } from "../../../theme/setting/space";
 export const Header: VFC = memo(() => {
     return (
         <SHeader>
-            <a>
+            <Link to="/">
                 <STitle>MyMove</STitle>
-            </a>
+            </Link>
 
             <SHamburger>
                 <SHamburgerLine></SHamburgerLine>
@@ -22,21 +23,19 @@ export const Header: VFC = memo(() => {
             <SNav>
                 <SList>
                     <SItem>
-                        <SLink className="p-header-nav__link">MyMove一覧</SLink>
+                        <SLink to="/">MyMove一覧</SLink>
                     </SItem>
                     <SItem>
-                        <SLink className="p-header-nav__link">ログイン</SLink>
+                        <SLink to="/login">ログイン</SLink>
                     </SItem>
                     <SItem>
-                        <SLink className="p-header-nav__link">
-                            無料会員登録
-                        </SLink>
+                        <SLink to="/register">無料会員登録</SLink>
                     </SItem>
                     <SItem>
-                        <SLink className="p-header-nav__link">MyMove投稿</SLink>
+                        <SLink to="">MyMove投稿</SLink>
                     </SItem>
                     <SItem>
-                        <SLink className="p-header-nav__link">マイページ</SLink>
+                        <SLink to="">マイページ</SLink>
                     </SItem>
                     <SItem>
                         <a className="p-header-nav__link">
@@ -176,7 +175,7 @@ const SItem = styled.li`
     `};
 `;
 
-const SLink = styled.a`
+const SLink = styled(Link)`
     font-weight: bold;
     display: block;
     padding: ${space.m};
