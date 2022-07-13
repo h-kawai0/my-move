@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Auth::routes();
+
+Route::post('/login', [LoginController::class, "login"]);
+
 
 Route::get('/{any}', function () {
     return view('index');

@@ -4,7 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Rules\AlphaNumHalf;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+
+use Illuminate\Validation\ValidationException;
+use Laravel\Fortify\Fortify;
+
 
 class LoginController extends Controller
 {
@@ -36,5 +44,28 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function login(Request $request) : JsonResponse
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'string','email', 'max:255'],
+            'password' => ['required', 'string', new AlphaNumHalf, 'max:255', 'min:8'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return response()->json(['name' => Auth::user()->email], 200);
+        }
+
+        throw ValidationException::withMessages([
+            Fortify::username() => "メールアドレスまたはパスワードが一致しません。",
+        ]);
+
     }
 }

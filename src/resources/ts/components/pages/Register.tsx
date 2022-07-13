@@ -1,22 +1,23 @@
 import React, { memo, VFC, useState, ChangeEvent, FormEvent } from "react";
 import { useHistory } from "react-router-dom";
-import styled, { css } from "styled-components";
 import axios from "../../libs/axios";
-
-import { breakPoint } from "../../theme/setting/breakPoint";
-import { colors } from "../../theme/setting/colors";
-import { fonts } from "../../theme/setting/fonts";
-import { space } from "../../theme/setting/space";
 
 import { UserComponent } from "../molecules/auth/UserComponent";
 import { Input } from "../atoms/auth/Input";
+import { Button } from "../atoms/auth/Button";
+import { Alert } from "../atoms/auth/Alert";
+import { Title } from "../atoms/auth/Title";
+import { Link } from "../atoms/auth/Link";
+import { ContainerLink } from "../molecules/auth/ContainerLink";
+import { Form } from "../organisms/Auth/Form";
+import { Label } from "../atoms/auth/Label";
 
 export const Register: VFC = memo(() => {
     const history = useHistory();
 
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [formData, setformData] = useState({
+    const [formData, setFormData] = useState({
         name: "",
         email: "",
         password: "",
@@ -32,11 +33,11 @@ export const Register: VFC = memo(() => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        setformData({ ...formData, [name]: value });
+        setFormData({ ...formData, [name]: value });
     };
 
     const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setLoading(true);
+        setIsLoading(true);
         e.preventDefault();
 
         const data = {
@@ -50,11 +51,9 @@ export const Register: VFC = memo(() => {
             axios
                 .post("/api/register", data)
                 .then((res) => {
-                    if (res.status === 200) {
-                        localStorage.setItem("auth_token", res.data.token);
-                        localStorage.setItem("auth_name", res.data.username);
-                        history.push("/");
-                    }
+                    // if (res.status === 200) {
+                    // }
+                    history.push("/");
                     console.log(res);
                 })
                 .catch((err) => {
@@ -64,23 +63,23 @@ export const Register: VFC = memo(() => {
                             error_list: err.response.data.errors,
                         };
 
-                        setformData(newFormData);
+                        setFormData(newFormData);
                         console.log("Login Error", err.response.data.errors);
-                        setLoading(false);
+                        setIsLoading(false);
                     } else {
                         console.log("Login Error", err.response);
-                        setLoading(false);
+                        setIsLoading(false);
                     }
                 });
         });
     };
 
     return (
-        <SAuth>
-            <SAuthForm onSubmit={(e) => registerSubmit(e)}>
-                <SAuthTitle>新規会員登録</SAuthTitle>
+        <Form onSubmit={(e) => registerSubmit(e)}>
+            <Title>新規会員登録</Title>
 
-                <UserComponent>
+            <UserComponent>
+                <Label>
                     ユーザーネーム
                     <Input
                         type="text"
@@ -92,10 +91,12 @@ export const Register: VFC = memo(() => {
                         onChange={handleChange}
                         isValid={formData.error_list.name}
                     />
-                    <SAuthAlert>{formData.error_list.name}</SAuthAlert>
-                </UserComponent>
+                </Label>
+                <Alert>{formData.error_list.name}</Alert>
+            </UserComponent>
 
-                <UserComponent>
+            <UserComponent>
+                <Label>
                     メールアドレス
                     <Input
                         type="text"
@@ -106,10 +107,12 @@ export const Register: VFC = memo(() => {
                         onChange={handleChange}
                         isValid={formData.error_list.email}
                     />
-                    <SAuthAlert>{formData.error_list.email}</SAuthAlert>
-                </UserComponent>
+                </Label>
+                <Alert>{formData.error_list.email}</Alert>
+            </UserComponent>
 
-                <UserComponent>
+            <UserComponent>
+                <Label>
                     パスワード
                     <Input
                         type="password"
@@ -120,10 +123,12 @@ export const Register: VFC = memo(() => {
                         onChange={handleChange}
                         isValid={formData.error_list.password}
                     />
-                    <SAuthAlert>{formData.error_list.password}</SAuthAlert>
-                </UserComponent>
+                </Label>
+                <Alert>{formData.error_list.password}</Alert>
+            </UserComponent>
 
-                <UserComponent>
+            <UserComponent>
+                <Label>
                     パスワード&#40;確認用&#41;
                     <Input
                         type="password"
@@ -134,95 +139,15 @@ export const Register: VFC = memo(() => {
                         onChange={handleChange}
                         isValid={formData.error_list.password_confirmation}
                     />
-                    <SAuthAlert>
-                        {formData.error_list.password_confirmation}
-                    </SAuthAlert>
-                </UserComponent>
+                </Label>
+                <Alert>{formData.error_list.password_confirmation}</Alert>
+            </UserComponent>
 
-                <SAuthContainerLink>
-                    <SAuthLink href="">
-                        ログインのかた&#40;会員登録済&#41;はこちら
-                    </SAuthLink>
-                </SAuthContainerLink>
+            <ContainerLink>
+                <Link>ログインのかた&#40;会員登録済&#41;はこちら</Link>
+            </ContainerLink>
 
-                <SAuthBtn type="submit" disabled={loading} loading={loading}>
-                    登録
-                </SAuthBtn>
-            </SAuthForm>
-        </SAuth>
+            <Button value="登録" isLoading={isLoading} />
+        </Form>
     );
 });
-
-const SAuth = styled.section`
-    padding-top: ${space.xxxl};
-    padding-bottom: 80px;
-    box-sizing: border-box;
-`;
-
-const SAuthForm = styled.form`
-    margin: 0 auto;
-    width: 50%;
-    padding: ${space.xxl};
-    box-sizing: border-box;
-    background: ${colors.base.paletteTrueWhite};
-    ${breakPoint.sm`
-    width: 100%;
-  `}
-    ${breakPoint.md`
-  width: 80%;
-  `}
-`;
-
-const SAuthTitle = styled.h1`
-    margin-bottom: ${space.xxxl};
-    text-align: center;
-    font-size: ${fonts.size.xxl};
-    ${breakPoint.sm`
-  font-size: ${fonts.size.l};
-  `}
-`;
-
-const SAuthBtn = styled.button<{ loading: boolean }>`
-    background: ${colors.base.paletteTrueRed};
-    width: 100%;
-    border: none;
-    padding: ${space.l} ${space.xxl};
-    display: block;
-    color: ${colors.font.fontColorSub};
-    font-size: ${fonts.size.l};
-    border-radius: 3px;
-    transition: 0.3s;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    &:hover {
-        cursor: pointer;
-        opacity: 0.9;
-        ${({ loading }) =>
-            loading &&
-            css`
-                cursor: not-allowed;
-            `}
-    }
-`;
-
-const SAuthContainerLink = styled.div`
-    margin-bottom: ${space.xl};
-`;
-
-const SAuthLink = styled.a`
-    display: block;
-    margin-bottom: ${space.m};
-    margin-top: ${space.m};
-    text-decoration: underline;
-    ${breakPoint.sm`
-    font-size: ${fonts.size.m};
-  `}
-    &:hover {
-        text-decoration: none;
-    }
-`;
-
-const SAuthAlert = styled.span`
-    display: block;
-    color: ${colors.valid.validColorInputText};
-    margin-top: ${space.s};
-`;
