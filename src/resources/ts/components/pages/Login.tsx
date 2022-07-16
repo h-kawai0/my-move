@@ -1,12 +1,13 @@
 import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+import { useAuth } from "../../context/AuthContext";
 import axios from "../../libs/axios";
 import { Alert } from "../atoms/auth/Alert";
 import { Button } from "../atoms/auth/Button";
 import { Input } from "../atoms/auth/Input";
 import { Label } from "../atoms/auth/Label";
-import { Link } from "../atoms/auth/Link";
+import { LinkButton } from "../atoms/auth/LinkButton";
 import { Title } from "../atoms/auth/Title";
 import { ContainerLink } from "../molecules/auth/ContainerLink";
 import { UserComponent } from "../molecules/auth/UserComponent";
@@ -29,6 +30,8 @@ export const Login: VFC = memo(() => {
 
     const [isChecked, setIsChecked] = useState(false);
 
+    const auth = useAuth();
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -38,8 +41,7 @@ export const Login: VFC = memo(() => {
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
         const { checked } = e.target;
         setIsChecked(checked);
-
-    }
+    };
 
     const loginSubmit = (e: FormEvent<HTMLFormElement>) => {
         setIsLoading(true);
@@ -52,13 +54,9 @@ export const Login: VFC = memo(() => {
         };
 
         axios.get("/sanctum/csrf-cookie").then((res) => {
-            axios
-                .post("/login", data)
-                .then((res) => {
-                    if (res.status === 200) {
-                        console.log(res.data);
-                        history.push("/");
-                    }
+            auth?.signin(data)
+                .then(() => {
+                    history.push("/");
                 })
                 .catch((err) => {
                     if (err.response.status === 422) {
@@ -125,8 +123,10 @@ export const Login: VFC = memo(() => {
             </Label>
 
             <ContainerLink>
-                <Link>パスワードを忘れたかたはこちら</Link>
-                <Link>初めてのかた&#40;新規会員登録&#41;はこちら</Link>
+                <LinkButton path="">パスワードを忘れたかたはこちら</LinkButton>
+                <LinkButton path="/register">
+                    初めてのかた&#40;新規会員登録&#41;はこちら
+                </LinkButton>
             </ContainerLink>
 
             <Button value="ログイン" isLoading={isLoading} />

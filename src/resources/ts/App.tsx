@@ -7,18 +7,21 @@ import { Router } from "./router/Router";
 import { Layout } from "./components/templates/Layout";
 
 import { GlobalStyle } from "./theme/globalStyle";
+import ProvideAuth from "./context/AuthContext";
 
 export const App = () => {
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <GlobalStyle />
-                <BrowserRouter>
-                    <Layout>
-                        <Router />
-                    </Layout>
-                </BrowserRouter>
-            </ThemeProvider>
+            <ProvideAuth>
+                <ThemeProvider theme={theme}>
+                    <GlobalStyle />
+                    <BrowserRouter>
+                        <Layout>
+                            <Router />
+                        </Layout>
+                    </BrowserRouter>
+                </ThemeProvider>
+            </ProvideAuth>
         </>
     );
 };

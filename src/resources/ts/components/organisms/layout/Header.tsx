@@ -1,6 +1,9 @@
 import React, { memo, VFC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+
+import { useAuth } from "../../../context/AuthContext";
+import axios from "../../../libs/axios";
 
 import { breakPoint } from "../../../theme/setting/breakPoint";
 import { colors } from "../../../theme/setting/colors";
@@ -8,6 +11,16 @@ import { fonts } from "../../../theme/setting/fonts";
 import { space } from "../../../theme/setting/space";
 
 export const Header: VFC = memo(() => {
+    const history = useHistory();
+    const auth = useAuth();
+
+    const logout = () => {
+        axios.get("/sanctum/csrf-cookie").then(() => {
+            auth?.signout().then(() => {
+                history.push("/login");
+            });
+        });
+    };
     return (
         <SHeader>
             <Link to="/">
@@ -23,32 +36,33 @@ export const Header: VFC = memo(() => {
             <SNav>
                 <SList>
                     <SItem>
-                        <SLink to="/">MyMove一覧</SLink>
+                        <SLink to="/items">MyMove一覧</SLink>
                     </SItem>
-                    <SItem>
-                        <SLink to="/login">ログイン</SLink>
-                    </SItem>
-                    <SItem>
-                        <SLink to="/register">無料会員登録</SLink>
-                    </SItem>
-                    <SItem>
-                        <SLink to="">MyMove投稿</SLink>
-                    </SItem>
-                    <SItem>
-                        <SLink to="">マイページ</SLink>
-                    </SItem>
-                    <SItem>
-                        <a className="p-header-nav__link">
-                            ログアウト
-                            <form
-                                id="js-logout-form"
-                                method="POST"
-                                style={{ display: "none" }}
-                            >
-                                <input type="hidden" name="_token" />
-                            </form>
-                        </a>
-                    </SItem>
+
+                    {!auth?.user ? (
+                        <>
+                            <SItem>
+                                <SLink to="/login">ログイン</SLink>
+                            </SItem>
+                            <SItem>
+                                <SLink to="/register">無料会員登録</SLink>
+                            </SItem>
+                        </>
+                    ) : (
+                        <>
+                            <SItem>
+                                <SLink to="">MyMove投稿</SLink>
+                            </SItem>
+                            <SItem>
+                                <SLink to="">マイページ</SLink>
+                            </SItem>
+                            <SItem>
+                                <SLink to="" onClick={logout}>
+                                    ログアウト
+                                </SLink>
+                            </SItem>
+                        </>
+                    )}
                 </SList>
             </SNav>
         </SHeader>

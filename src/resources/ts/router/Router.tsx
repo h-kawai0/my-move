@@ -3,8 +3,9 @@ import { Route, Switch } from "react-router-dom";
 
 import { Items } from "../components/pages/Items";
 import { Top } from "../components/pages/Top";
-import { Login } from '../components/pages/Login';
+import { Login } from "../components/pages/Login";
 import { Register } from "../components/pages/Register";
+import { PrivateRoute, PublicRoute } from "../context/AuthContext";
 
 export const Router: VFC = memo(() => {
     return (
@@ -12,15 +13,15 @@ export const Router: VFC = memo(() => {
             <Route exact path="/">
                 <Top />
             </Route>
-            <Route path="/items">
+            <PrivateRoute path="/items">
                 <Items />
-            </Route>
-            <Route path="/login">
+            </PrivateRoute>
+            <PublicRoute path="/login">
                 <Login />
-            </Route>
-            <Route path="/register">
+            </PublicRoute>
+            <PublicRoute path="/register">
                 <Register />
-            </Route>
+            </PublicRoute>
         </Switch>
     );
 });

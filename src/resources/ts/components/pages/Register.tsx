@@ -7,13 +7,16 @@ import { Input } from "../atoms/auth/Input";
 import { Button } from "../atoms/auth/Button";
 import { Alert } from "../atoms/auth/Alert";
 import { Title } from "../atoms/auth/Title";
-import { Link } from "../atoms/auth/Link";
+import { LinkButton } from "../atoms/auth/LinkButton";
 import { ContainerLink } from "../molecules/auth/ContainerLink";
 import { Form } from "../organisms/Auth/Form";
 import { Label } from "../atoms/auth/Label";
+import { useAuth } from "../../context/AuthContext";
 
 export const Register: VFC = memo(() => {
     const history = useHistory();
+
+    const auth = useAuth();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -48,13 +51,9 @@ export const Register: VFC = memo(() => {
         };
 
         axios.get("/sanctum/csrf-cookie").then((res) => {
-            axios
-                .post("/api/register", data)
-                .then((res) => {
-                    // if (res.status === 200) {
-                    // }
-                    history.push("/");
-                    console.log(res);
+            auth?.register(data)
+                .then(() => {
+                    history.push("/items");
                 })
                 .catch((err) => {
                     if (err.response.status === 422) {
@@ -144,7 +143,9 @@ export const Register: VFC = memo(() => {
             </UserComponent>
 
             <ContainerLink>
-                <Link>ログインのかた&#40;会員登録済&#41;はこちら</Link>
+                <LinkButton path="/login">
+                    ログインのかた&#40;会員登録済&#41;はこちら
+                </LinkButton>
             </ContainerLink>
 
             <Button value="登録" isLoading={isLoading} />
