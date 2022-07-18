@@ -55,7 +55,7 @@ class LoginController extends Controller
     {
         Log::debug($request);
         $credentials = $request->validate([
-            'email' => ['required', 'string','email', 'max:255'],
+            'email' => ['required','email:filter,dns', 'max:255'],
             'password' => ['required', 'string', new AlphaNumHalf, 'max:255', 'min:8'],
         ]);
 

@@ -75,7 +75,7 @@ const useProvideAuth = () => {
 
     const signin = async (loginData: LoginData) => {
         try {
-            const res = await axios.post("/api/login", loginData);
+            const res = await axios.post("/login", loginData);
         } catch (error) {
             throw error;
         }

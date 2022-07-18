@@ -1,17 +1,17 @@
 import React, { memo, VFC, useState, ChangeEvent, FormEvent } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "../../libs/axios";
+import axios from "../../../libs/axios";
 
-import { UserComponent } from "../molecules/auth/UserComponent";
-import { Input } from "../atoms/auth/Input";
-import { Button } from "../atoms/auth/Button";
-import { Alert } from "../atoms/auth/Alert";
-import { Title } from "../atoms/auth/Title";
-import { LinkButton } from "../atoms/auth/LinkButton";
-import { ContainerLink } from "../molecules/auth/ContainerLink";
-import { Form } from "../organisms/Auth/Form";
-import { Label } from "../atoms/auth/Label";
-import { useAuth } from "../../context/AuthContext";
+import { UserComponent } from "../../molecules/auth/UserComponent";
+import { Input } from "../../atoms/auth/Input";
+import { Button } from "../../atoms/auth/Button";
+import { Alert } from "../../atoms/auth/Alert";
+import { Title } from "../../atoms/auth/Title";
+import { LinkButton } from "../../atoms/auth/LinkButton";
+import { ContainerLink } from "../../molecules/auth/ContainerLink";
+import { Form } from "../../organisms/Auth/Form";
+import { Label } from "../../atoms/auth/Label";
+import { useAuth } from "../../../context/AuthContext";
 
 export const Register: VFC = memo(() => {
     const history = useHistory();
