@@ -5,12 +5,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Laravel</title>
+  <title>{{ config('app.name')}}</title>
   <script src="{{ asset(mix('js/index.js')) }}" defer></script>
 </head>
 
 <body>
-  <div id="app"></div>
+  <div id="app" style="display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+"></div>
 </body>
 
 </html>

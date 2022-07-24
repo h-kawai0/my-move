@@ -7,21 +7,28 @@ import { Router } from "./router/Router";
 import { Layout } from "./components/templates/Layout";
 
 import { GlobalStyle } from "./theme/globalStyle";
-import ProvideAuth from "./context/AuthContext";
+import ProvideAuth, { useAuth } from "./context/AuthContext";
+import { FlashMessageProvider } from "./providers/FlashMessageProvider";
 
 export const App = () => {
+    const auth = useAuth();
+
     return (
         <>
-            <ProvideAuth>
-                <ThemeProvider theme={theme}>
-                    <GlobalStyle />
-                    <BrowserRouter>
-                        <Layout>
-                            <Router />
-                        </Layout>
-                    </BrowserRouter>
-                </ThemeProvider>
-            </ProvideAuth>
+            <FlashMessageProvider>
+                <ProvideAuth>
+                    {!auth?.isLoading && (
+                        <ThemeProvider theme={theme}>
+                            <GlobalStyle />
+                            <BrowserRouter>
+                                <Layout>
+                                    <Router />
+                                </Layout>
+                            </BrowserRouter>
+                        </ThemeProvider>
+                    )}
+                </ProvideAuth>
+            </FlashMessageProvider>
         </>
     );
 };

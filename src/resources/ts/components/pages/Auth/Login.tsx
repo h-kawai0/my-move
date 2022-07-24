@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useAuth } from "../../../context/AuthContext";
 import axios from "../../../libs/axios";
@@ -14,7 +13,6 @@ import { UserComponent } from "../../molecules/auth/UserComponent";
 import { Form } from "../../organisms/Auth/Form";
 
 export const Login: VFC = memo(() => {
-    const history = useHistory();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -55,10 +53,11 @@ export const Login: VFC = memo(() => {
 
         axios.get("/sanctum/csrf-cookie").then((res) => {
             auth?.signin(data)
-                .then(() => {
-                    history.push("/");
+                .then((res) => {
+                    // history.push("/");
                 })
                 .catch((err) => {
+                    console.log(err);
                     if (err.response.status === 422) {
                         const newFormData = {
                             ...formData,
@@ -68,6 +67,8 @@ export const Login: VFC = memo(() => {
                         setFormData(newFormData);
                         console.log("Login Error", err.response.data.errors);
                         setIsLoading(false);
+
+
                     } else {
                         console.log("Login Error", err.response);
                         setIsLoading(false);

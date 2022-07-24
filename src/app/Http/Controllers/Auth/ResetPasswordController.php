@@ -57,9 +57,10 @@ class ResetPasswordController extends Controller
 
         $user = User::firstWhere('email', $passwordReset->email);
 
-        
-        $user->update($request->only('password'));
-        
+        $user->password = bcrypt($request->password);
+
+        $user->save();
+
         $passwordReset->delete();
         Log::debug($user);
 

@@ -72,7 +72,7 @@ export const Header: VFC = memo(() => {
 const SHeader = styled.header`
     width: 100%;
     height: 80px;
-    /* position: fixed; */
+    position: fixed;
     box-sizing: border-box;
     padding-left: ${space.xl};
     padding-right: ${space.xl};

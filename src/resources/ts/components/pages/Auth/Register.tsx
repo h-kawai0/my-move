@@ -2,6 +2,8 @@ import React, { memo, VFC, useState, ChangeEvent, FormEvent } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "../../../libs/axios";
 
+import { useFlash } from "../../../hooks/useFlash";
+
 import { UserComponent } from "../../molecules/auth/UserComponent";
 import { Input } from "../../atoms/auth/Input";
 import { Button } from "../../atoms/auth/Button";
@@ -17,6 +19,8 @@ export const Register: VFC = memo(() => {
     const history = useHistory();
 
     const auth = useAuth();
+
+    const { handleFlashMessage} = useFlash();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -54,6 +58,7 @@ export const Register: VFC = memo(() => {
             auth?.register(data)
                 .then(() => {
                     history.push("/items");
+                    handleFlashMessage('会員登録が完了しました!');
                 })
                 .catch((err) => {
                     if (err.response.status === 422) {

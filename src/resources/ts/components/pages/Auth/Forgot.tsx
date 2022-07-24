@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
+import { useFlash } from "../../../hooks/useFlash";
 import axios from "../../../libs/axios";
 import { Alert } from "../../atoms/auth/Alert";
 import { Button } from "../../atoms/auth/Button";
@@ -19,6 +20,8 @@ export const Forgot: VFC = memo(() => {
 
     const [isLoading, setIsloading] = useState(false);
 
+    const { handleFlashMessage } = useFlash();
+
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -38,6 +41,8 @@ export const Forgot: VFC = memo(() => {
                 .post("/password/email", data)
                 .then((res) => {
                     console.log(res.data);
+                    handleFlashMessage('メールを送信しました。もしメールが届かない場合は、入力されたメールアドレスが間違っているか登録されていません。');
+                    setIsloading(false);
                 })
                 .catch((err) => {
                     if (err.response.status === 422) {

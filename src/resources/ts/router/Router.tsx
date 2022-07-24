@@ -17,22 +17,22 @@ export const Router: VFC = memo(() => {
             </Route>
 
             {/* プライベートルート */}
-            <PrivateRoute path="/items">
+            <PrivateRoute exact path="/items">
                 <Items />
             </PrivateRoute>
 
             {/* パブリックルート */}
-            <PublicRoute path="/login">
+            <PublicRoute exact path="/login">
                 <Login />
             </PublicRoute>
-            <PublicRoute path="/register">
+            <PublicRoute exact path="/register">
                 <Register />
             </PublicRoute>
-            <PublicRoute path="/forgot-password">
+            <PublicRoute exact path="/forgot-password">
                 <Forgot />
             </PublicRoute>
 
-            <PublicRoute path="/reset-password/:code">
+            <PublicRoute exact path="/reset-password/:code">
                 <ResetPassword />
             </PublicRoute>
         </Switch>

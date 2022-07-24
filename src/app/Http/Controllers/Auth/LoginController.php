@@ -61,7 +61,9 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return response()->json(['name' => Auth::user()->email], 200);
+            return response()->json(['name' => Auth::user()->email,
+        'message' => 'ログインに成功しました。'
+        ], 200);
         }
 
         throw ValidationException::withMessages([

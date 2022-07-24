@@ -7,6 +7,7 @@ import React, {
     useEffect,
 } from "react";
 import { Route, Redirect, useHistory } from "react-router-dom";
+import { useFlash } from "../hooks/useFlash";
 
 type User = {
     id: number;
@@ -37,6 +38,7 @@ type authProps = {
     signin: (loginData: LoginData) => Promise<void>;
     signout: () => Promise<void>;
     saveProfile: (formData: FormData | ProfileData) => Promise<void>;
+    isLoading: boolean;
 };
 type Props = {
     children: ReactNode;
@@ -65,6 +67,10 @@ export const useAuth = () => {
 const useProvideAuth = () => {
     const [user, setUser] = useState<User | null>(null);
 
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    const { handleFlashMessage } = useFlash();
+
     const register = (registerData: RegisterData) => {
         return axios.post("/api/register", registerData).then((res) => {
             axios.get("api/user").then((res) => {
@@ -76,6 +82,11 @@ const useProvideAuth = () => {
     const signin = async (loginData: LoginData) => {
         try {
             const res = await axios.post("/login", loginData);
+
+            console.log(res.data.message);
+
+            handleFlashMessage(res.data.message);
+            
         } catch (error) {
             throw error;
         }
@@ -83,7 +94,7 @@ const useProvideAuth = () => {
         return axios
             .get("/api/user")
             .then((res) => {
-              setUser(res.data);
+                setUser(res.data);
             })
             .catch((error) => {
                 setUser(null);
@@ -93,6 +104,7 @@ const useProvideAuth = () => {
     const signout = () => {
         return axios.post("/api/logout", {}).then(() => {
             setUser(null);
+            handleFlashMessage('ログアウトしました。');
         });
     };
 
@@ -120,15 +132,19 @@ const useProvideAuth = () => {
         axios
             .get("/api/user")
             .then((res) => {
+                console.log('useEffect',res.data);
                 setUser(res.data);
+                setIsLoading(false);
             })
             .catch((error) => {
                 setUser(null);
+                setIsLoading(false);
             });
     }, []);
 
     return {
         user,
+        isLoading,
         register,
         signin,
         signout,
@@ -147,6 +163,7 @@ export const PrivateRoute = ({ children, path, exact = false }: RouteProps) => {
             exact={exact}
             render={({ location }) => {
                 if (auth?.user == null) {
+                    // console.log("private true", auth?.isLoading);
                     return (
                         <Redirect
                             to={{
@@ -156,6 +173,7 @@ export const PrivateRoute = ({ children, path, exact = false }: RouteProps) => {
                         />
                     );
                 } else {
+                    // console.log("private false");
                     return children;
                 }
             }}
@@ -168,22 +186,21 @@ export const PrivateRoute = ({ children, path, exact = false }: RouteProps) => {
  */
 export const PublicRoute = ({ children, path, exact = false }: RouteProps) => {
     const auth = useAuth();
-    const history = useHistory();
     return (
         <Route
             path={path}
             exact={exact}
             render={({ location }) => {
                 if (auth?.user == null) {
+
+                    // console.log("public true", auth?.user);
                     return children;
                 } else {
+                    // console.log("public false");
                     return (
                         <Redirect
                             to={{
-                                pathname: (history.location.state as From)
-                                    ? (history.location.state as From).from
-                                          .pathname
-                                    : "/",
+                                pathname: "/",
                                 state: { from: location },
                             }}
                         />
