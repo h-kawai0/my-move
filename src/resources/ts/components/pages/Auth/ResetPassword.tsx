@@ -4,13 +4,13 @@ import axios from "../../../libs/axios";
 
 import { useFlash } from '../../../hooks/useFlash';
 
-import { Alert } from "../../atoms/auth/Alert";
-import { Button } from "../../atoms/auth/Button";
-import { Input } from "../../atoms/auth/Input";
-import { Label } from "../../atoms/auth/Label";
-import { Title } from "../../atoms/auth/Title";
-import { UserComponent } from "../../molecules/auth/UserComponent";
-import { Form } from "../../organisms/Auth/Form";
+import { Alert } from "../../atoms/inputForm/Alert";
+import { Button } from "../../atoms/inputForm/Button";
+import { Input } from "../../atoms/inputForm/Input";
+import { Label } from "../../atoms/inputForm/Label";
+import { Title } from "../../atoms/inputForm/Title";
+import { UserComponent } from "../../molecules/inputForm/UserComponent";
+import { Form } from "../../organisms/inputForm/Form";
 
 export const ResetPassword: VFC = memo(() => {
     const { code } = useParams<{ code: string }>();

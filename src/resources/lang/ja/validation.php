@@ -158,7 +158,9 @@ return [
         'name' => 'ユーザーネーム',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
-        'password_confirmation' => 'パスワード(確認用)'
+        'password_confirmation' => 'パスワード(確認用)',
+        'profile' => '自己紹介文',
+        'pic' => '画像'
     ],
 
 ];

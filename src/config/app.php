@@ -197,6 +197,8 @@ return [
 
         App\Providers\FortifyServiceProvider::class,
 
+        Intervention\Image\ImageServiceProvider::class
+
     ],
 
     /*
@@ -210,8 +212,11 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
-    ])->toArray(),
+    'aliases' => [
+        Facade::defaultAliases()->merge([
+            // 'ExampleClass' => App\Example\ExampleClass::class,
+        ])->toArray(),
 
+        'Image' => Intervention\Image\Facades\Image::class
+    ]
 ];

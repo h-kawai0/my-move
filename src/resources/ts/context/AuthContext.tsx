@@ -14,6 +14,8 @@ type User = {
     name: string;
     email: string;
     email_verified_at: string | null;
+    pic: string;
+    profile: string;
     two_factor_recovery_codes: string | null;
     two_factor_secret: string | null;
     created_at: string;

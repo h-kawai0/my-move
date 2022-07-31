@@ -8,6 +8,8 @@ import { Register } from "../components/pages/Auth/Register";
 import { PrivateRoute, PublicRoute } from "../context/AuthContext";
 import { Forgot } from "../components/pages/Auth/Forgot";
 import { ResetPassword } from "../components/pages/Auth/ResetPassword";
+import { Mypage } from "../components/pages/Mypage";
+import { EdifProfile } from "../components/pages/EdifProfile";
 
 export const Router: VFC = memo(() => {
     return (
@@ -19,6 +21,14 @@ export const Router: VFC = memo(() => {
             {/* プライベートルート */}
             <PrivateRoute exact path="/items">
                 <Items />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/mypage">
+                <Mypage />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/mypage/edit-profile">
+                <EdifProfile />
             </PrivateRoute>
 
             {/* パブリックルート */}

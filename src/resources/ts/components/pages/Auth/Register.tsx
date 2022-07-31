@@ -4,15 +4,15 @@ import axios from "../../../libs/axios";
 
 import { useFlash } from "../../../hooks/useFlash";
 
-import { UserComponent } from "../../molecules/auth/UserComponent";
-import { Input } from "../../atoms/auth/Input";
-import { Button } from "../../atoms/auth/Button";
-import { Alert } from "../../atoms/auth/Alert";
-import { Title } from "../../atoms/auth/Title";
-import { LinkButton } from "../../atoms/auth/LinkButton";
-import { ContainerLink } from "../../molecules/auth/ContainerLink";
-import { Form } from "../../organisms/Auth/Form";
-import { Label } from "../../atoms/auth/Label";
+import { UserComponent } from "../../molecules/inputForm/UserComponent";
+import { Input } from "../../atoms/inputForm/Input";
+import { Button } from "../../atoms/inputForm/Button";
+import { Alert } from "../../atoms/inputForm/Alert";
+import { Title } from "../../atoms/inputForm/Title";
+import { LinkButton } from "../../atoms/inputForm/LinkButton";
+import { ContainerLink } from "../../molecules/inputForm/ContainerLink";
+import { Form } from "../../organisms/inputForm/Form";
+import { Label } from "../../atoms/inputForm/Label";
 import { useAuth } from "../../../context/AuthContext";
 
 export const Register: VFC = memo(() => {

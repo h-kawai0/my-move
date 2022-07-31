@@ -20,4 +20,4 @@ mix.ts('resources/ts/index.tsx', 'public/js')
 //     require('tailwindcss'),
 // ])
 // .sass('resources/sass/app.scss', 'public/css')
-.version();
+.version().sourceMaps(true, 'source-map');

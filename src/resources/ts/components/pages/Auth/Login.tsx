@@ -2,15 +2,15 @@ import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
 import styled from "styled-components";
 import { useAuth } from "../../../context/AuthContext";
 import axios from "../../../libs/axios";
-import { Alert } from "../../atoms/auth/Alert";
-import { Button } from "../../atoms/auth/Button";
-import { Input } from "../../atoms/auth/Input";
-import { Label } from "../../atoms/auth/Label";
-import { LinkButton } from "../../atoms/auth/LinkButton";
-import { Title } from "../../atoms/auth/Title";
-import { ContainerLink } from "../../molecules/auth/ContainerLink";
-import { UserComponent } from "../../molecules/auth/UserComponent";
-import { Form } from "../../organisms/Auth/Form";
+import { Alert } from "../../atoms/inputForm/Alert";
+import { Button } from "../../atoms/inputForm/Button";
+import { Input } from "../../atoms/inputForm/Input";
+import { Label } from "../../atoms/inputForm/Label";
+import { LinkButton } from "../../atoms/inputForm/LinkButton";
+import { Title } from "../../atoms/inputForm/Title";
+import { ContainerLink } from "../../molecules/inputForm/ContainerLink";
+import { UserComponent } from "../../molecules/inputForm/UserComponent";
+import { Form } from "../../organisms/inputForm/Form";
 
 export const Login: VFC = memo(() => {
 
