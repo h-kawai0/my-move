@@ -160,7 +160,10 @@ return [
         'password' => 'パスワード',
         'password_confirmation' => 'パスワード(確認用)',
         'profile' => '自己紹介文',
-        'pic' => '画像'
+        'pic' => '画像',
+        'pass_old' => '現在のパスワード',
+        'pass_new' => '新しいパスワード',
+        'pass_new_confirmation' => '新しいパスワード(確認用)'
     ],
 
 ];

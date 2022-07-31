@@ -10,6 +10,7 @@ import { Forgot } from "../components/pages/Auth/Forgot";
 import { ResetPassword } from "../components/pages/Auth/ResetPassword";
 import { Mypage } from "../components/pages/Mypage";
 import { EdifProfile } from "../components/pages/EdifProfile";
+import { EditPassword } from "../components/pages/EditPassword";
 
 export const Router: VFC = memo(() => {
     return (
@@ -29,6 +30,10 @@ export const Router: VFC = memo(() => {
 
             <PrivateRoute exact path="/mypage/edit-profile">
                 <EdifProfile />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/mypage/edit-password">
+                <EditPassword />
             </PrivateRoute>
 
             {/* パブリックルート */}

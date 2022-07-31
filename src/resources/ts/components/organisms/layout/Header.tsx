@@ -54,7 +54,7 @@ export const Header: VFC = memo(() => {
                                 <SLink to="">MyMove投稿</SLink>
                             </SItem>
                             <SItem>
-                                <SLink to="/mypage/edit-profile">マイページ</SLink>
+                                <SLink to="/mypage/edit-password">マイページ</SLink>
                             </SItem>
                             <SItem>
                                 <SLink to="" onClick={logout}>

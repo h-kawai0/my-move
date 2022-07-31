@@ -3653,7 +3653,7 @@ var Header = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, "\u7121\u6599\u4F1A\u54E1\u767B\u9332"))) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
     to: ""
   }, "MyMove\u6295\u7A3F")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/mypage/edit-profile"
+    to: "/mypage/edit-password"
   }, "\u30DE\u30A4\u30DA\u30FC\u30B8")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
     to: "",
     onClick: logout
@@ -4501,6 +4501,151 @@ var EdifProfile = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
 /***/ }),
 
+/***/ "./resources/ts/components/pages/EditPassword.tsx":
+/*!********************************************************!*\
+  !*** ./resources/ts/components/pages/EditPassword.tsx ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EditPassword": () => (/* binding */ EditPassword)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _hooks_useFlash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../hooks/useFlash */ "./resources/ts/hooks/useFlash.ts");
+/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../libs/axios */ "./resources/ts/libs/axios.tsx");
+/* harmony import */ var _atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../atoms/inputForm/Alert */ "./resources/ts/components/atoms/inputForm/Alert.tsx");
+/* harmony import */ var _atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../atoms/inputForm/Button */ "./resources/ts/components/atoms/inputForm/Button.tsx");
+/* harmony import */ var _atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../atoms/inputForm/Input */ "./resources/ts/components/atoms/inputForm/Input.tsx");
+/* harmony import */ var _atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../atoms/inputForm/Label */ "./resources/ts/components/atoms/inputForm/Label.tsx");
+/* harmony import */ var _atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../atoms/inputForm/Title */ "./resources/ts/components/atoms/inputForm/Title.tsx");
+/* harmony import */ var _molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../molecules/inputForm/UserComponent */ "./resources/ts/components/molecules/inputForm/UserComponent.tsx");
+/* harmony import */ var _organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../organisms/inputForm/Form */ "./resources/ts/components/organisms/inputForm/Form.tsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+
+var EditPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      isLoading = _useState2[0],
+      setIsLoading = _useState2[1];
+
+  var history = (0,react_router__WEBPACK_IMPORTED_MODULE_10__.useHistory)();
+
+  var _useFlash = (0,_hooks_useFlash__WEBPACK_IMPORTED_MODULE_1__.useFlash)(),
+      handleFlashMessage = _useFlash.handleFlashMessage;
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    pass_old: "",
+    pass_new: "",
+    pass_new_confirmation: "",
+    error_list: {
+      pass_old: "",
+      pass_new: "",
+      pass_new_confirmation: ""
+    }
+  }),
+      _useState4 = _slicedToArray(_useState3, 2),
+      formData = _useState4[0],
+      setFormData = _useState4[1];
+
+  var handleChange = function handleChange(e) {
+    var _e$target = e.target,
+        name = _e$target.name,
+        value = _e$target.value;
+    setFormData(Object.assign(Object.assign({}, formData), _defineProperty({}, name, value)));
+  };
+
+  var registerSubmit = function registerSubmit(e) {
+    setIsLoading(true);
+    e.preventDefault();
+    var data = {
+      pass_old: formData.pass_old,
+      pass_new: formData.pass_new,
+      pass_new_confirmation: formData.pass_new_confirmation
+    };
+    _libs_axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/sanctum/csrf-cookie").then(function (res) {
+      _libs_axios__WEBPACK_IMPORTED_MODULE_2__["default"].post("/mypage/update-password", data).then(function (res) {
+        console.log(res.data);
+        history.push("/");
+        handleFlashMessage(res.data.message);
+      })["catch"](function (err) {
+        console.log(err);
+
+        if (err.response.status === 422) {
+          var newFormData = Object.assign(Object.assign({}, formData), {
+            error_list: err.response.data.errors
+          });
+          setFormData(newFormData);
+          console.log("SendError", err.response.data.errors);
+          setIsLoading(false);
+        } else {
+          console.log("Send Error", err.response.data.errors);
+          setIsLoading(false);
+        }
+      });
+    });
+  };
+
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_9__.Form, {
+    onSubmit: registerSubmit
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_7__.Title, null, "\u30D1\u30B9\u30EF\u30FC\u30C9\u5909\u66F4"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_8__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u73FE\u5728\u306E\u30D1\u30B9\u30EF\u30FC\u30C9", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_5__.Input, {
+    type: "password",
+    name: "pass_old",
+    placeholder: "\u73FE\u5728\u306E\u30D1\u30B9\u30EF\u30FC\u30C9",
+    value: formData.pass_old,
+    onChange: handleChange,
+    isValid: formData.error_list.pass_old,
+    autoComplete: "current-password",
+    autoFocus: true
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_3__.Alert, null, formData.error_list.pass_old)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_8__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u65B0\u3057\u3044\u30D1\u30B9\u30EF\u30FC\u30C9)", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_5__.Input, {
+    type: "password",
+    name: "pass_new",
+    placeholder: "\u65B0\u3057\u3044\u30D1\u30B9\u30EF\u30FC\u30C9",
+    value: formData.pass_new,
+    onChange: handleChange,
+    isValid: formData.error_list.pass_new,
+    autoComplete: "new-password"
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_3__.Alert, null, formData.error_list.pass_new)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_8__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u65B0\u3057\u3044\u30D1\u30B9\u30EF\u30FC\u30C9(\u78BA\u8A8D\u7528)", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_5__.Input, {
+    type: "password",
+    name: "pass_new_confirmation",
+    placeholder: "\u65B0\u3057\u3044\u30D1\u30B9\u30EF\u30FC\u30C9(\u78BA\u8A8D\u7528)",
+    value: formData.pass_new_confirmation,
+    onChange: handleChange,
+    isValid: formData.error_list.pass_new_confirmation,
+    autoComplete: "new-password"
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_3__.Alert, null, formData.error_list.pass_new_confirmation)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_4__.Button, {
+    value: "\u5909\u66F4\u3059\u308B",
+    isLoading: isLoading
+  }));
+});
+
+/***/ }),
+
 /***/ "./resources/ts/components/pages/Items.tsx":
 /*!*************************************************!*\
   !*** ./resources/ts/components/pages/Items.tsx ***!
@@ -5058,7 +5203,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Router": () => (/* binding */ Router)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_pages_Items__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/pages/Items */ "./resources/ts/components/pages/Items.tsx");
 /* harmony import */ var _components_pages_Top__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/pages/Top */ "./resources/ts/components/pages/Top.tsx");
 /* harmony import */ var _components_pages_Auth_Login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/pages/Auth/Login */ "./resources/ts/components/pages/Auth/Login.tsx");
@@ -5068,6 +5213,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_pages_Auth_ResetPassword__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/pages/Auth/ResetPassword */ "./resources/ts/components/pages/Auth/ResetPassword.tsx");
 /* harmony import */ var _components_pages_Mypage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../components/pages/Mypage */ "./resources/ts/components/pages/Mypage.tsx");
 /* harmony import */ var _components_pages_EdifProfile__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/pages/EdifProfile */ "./resources/ts/components/pages/EdifProfile.tsx");
+/* harmony import */ var _components_pages_EditPassword__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/pages/EditPassword */ "./resources/ts/components/pages/EditPassword.tsx");
+
 
 
 
@@ -5080,7 +5227,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Router = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Switch, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Switch, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     exact: true,
     path: "/"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Top__WEBPACK_IMPORTED_MODULE_2__.Top, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PrivateRoute, {
@@ -5092,7 +5239,10 @@ var Router = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Mypage__WEBPACK_IMPORTED_MODULE_8__.Mypage, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PrivateRoute, {
     exact: true,
     path: "/mypage/edit-profile"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EdifProfile__WEBPACK_IMPORTED_MODULE_9__.EdifProfile, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PublicRoute, {
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EdifProfile__WEBPACK_IMPORTED_MODULE_9__.EdifProfile, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PrivateRoute, {
+    exact: true,
+    path: "/mypage/edit-password"
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EditPassword__WEBPACK_IMPORTED_MODULE_10__.EditPassword, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PublicRoute, {
     exact: true,
     path: "/login"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Auth_Login__WEBPACK_IMPORTED_MODULE_3__.Login, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PublicRoute, {

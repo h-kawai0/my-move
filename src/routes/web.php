@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Role\UpdatePasswordController;
 use App\Http\Controllers\Role\UpdateProfileController;
 
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,11 @@ Route::post('/password/email', ForgotPasswordController::class);
 
 Route::post('/password/reset', ResetPasswordController::class);
 
-Route::post('/mypage/update-profile',[ UpdateProfileController::class, '__invoke']);
+Route::post('/mypage/update-profile', [UpdateProfileController::class, '__invoke']);
+
+Route::post('/mypage/update-password', [
+    UpdatePasswordController::class, '__invoke'
+]);
 
 
 Route::get('/{any}', function () {
