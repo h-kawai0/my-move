@@ -8,9 +8,9 @@ type Props = {
 
 export const ContainerLink: VFC<Props> = memo((props) => {
     const { children } = props;
-    return <SAuthContainerLink>{children}</SAuthContainerLink>;
+    return <SContainerLink>{children}</SContainerLink>;
 });
 
-const SAuthContainerLink = styled.div`
+const SContainerLink = styled.div`
     margin-bottom: ${space.xl};
 `;

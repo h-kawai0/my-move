@@ -44,4 +44,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // parent_stepsテーブルとのリレーション
+    public function parentItems()
+    {
+        return $this->hasMany('App\ParentItem');
+    }
+
+    
+
 }

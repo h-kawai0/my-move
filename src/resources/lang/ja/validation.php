@@ -163,7 +163,15 @@ return [
         'pic' => '画像',
         'pass_old' => '現在のパスワード',
         'pass_new' => '新しいパスワード',
-        'pass_new_confirmation' => '新しいパスワード(確認用)'
+        'pass_new_confirmation' => '新しいパスワード(確認用)',
+
+        'parent_name' => 'タイトル',
+        'category_id' => 'カテゴリー',
+        'parent_cleartime' => '目安達成時間',
+        'parent_detail' => 'タイトルの説明',
+        'child_item.*.name' => 'タイトル',
+        'child_item.*.cleartime' => '目安達成時間',
+        'child_item.*.detail' => '説明'
     ],
 
 ];

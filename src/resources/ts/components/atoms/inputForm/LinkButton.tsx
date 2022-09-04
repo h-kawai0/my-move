@@ -13,10 +13,10 @@ type Props = {
 
 export const LinkButton: VFC<Props> = memo((props) => {
     const { children, path } = props;
-    return <SAuthLink to={path}>{children}</SAuthLink>;
+    return <SInputLink to={path}>{children}</SInputLink>;
 });
 
-const SAuthLink = styled(Link)`
+const SInputLink = styled(Link)`
     display: block;
     margin-bottom: ${space.m};
     margin-top: ${space.m};

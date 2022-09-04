@@ -8,9 +8,9 @@ type Props = {
 
 export const UserComponent: VFC<Props> = memo((props) => {
     const { children } = props;
-    return <SAuthComponent>{children}</SAuthComponent>;
+    return <SComponent>{children}</SComponent>;
 });
 
-const SAuthComponent = styled.div`
+const SComponent = styled.div`
     margin-bottom: ${space.xl};
 `;

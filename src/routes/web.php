@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Role\Items\Create\CreateItemController;
+use App\Http\Controllers\Role\Items\Create\NewItemController;
 use App\Http\Controllers\Role\UpdatePasswordController;
 use App\Http\Controllers\Role\UpdateProfileController;
 
@@ -32,6 +34,10 @@ Route::post('/mypage/update-profile', [UpdateProfileController::class, '__invoke
 Route::post('/mypage/update-password', [
     UpdatePasswordController::class, '__invoke'
 ]);
+
+Route::get('/items/categories', [NewItemController::class, '__invoke']);
+
+Route::post('/items', [CreateItemController::class, '__invoke']);
 
 
 Route::get('/{any}', function () {

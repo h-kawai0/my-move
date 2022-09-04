@@ -10,10 +10,10 @@ type Props = {
 export const Alert: VFC<Props> = memo((props) => {
     const { children } = props;
     
-    return <SAuthAlert>{children}</SAuthAlert>;
+    return <SAlert>{children}</SAlert>;
 });
 
-const SAuthAlert = styled.span`
+const SAlert = styled.span`
     display: block;
     color: ${colors.valid.validColorInputText};
     margin-top: ${space.s};

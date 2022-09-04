@@ -12,18 +12,18 @@ type Props = {
 export const Form: VFC<Props> = memo((props) => {
     const { children, onSubmit } = props;
     return (
-        <SAuth>
-            <SAuthForm onSubmit={onSubmit}>{children}</SAuthForm>
-        </SAuth>
+        <SSection>
+            <SForm onSubmit={onSubmit}>{children}</SForm>
+        </SSection>
     );
 });
 
-const SAuth = styled.section`
+const SSection = styled.section`
     padding-top: ${space.xxxl};
     box-sizing: border-box;
 `;
 
-const SAuthForm = styled.form`
+const SForm = styled.form`
     margin: 0 auto;
     width: 50%;
     padding: ${space.xxl};

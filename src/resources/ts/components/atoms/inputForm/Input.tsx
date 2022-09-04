@@ -9,7 +9,7 @@ type Props = {
     type: string;
     name: string;
     placeholder: string;
-    autoComplete: string;
+    autoComplete?: string;
     autoFocus?: boolean;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     isValid?: string | undefined;

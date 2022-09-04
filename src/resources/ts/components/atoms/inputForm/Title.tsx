@@ -10,10 +10,10 @@ type Props = {
 
 export const Title: VFC<Props> = memo((props) => {
     const { children } = props;
-    return <SAuthTitle>{children}</SAuthTitle>;
+    return <STitle>{children}</STitle>;
 });
 
-const SAuthTitle = styled.h1`
+const STitle = styled.h1`
     margin-bottom: ${space.xxxl};
     text-align: center;
     font-size: ${fonts.size.xxl};
