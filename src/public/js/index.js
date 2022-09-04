@@ -3215,10 +3215,10 @@ var InputPic = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
     onChange(e);
   };
 
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPic, null, !imageData && dbPic ? react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPic, null, !imageData && dbPic && react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: "/storage/img/user/original/".concat(dbPic),
     alt: dbPic
-  }) : react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
+  }), imageData && react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: imageData,
     id: "preview"
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
@@ -3820,7 +3820,7 @@ var Header = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, "\u7121\u6599\u4F1A\u54E1\u767B\u9332"))) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
     to: "/items/new"
   }, "MyMove\u6295\u7A3F")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/mypage/edit-password"
+    to: "/mypage/edit-profile"
   }, "\u30DE\u30A4\u30DA\u30FC\u30B8")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
     to: "",
     onClick: logout
@@ -4967,6 +4967,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
 /* harmony import */ var _molecules_inputForm_SelectBox__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../molecules/inputForm/SelectBox */ "./resources/ts/components/molecules/inputForm/SelectBox.tsx");
 /* harmony import */ var _atoms_inputForm_CategoryList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../atoms/inputForm/CategoryList */ "./resources/ts/components/atoms/inputForm/CategoryList.tsx");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _hooks_useFlash__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../../hooks/useFlash */ "./resources/ts/hooks/useFlash.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -5005,7 +5007,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+  var history = (0,react_router__WEBPACK_IMPORTED_MODULE_17__.useHistory)();
+
+  var _useFlash = (0,_hooks_useFlash__WEBPACK_IMPORTED_MODULE_16__.useFlash)(),
+      handleFlashMessage = _useFlash.handleFlashMessage;
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     parent_name: "",
     category_id: "",
@@ -5052,9 +5061,11 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("/items/categories").then(function (res) {
+      var _a;
+
       console.log(res.data);
       setCategoryList(res.data.categories);
-      console.log(categoryList);
+      setDbPic((_a = res.data.pic) !== null && _a !== void 0 ? _a : "");
     })["catch"](function (err) {
       console.log(err.response.data.errors);
     });
@@ -5139,7 +5150,9 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     console.log(data.getAll("child_item[]"));
     _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("/sanctum/csrf-cookie").then(function (res) {
       _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].post("/items", data).then(function (res) {
-        console.log(res);
+        console.log(res.data);
+        history.push('/');
+        handleFlashMessage(res.data.message);
       })["catch"](function (err) {
         console.log(err);
 

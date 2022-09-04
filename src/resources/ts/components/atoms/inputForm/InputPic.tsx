@@ -34,11 +34,13 @@ export const InputPic: VFC<Props> = memo((props) => {
     return (
         <>
             <SPic>
-                {!imageData && dbPic ? (
-                    <img src={`/storage/img/user/original/${dbPic}`} alt={dbPic} />
-                ) : (
-                    <img src={imageData} id="preview" />
+                {!imageData && dbPic && (
+                    <img
+                        src={`/storage/img/user/original/${dbPic}`}
+                        alt={dbPic}
+                    />
                 )}
+                {imageData && <img src={imageData} id="preview" />}
             </SPic>
 
             <input

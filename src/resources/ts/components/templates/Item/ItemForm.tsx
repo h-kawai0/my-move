@@ -22,6 +22,8 @@ import { Form } from "../../organisms/inputForm/Form";
 import axios from "../../../libs/axios";
 import { SelectBox } from "../../molecules/inputForm/SelectBox";
 import { CategoryList } from "../../atoms/inputForm/CategoryList";
+import { useHistory } from "react-router";
+import { useFlash } from "../../../hooks/useFlash";
 
 type Form = {
     parent_name: string;
@@ -50,6 +52,11 @@ type Form = {
 };
 
 export const ItemForm: VFC = memo(() => {
+
+  const history = useHistory();
+
+  const { handleFlashMessage } = useFlash();
+
     const [formData, setFormData] = useState<Form>({
         parent_name: "",
         category_id: "",
@@ -97,7 +104,8 @@ export const ItemForm: VFC = memo(() => {
 
                 setCategoryList(res.data.categories);
 
-                console.log(categoryList);
+                setDbPic(res.data.pic ?? "");
+
             })
             .catch((err) => {
                 console.log(err.response.data.errors);
@@ -195,7 +203,10 @@ export const ItemForm: VFC = memo(() => {
             axios
                 .post("/items", data)
                 .then((res) => {
-                    console.log(res);
+                    console.log(res.data);
+                    history.push('/');
+                    handleFlashMessage(res.data.message);
+
                 })
                 .catch((err) => {
                     console.log(err);
