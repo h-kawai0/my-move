@@ -3186,7 +3186,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var InputPic = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   var onChange = props.onChange,
-      dbPic = props.dbPic;
+      dbPic = props.dbPic,
+      role = props.role;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
@@ -3216,7 +3217,7 @@ var InputPic = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   };
 
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPic, null, !imageData && dbPic && react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: "/storage/img/user/original/".concat(dbPic),
+    src: "/storage/img/".concat(role, "/original/").concat(dbPic),
     alt: dbPic
   }), imageData && react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
     src: imageData,
@@ -3820,7 +3821,7 @@ var Header = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, "\u7121\u6599\u4F1A\u54E1\u767B\u9332"))) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
     to: "/items/new"
   }, "MyMove\u6295\u7A3F")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/mypage/edit-profile"
+    to: "/items/3/editing"
   }, "\u30DE\u30A4\u30DA\u30FC\u30B8")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
     to: "",
     onClick: logout
@@ -4659,7 +4660,8 @@ var EdifProfile = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     onChange: handleChange
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_4__.Alert, null, formData.error_list.profile)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_9__.Label, null, "\u30A2\u30A4\u30B3\u30F3\u753B\u50CF", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_10__.Notes, null, "\u203B\u4EFB\u610F"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputPic__WEBPACK_IMPORTED_MODULE_7__.InputPic, {
     onChange: handlePicChange,
-    dbPic: dbPic
+    dbPic: dbPic,
+    role: "user"
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_4__.Alert, null, formData.error_list.pic)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__.Button, {
     value: "\u767B\u9332\u3059\u308B",
     isLoading: isLoading
@@ -4680,11 +4682,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "EditItem": () => (/* binding */ EditItem)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates/Item/ItemForm */ "./resources/ts/components/templates/Item/ItemForm.tsx");
 
 
+
 var EditItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__.ItemForm, null);
+  var params = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useParams)();
+  var id = params.id;
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__.ItemForm, {
+    title: "MyMove\u7DE8\u96C6\u753B\u9762",
+    method: "/items/".concat(id),
+    pId: id
+  });
 });
 
 /***/ }),
@@ -4872,6 +4882,30 @@ var Mypage = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
 /***/ }),
 
+/***/ "./resources/ts/components/pages/NewItem.tsx":
+/*!***************************************************!*\
+  !*** ./resources/ts/components/pages/NewItem.tsx ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NewItem": () => (/* binding */ NewItem)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates/Item/ItemForm */ "./resources/ts/components/templates/Item/ItemForm.tsx");
+
+
+var NewItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__.ItemForm, {
+    title: "MyMove\u65B0\u898F\u767B\u9332",
+    method: "/items"
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/ts/components/pages/Top.tsx":
 /*!***********************************************!*\
   !*** ./resources/ts/components/pages/Top.tsx ***!
@@ -5009,7 +5043,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
+  var title = props.title,
+      method = props.method,
+      pId = props.pId;
   var history = (0,react_router__WEBPACK_IMPORTED_MODULE_17__.useHistory)();
 
   var _useFlash = (0,_hooks_useFlash__WEBPACK_IMPORTED_MODULE_16__.useFlash)(),
@@ -5022,10 +5059,12 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     parent_detail: "",
     pic: "",
     child_item: [{
+      index: 0,
       id: 0,
       name: "",
       cleartime: "",
       detail: "",
+      parent_item_id: "",
       error_list: {
         name: "",
         cleartime: "",
@@ -5060,44 +5099,102 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       setCategoryList = _useState6[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("/items/categories").then(function (res) {
-      var _a;
+    if (pId) {
+      _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("".concat(method, "/edit")).then(function (res) {
+        var _a;
 
+        console.log(res.data.parentItem);
+        var result = res.data.parentItem;
+
+        if (result.child_items.length < 5) {
+          _toConsumableArray(Array(5 - result.child_items.length)).map(function (val, i) {
+            var nextData = {
+              index: i,
+              id: i,
+              name: "",
+              cleartime: "",
+              detail: "",
+              parent_item_id: "",
+              error_list: {
+                name: "",
+                cleartime: "",
+                detail: ""
+              }
+            };
+            console.log(nextData);
+            result = Object.assign(Object.assign({}, result), {
+              child_items: [].concat(_toConsumableArray(result.child_items), [nextData])
+            });
+          });
+        }
+
+        setFormData(function (prevState) {
+          var _a, _b, _c, _d;
+
+          return Object.assign(Object.assign({}, prevState), {
+            parent_name: (_a = result.name) !== null && _a !== void 0 ? _a : "",
+            category_id: (_b = result.category_id) !== null && _b !== void 0 ? _b : "",
+            parent_cleartime: (_c = result.cleartime) !== null && _c !== void 0 ? _c : "",
+            parent_detail: (_d = result.detail) !== null && _d !== void 0 ? _d : "",
+            child_item: result.child_items.map(function (el, i) {
+              return {
+                index: i,
+                id: el.id,
+                name: el.name,
+                cleartime: el.cleartime,
+                detail: el.detail,
+                parent_item_id: el.parent_item_id,
+                error_list: {
+                  name: "",
+                  cleartime: "",
+                  detail: ""
+                }
+              };
+            })
+          });
+        });
+        setDbPic((_a = result.pic) !== null && _a !== void 0 ? _a : "");
+      })["catch"](function (err) {
+        console.log(err.response.data.errors);
+      });
+    } else {
+      _toConsumableArray(Array(4)).map(function (val, i) {
+        var nextData = {
+          index: i + 1,
+          name: "",
+          cleartime: "",
+          detail: "",
+          parent_item_id: "",
+          error_list: {
+            name: "",
+            cleartime: "",
+            detail: ""
+          }
+        };
+        setFormData(function (prevstate) {
+          return Object.assign(Object.assign({}, prevstate), {
+            child_item: [].concat(_toConsumableArray(prevstate.child_item), [nextData])
+          });
+        });
+      });
+    }
+
+    _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("/items/categories").then(function (res) {
       console.log(res.data);
       setCategoryList(res.data.categories);
-      setDbPic((_a = res.data.pic) !== null && _a !== void 0 ? _a : "");
     })["catch"](function (err) {
       console.log(err.response.data.errors);
     });
-
-    _toConsumableArray(Array(4)).map(function (val, i) {
-      var nextData = {
-        id: i + 1,
-        name: "",
-        cleartime: "",
-        detail: "",
-        error_list: {
-          name: "",
-          cleartime: "",
-          detail: ""
-        }
-      };
-      setFormData(function (prevstate) {
-        return Object.assign(Object.assign({}, prevstate), {
-          child_item: [].concat(_toConsumableArray(prevstate.child_item), [nextData])
-        });
-      });
-    });
   }, []);
 
-  var handleChange = function handleChange(e, id) {
+  var handleChange = function handleChange(e, index) {
     var _e$target = e.target,
         name = _e$target.name,
         value = _e$target.value;
 
-    if (id !== undefined) {
+    if (index !== undefined) {
       var data = formData.child_item.map(function (val) {
-        if (val.id === id) {
+        if (val.index === index) {
           return Object.assign({}, val, _defineProperty({}, name, value));
         }
 
@@ -5148,10 +5245,11 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       data.append("child_item[]", JSON.stringify(item));
     });
     console.log(data.getAll("child_item[]"));
+    pId ? pId : "";
     _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("/sanctum/csrf-cookie").then(function (res) {
-      _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].post("/items", data).then(function (res) {
+      _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].post(method, data).then(function (res) {
         console.log(res.data);
-        history.push('/');
+        history.push("/");
         handleFlashMessage(res.data.message);
       })["catch"](function (err) {
         console.log(err);
@@ -5168,11 +5266,11 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
             var key = parseInt(val.substring(11, 12));
             var str = val.substring(13);
 
-            if (val.includes('child_item')) {
+            if (val.includes("child_item")) {
               setFormData(function (prevState) {
                 return Object.assign(Object.assign({}, prevState), {
                   child_item: prevState.child_item.map(function (el) {
-                    return el.id === key ? Object.assign(Object.assign({}, el), {
+                    return el.index === key ? Object.assign(Object.assign({}, el), {
                       error_list: Object.assign(Object.assign({}, el.error_list), _defineProperty({}, str, errData[val]))
                     }) : el;
                   })
@@ -5206,7 +5304,7 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_12__.Form, {
     onSubmit: registerSubmit
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_10__.Title, null, "MyMove\u306E\u65B0\u898F\u767B\u9332"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u30BF\u30A4\u30C8\u30EB", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_3__.Input, {
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_10__.Title, null, title), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u30BF\u30A4\u30C8\u30EB", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_3__.Input, {
     type: "text",
     name: "parent_name",
     placeholder: "\u30BF\u30A4\u30C8\u30EB",
@@ -5232,17 +5330,18 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     onChange: handleChange
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, formData.error_list.parent_detail)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u753B\u50CF", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u4EFB\u610F"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputPic__WEBPACK_IMPORTED_MODULE_4__.InputPic, {
     onChange: handlePicChange,
-    dbPic: dbPic
+    dbPic: dbPic,
+    role: "items"
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, formData.error_list.pic)), formData.child_item.map(function (val, i) {
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      key: val.id
+      key: val.index
     }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "MyMove", i + 1, "\u306E\u30BF\u30A4\u30C8\u30EB", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_3__.Input, {
       type: "text",
       name: "name",
       placeholder: "MyMove".concat(i + 1, "\u306E\u30BF\u30A4\u30C8\u30EB"),
       value: val.name,
       onChange: function onChange(e) {
-        return handleChange(e, val.id);
+        return handleChange(e, val.index);
       },
       isValid: val.error_list.name
     })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, val.error_list.name)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "MyMove", i + 1, "\u306E\u76EE\u5B89\u9054\u6210\u6642\u9593", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Number__WEBPACK_IMPORTED_MODULE_8__.Number, {
@@ -5250,14 +5349,14 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       value: val.cleartime,
       isValid: val.error_list.cleartime,
       onChange: function onChange(e) {
-        return handleChange(e, val.id);
+        return handleChange(e, val.index);
       }
     })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Sup__WEBPACK_IMPORTED_MODULE_9__.Sup, null, "\u203B3\u6841\u307E\u3067(\u5C0F\u6570\u70B9\u7B2C\u4E00\u4F4D\u307E\u3067)\u5165\u529B\u53EF\u80FD\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, val.error_list.cleartime)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "MyMove", i + 1, "\u306E\u8AAC\u660E", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputTextArea__WEBPACK_IMPORTED_MODULE_5__.InputTextArea, {
       value: val.detail,
       name: "detail",
       isValid: val.error_list.detail,
       onChange: function onChange(e) {
-        return handleChange(e, val.id);
+        return handleChange(e, val.index);
       }
     })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, val.error_list.detail)));
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_2__.Button, {
@@ -5719,7 +5818,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Router": () => (/* binding */ Router)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _components_pages_Items__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/pages/Items */ "./resources/ts/components/pages/Items.tsx");
 /* harmony import */ var _components_pages_Top__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/pages/Top */ "./resources/ts/components/pages/Top.tsx");
 /* harmony import */ var _components_pages_Auth_Login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/pages/Auth/Login */ "./resources/ts/components/pages/Auth/Login.tsx");
@@ -5731,6 +5830,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_pages_EdifProfile__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/pages/EdifProfile */ "./resources/ts/components/pages/EdifProfile.tsx");
 /* harmony import */ var _components_pages_EditPassword__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/pages/EditPassword */ "./resources/ts/components/pages/EditPassword.tsx");
 /* harmony import */ var _components_pages_EditItem__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../components/pages/EditItem */ "./resources/ts/components/pages/EditItem.tsx");
+/* harmony import */ var _components_pages_NewItem__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../components/pages/NewItem */ "./resources/ts/components/pages/NewItem.tsx");
+
 
 
 
@@ -5745,7 +5846,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Router = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Switch, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Switch, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
     exact: true,
     path: "/"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Top__WEBPACK_IMPORTED_MODULE_2__.Top, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PrivateRoute, {
@@ -5763,6 +5864,9 @@ var Router = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EditPassword__WEBPACK_IMPORTED_MODULE_10__.EditPassword, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PrivateRoute, {
     exact: true,
     path: "/items/new"
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_NewItem__WEBPACK_IMPORTED_MODULE_12__.NewItem, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PrivateRoute, {
+    exact: true,
+    path: "/items/:id/editing"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EditItem__WEBPACK_IMPORTED_MODULE_11__.EditItem, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_context_AuthContext__WEBPACK_IMPORTED_MODULE_5__.PublicRoute, {
     exact: true,
     path: "/login"

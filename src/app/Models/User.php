@@ -48,7 +48,7 @@ class User extends Authenticatable
     // parent_stepsテーブルとのリレーション
     public function parentItems()
     {
-        return $this->hasMany('App\ParentItem');
+        return $this->hasMany('App\Models\ParentItem');
     }
 
     

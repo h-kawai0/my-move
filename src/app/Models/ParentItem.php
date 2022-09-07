@@ -19,19 +19,19 @@ class ParentItem extends Model
     // usersテーブルとのリレーション
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     // child_stepsテーブルとのリレーション
     public function childItems()
     {
-        return $this->hasMany('App\ChildItem');
+        return $this->hasMany('App\Models\ChildItem');
     }
 
     // categoriesテーブルとのリレーション
     public function category()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Models\Category');
     }
 
 

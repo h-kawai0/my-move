@@ -12,6 +12,7 @@ import { Mypage } from "../components/pages/Mypage";
 import { EdifProfile } from "../components/pages/EdifProfile";
 import { EditPassword } from "../components/pages/EditPassword";
 import { EditItem } from "../components/pages/EditItem";
+import { NewItem } from "../components/pages/NewItem";
 
 export const Router: VFC = memo(() => {
     return (
@@ -38,6 +39,10 @@ export const Router: VFC = memo(() => {
             </PrivateRoute>
 
             <PrivateRoute exact path="/items/new">
+                <NewItem />
+            </PrivateRoute>
+
+            <PrivateRoute exact path="/items/:id/editing">
                 <EditItem />
             </PrivateRoute>
 

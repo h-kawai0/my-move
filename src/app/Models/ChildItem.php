@@ -16,6 +16,6 @@ class ChildItem extends Model
     // parent_stepsテーブルとのリレーション
     public function parentItem()
     {
-        return $this->belongsTo('App\ParentItem');
+        return $this->belongsTo('App\Models\ParentItem');
     }
 }

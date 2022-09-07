@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Role\Items\Create\CreateItemController;
 use App\Http\Controllers\Role\Items\Create\NewItemController;
+use App\Http\Controllers\Role\Items\Edit\EditItemController;
+use App\Http\Controllers\Role\Items\Edit\UpdateItemController;
 use App\Http\Controllers\Role\UpdatePasswordController;
 use App\Http\Controllers\Role\UpdateProfileController;
 
@@ -38,6 +40,11 @@ Route::post('/mypage/update-password', [
 Route::get('/items/categories', [NewItemController::class, '__invoke']);
 
 Route::post('/items', [CreateItemController::class, '__invoke']);
+
+// MyMove更新画面を表示
+Route::get('/items/{id}/edit', [EditItemController::class, '__invoke']);
+
+Route::post('/items/{id}', [UpdateItemController::class, '__invoke']);
 
 
 Route::get('/{any}', function () {

@@ -24,6 +24,7 @@ import { SelectBox } from "../../molecules/inputForm/SelectBox";
 import { CategoryList } from "../../atoms/inputForm/CategoryList";
 import { useHistory } from "react-router";
 import { useFlash } from "../../../hooks/useFlash";
+import { Item } from "../../../types/api/item";
 
 type Form = {
     parent_name: string;
@@ -32,10 +33,12 @@ type Form = {
     parent_detail: string;
     pic: File | string;
     child_item: {
-        id: number;
+        index: number;
+        id?: number;
         name: string;
         cleartime: string;
         detail: string;
+        parent_item_id: string;
         error_list: {
             name: string;
             cleartime: string;
@@ -51,11 +54,18 @@ type Form = {
     };
 };
 
-export const ItemForm: VFC = memo(() => {
+type Props = {
+    title: string;
+    method: string;
+    pId?: string;
+};
 
-  const history = useHistory();
+export const ItemForm: VFC<Props> = memo((props) => {
+    const { title, method, pId } = props;
 
-  const { handleFlashMessage } = useFlash();
+    const history = useHistory();
+
+    const { handleFlashMessage } = useFlash();
 
     const [formData, setFormData] = useState<Form>({
         parent_name: "",
@@ -65,10 +75,12 @@ export const ItemForm: VFC = memo(() => {
         pic: "",
         child_item: [
             {
+                index: 0,
                 id: 0,
                 name: "",
                 cleartime: "",
                 detail: "",
+                parent_item_id: "",
                 error_list: {
                     name: "",
                     cleartime: "",
@@ -97,50 +109,113 @@ export const ItemForm: VFC = memo(() => {
     ]);
 
     useEffect(() => {
+        if (pId) {
+            axios
+                .get<Item>(`${method}/edit`)
+                .then((res) => {
+                    console.log(res.data.parentItem);
+
+                    let result = res.data.parentItem;
+
+                    if (result.child_items.length < 5) {
+                        [...Array(5 - result.child_items.length)].map(
+                            (val, i) => {
+                                let nextData = {
+                                    index: i,
+                                    id: i,
+                                    name: "",
+                                    cleartime: "",
+                                    detail: "",
+                                    parent_item_id: "",
+                                    error_list: {
+                                        name: "",
+                                        cleartime: "",
+                                        detail: "",
+                                    },
+                                };
+
+                                console.log(nextData);
+
+                                result = {
+                                    ...result,
+                                    child_items: [
+                                        ...result.child_items,
+                                        nextData,
+                                    ],
+                                };
+                            }
+                        );
+                    }
+
+                    setFormData((prevState) => ({
+                        ...prevState,
+
+                        parent_name: result.name ?? "",
+                        category_id: result.category_id ?? "",
+                        parent_cleartime: result.cleartime ?? "",
+                        parent_detail: result.detail ?? "",
+                        child_item: result.child_items.map((el, i) => ({
+                            index: i,
+                            id: el.id,
+                            name: el.name,
+                            cleartime: el.cleartime,
+                            detail: el.detail,
+                            parent_item_id: el.parent_item_id,
+                            error_list: {
+                                name: "",
+                                cleartime: "",
+                                detail: "",
+                            },
+                        })),
+                    }));
+                    setDbPic(result.pic ?? "");
+                })
+                .catch((err) => {
+                    console.log(err.response.data.errors);
+                });
+        } else {
+            [...Array(4)].map((val, i) => {
+                let nextData = {
+                    index: i + 1,
+                    name: "",
+                    cleartime: "",
+                    detail: "",
+                    parent_item_id: "",
+                    error_list: {
+                        name: "",
+                        cleartime: "",
+                        detail: "",
+                    },
+                };
+
+                setFormData((prevstate) => ({
+                    ...prevstate,
+                    child_item: [...prevstate.child_item, nextData],
+                }));
+            });
+        }
+
         axios
             .get("/items/categories")
             .then((res) => {
                 console.log(res.data);
 
                 setCategoryList(res.data.categories);
-
-                setDbPic(res.data.pic ?? "");
-
             })
             .catch((err) => {
                 console.log(err.response.data.errors);
             });
-
-        [...Array(4)].map((val, i) => {
-            let nextData = {
-                id: i + 1,
-                name: "",
-                cleartime: "",
-                detail: "",
-                error_list: {
-                    name: "",
-                    cleartime: "",
-                    detail: "",
-                },
-            };
-
-            setFormData((prevstate) => ({
-                ...prevstate,
-                child_item: [...prevstate.child_item, nextData],
-            }));
-
-        });
     }, []);
 
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-        id?: number
+        index?: number
     ) => {
         const { name, value } = e.target;
 
-        if (id !== undefined) {
+        if (index !== undefined) {
             let data = formData.child_item.map((val) => {
-                if (val.id === id) {
+                if (val.index === index) {
                     return Object.assign({}, val, {
                         [name]: value,
                     });
@@ -179,7 +254,6 @@ export const ItemForm: VFC = memo(() => {
         });
     };
 
-
     const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -199,14 +273,15 @@ export const ItemForm: VFC = memo(() => {
 
         console.log(data.getAll("child_item[]"));
 
+        pId ? pId : "";
+
         axios.get("/sanctum/csrf-cookie").then((res) => {
             axios
-                .post("/items", data)
+                .post(method, data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push('/');
+                    history.push("/");
                     handleFlashMessage(res.data.message);
-
                 })
                 .catch((err) => {
                     console.log(err);
@@ -216,38 +291,49 @@ export const ItemForm: VFC = memo(() => {
                         let keyArray = Object.keys(err.response.data.errors);
 
                         const errorList = {
-                          name: "",
-                          cleartime: "",
-                          detail: ""
+                            name: "",
+                            cleartime: "",
+                            detail: "",
                         };
 
                         keyArray.map((val) => {
-                          let key = parseInt(val.substring(11,12));
-                          let str = val.substring(13);
+                            let key = parseInt(val.substring(11, 12));
+                            let str = val.substring(13);
 
-                          if(val.includes('child_item')) {
-
-                            setFormData((prevState) => ({
-                              ...prevState,
-                              child_item: prevState.child_item.map( el =>
-                                
-                                (el.id === key) ? {...el, error_list:{  ...el.error_list,[str]: errData[val]}} : el
-                                )
-                              }))
+                            if (val.includes("child_item")) {
+                                setFormData((prevState) => ({
+                                    ...prevState,
+                                    child_item: prevState.child_item.map((el) =>
+                                        el.index === key
+                                            ? {
+                                                  ...el,
+                                                  error_list: {
+                                                      ...el.error_list,
+                                                      [str]: errData[val],
+                                                  },
+                                              }
+                                            : el
+                                    ),
+                                }));
                             } else {
-                              setFormData((prevState) => ({
-                                ...prevState,
-                                child_item: prevState.child_item.map( (el, i) =>
-                                  
-                                  (el.id === i) ? {...el, error_list: errorList} : el
-                                  )
-                                }))
+                                setFormData((prevState) => ({
+                                    ...prevState,
+                                    child_item: prevState.child_item.map(
+                                        (el, i) =>
+                                            el.id === i
+                                                ? {
+                                                      ...el,
+                                                      error_list: errorList,
+                                                  }
+                                                : el
+                                    ),
+                                }));
                             }
                         });
 
-                        setFormData(prevState => ({
-                          ...prevState,
-                          error_list: err.response.data.errors
+                        setFormData((prevState) => ({
+                            ...prevState,
+                            error_list: err.response.data.errors,
                         }));
 
                         console.log(formData);
@@ -262,7 +348,7 @@ export const ItemForm: VFC = memo(() => {
 
     return (
         <Form onSubmit={registerSubmit}>
-            <Title>MyMoveの新規登録</Title>
+            <Title>{title}</Title>
 
             <UserComponent>
                 <Label>
@@ -331,14 +417,18 @@ export const ItemForm: VFC = memo(() => {
                 <Label>
                     画像
                     <Notes>&#8251;任意</Notes>
-                    <InputPic onChange={handlePicChange} dbPic={dbPic} />
+                    <InputPic
+                        onChange={handlePicChange}
+                        dbPic={dbPic}
+                        role="items"
+                    />
                 </Label>
                 <Alert>{formData.error_list.pic}</Alert>
             </UserComponent>
 
             {/*  mapで生成 */}
             {formData.child_item.map((val, i) => (
-                <div key={val.id}>
+                <div key={val.index}>
                     <UserComponent>
                         <Label>
                             MyMove{i + 1}のタイトル
@@ -351,7 +441,7 @@ export const ItemForm: VFC = memo(() => {
                                 name={`name`}
                                 placeholder={`MyMove${i + 1}のタイトル`}
                                 value={val.name}
-                                onChange={(e) => handleChange(e, val.id)}
+                                onChange={(e) => handleChange(e, val.index)}
                                 isValid={val.error_list.name}
                             />
                         </Label>
@@ -369,7 +459,7 @@ export const ItemForm: VFC = memo(() => {
                                 name={`cleartime`}
                                 value={val.cleartime}
                                 isValid={val.error_list.cleartime}
-                                onChange={(e) => handleChange(e, val.id)}
+                                onChange={(e) => handleChange(e, val.index)}
                             />
                         </Label>
                         <Sup>
@@ -389,7 +479,7 @@ export const ItemForm: VFC = memo(() => {
                                 value={val.detail}
                                 name={`detail`}
                                 isValid={val.error_list.detail}
-                                onChange={(e) => handleChange(e, val.id)}
+                                onChange={(e) => handleChange(e, val.index)}
                             />
                         </Label>
                         <Alert>{val.error_list.detail}</Alert>

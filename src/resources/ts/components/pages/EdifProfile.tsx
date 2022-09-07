@@ -202,7 +202,7 @@ export const EdifProfile: VFC = memo(() => {
                 <Label>
                     アイコン画像
                     <Notes>&#8251;任意</Notes>
-                    <InputPic onChange={handlePicChange} dbPic={dbPic} />
+                    <InputPic onChange={handlePicChange} dbPic={dbPic} role="user" />
                 </Label>
                 <Alert>{formData.error_list.pic}</Alert>
             </UserComponent>

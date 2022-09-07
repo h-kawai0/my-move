@@ -5,10 +5,11 @@ import { space } from "../../../theme/setting/space";
 type Props = {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     dbPic: string;
+    role: string;
 };
 
 export const InputPic: VFC<Props> = memo((props) => {
-    const { onChange, dbPic } = props;
+    const { onChange, dbPic, role } = props;
     const [imageData, setImageData] = useState("");
 
     const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +37,7 @@ export const InputPic: VFC<Props> = memo((props) => {
             <SPic>
                 {!imageData && dbPic && (
                     <img
-                        src={`/storage/img/user/original/${dbPic}`}
+                        src={`/storage/img/${role}/original/${dbPic}`}
                         alt={dbPic}
                     />
                 )}

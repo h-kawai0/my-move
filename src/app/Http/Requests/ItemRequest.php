@@ -64,7 +64,7 @@ class ItemRequest extends FormRequest
             'category_id' => ['required', 'not_in:0'],
             'parent_cleartime' => ['required', 'numeric', 'not_in:0', 'regex:/\A\d{1,3}(\.\d{1,1})?\z/'],
             'parent_detail' => ['required', 'string', 'max:500'],
-            'pic' => ['file', 'image', 'mimes:jpeg,png,jpg,gif', 'max:3072', 'dimensions:min_width=1900,min_height=800,max_width=4000,max_height=4000'],
+            'pic' => ['nullable','file', 'image', 'mimes:jpeg,png,jpg,gif', 'max:3072', 'dimensions:min_width=1900,min_height=800,max_width=4000,max_height=4000'],
             'child_item.*.name' => ['required_with:child_item.*.cleartime', 'required_with:child_item.*.detail', 'nullable', 'string', 'max:40'],
             'child_item.*.cleartime' => ['required_with:child_item.*.name', 'required_with:child_item.*.detail', 'nullable', 'numeric', 'not_in:0', 'regex:/\A\d{1,3}(\.\d{1,1})?\z/'],
             'child_item.*.detail' => ['required_with:child_item.*.name', 'required_with:child_item.*.cleartime', 'nullable', 'string', 'max:500'],
