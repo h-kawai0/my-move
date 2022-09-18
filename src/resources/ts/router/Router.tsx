@@ -21,10 +21,10 @@ export const Router: VFC = memo(() => {
                 <Top />
             </Route>
 
-            {/* プライベートルート */}
-            <PrivateRoute exact path="/items">
+            <Route exact path="/index">
                 <Items />
-            </PrivateRoute>
+            </Route>
+            {/* プライベートルート */}
 
             <PrivateRoute exact path="/mypage">
                 <Mypage />

@@ -12,4 +12,12 @@ class Category extends Model
 
 
     protected $fillable = ['name'];
+
+    // parent_itemsテーブルとのリレーション
+    public function parentItem()
+    {
+        return $this->hasOne('App\Models\ParentItem');
+    }
 }
+
+

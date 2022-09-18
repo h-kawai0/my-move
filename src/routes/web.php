@@ -7,6 +7,7 @@ use App\Http\Controllers\Role\Items\Create\CreateItemController;
 use App\Http\Controllers\Role\Items\Create\NewItemController;
 use App\Http\Controllers\Role\Items\Edit\EditItemController;
 use App\Http\Controllers\Role\Items\Edit\UpdateItemController;
+use App\Http\Controllers\Role\Items\Index\GetItemsController;
 use App\Http\Controllers\Role\UpdatePasswordController;
 use App\Http\Controllers\Role\UpdateProfileController;
 
@@ -45,6 +46,10 @@ Route::post('/items', [CreateItemController::class, '__invoke']);
 Route::get('/items/{id}/edit', [EditItemController::class, '__invoke']);
 
 Route::post('/items/{id}', [UpdateItemController::class, '__invoke']);
+
+Route::get('/items/get',
+[GetItemsController::class, '__invoke']);
+
 
 
 Route::get('/{any}', function () {

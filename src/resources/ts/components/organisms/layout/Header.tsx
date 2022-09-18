@@ -36,7 +36,7 @@ export const Header: VFC = memo(() => {
             <SNav>
                 <SList>
                     <SItem>
-                        <SLink to="/items">MyMove一覧</SLink>
+                        <SLink to="/index">MyMove一覧</SLink>
                     </SItem>
 
                     {!auth?.user ? (
