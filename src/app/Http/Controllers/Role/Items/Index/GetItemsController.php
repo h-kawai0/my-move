@@ -66,7 +66,7 @@ class GetItemsController extends Controller
             }
 
             // ページネーションとMyMoveの情報を取得
-            $items =$items->paginate(1);
+            $items =$items->paginate(12);
 
             Log::debug($items);
             

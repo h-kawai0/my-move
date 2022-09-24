@@ -279,6 +279,7 @@ export const Items: VFC = memo(() => {
                                         userName={el.user.name}
                                         itemDate={el.created_at}
                                         itemClearTime={el.cleartime}
+                                        itemId={el.id}
                                         key={el.id}
                                     />
                                 ))}

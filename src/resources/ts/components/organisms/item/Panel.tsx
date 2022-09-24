@@ -1,87 +1,90 @@
 import React, { memo, VFC } from "react";
 import styled from "styled-components";
-import * as dayjs from 'dayjs';
+import * as dayjs from "dayjs";
 
 import { breakPoint } from "../../../theme/setting/breakPoint";
 import { colors } from "../../../theme/setting/colors";
 import { fonts } from "../../../theme/setting/fonts";
 import { space } from "../../../theme/setting/space";
+import { Link } from "react-router-dom";
 
 type Props = {
-  itemLength: number;
-  itemPic: string;
-  categoryName: string;
-  itemName: string;
-  userPic: string;
-  userName: string;
-  itemDate: string;
-  itemClearTime: string;
-}
+    itemId: number;
+    itemLength: number;
+    itemPic: string;
+    categoryName: string;
+    itemName: string;
+    userPic: string;
+    userName: string;
+    itemDate: string;
+    itemClearTime: string;
+};
 
 export const Panel: VFC<Props> = memo((props) => {
-  const {itemLength, itemPic, categoryName, itemName, userPic, userName, itemDate, itemClearTime} = props;
+    const {
+        itemId,
+        itemLength,
+        itemPic,
+        categoryName,
+        itemName,
+        userPic,
+        userName,
+        itemDate,
+        itemClearTime,
+    } = props;
     return (
-      <SPanelContainer
-      className="c-panel__container p-index__panel"
-  >
-      <SPanelTop className="c-panel__top">
-          <SPanelTotal className="c-panel__total">
-              <SPanelNumber className="c-panel__number">
-                  {itemLength}
-              </SPanelNumber>
-              <SPanelMove className="c-panel__move">
-                  Move
-              </SPanelMove>
-          </SPanelTotal>
+        <SPanelContainer className="c-panel__container p-index__panel" to={`/items/${itemId}`}>
+            <SPanelTop className="c-panel__top">
+                <SPanelTotal className="c-panel__total">
+                    <SPanelNumber className="c-panel__number">
+                        {itemLength}
+                    </SPanelNumber>
+                    <SPanelMove className="c-panel__move">Move</SPanelMove>
+                </SPanelTotal>
 
-          <SPanelThumbnail className="c-panel__thumbnail">
-              <SPanelImg
-                  className="c-panel__img"
-                  src={`/storage/img/items/original/${itemPic}`}
-              />
-          </SPanelThumbnail>
+                <SPanelThumbnail className="c-panel__thumbnail">
+                    <SPanelImg
+                        className="c-panel__img"
+                        src={`/storage/img/items/original/${itemPic}`}
+                    />
+                </SPanelThumbnail>
 
-          <SPanelCategory className="c-panel__category">
-              {categoryName}
-          </SPanelCategory>
-          <SPanelTitle className="c-panel__title">
-              {itemName}
-          </SPanelTitle>
+                <SPanelCategory className="c-panel__category">
+                    {categoryName}
+                </SPanelCategory>
+                <SPanelTitle className="c-panel__title">{itemName}</SPanelTitle>
 
-          <SPanelContent className="c-panel__content">
-              <SPanelMeta className="c-panel__meta">
-                  <SPanelAuthor className="c-panel__author">
-                      <SPanelAvatar className="c-panel__avatar">
-                          <img
-                              src={`/storage/img/user/original/${userPic}`}
-                          />
-                      </SPanelAvatar>
+                <SPanelContent className="c-panel__content">
+                    <SPanelMeta className="c-panel__meta">
+                        <SPanelAuthor className="c-panel__author">
+                            <SPanelAvatar className="c-panel__avatar">
+                                <img
+                                    src={`/storage/img/user/original/${userPic}`}
+                                />
+                            </SPanelAvatar>
 
-                      <div>
-                          <SPanelUserName className="c-panel__username">
-                              {userName}
-                          </SPanelUserName>
-                          <SPanelTimeStamp className="c-panel__timeStamp">
-                              {dayjs(
-                                  itemDate
-                              ).format(
-                                  "YYYY[年]M[月]D[日]"
-                              )}
-                          </SPanelTimeStamp>
-                      </div>
-                  </SPanelAuthor>
-              </SPanelMeta>
-          </SPanelContent>
-          <SPanelCompTime className="c-panel__compTime">
-              目安達成時間:{itemClearTime}時間
-          </SPanelCompTime>
-      </SPanelTop>
-  </SPanelContainer>
-);
+                            <div>
+                                <SPanelUserName className="c-panel__username">
+                                    {userName}
+                                </SPanelUserName>
+                                <SPanelTimeStamp className="c-panel__timeStamp">
+                                    {dayjs(itemDate).format(
+                                        "YYYY[年]M[月]D[日]"
+                                    )}
+                                </SPanelTimeStamp>
+                            </div>
+                        </SPanelAuthor>
+                    </SPanelMeta>
+                </SPanelContent>
+                <SPanelCompTime className="c-panel__compTime">
+                    目安達成時間:{itemClearTime}時間
+                </SPanelCompTime>
+            </SPanelTop>
+        </SPanelContainer>
+    );
 });
 
-
-const SPanelContainer = styled.a`
+const SPanelContainer = styled(Link)`
     display: flex;
     flex-direction: column;
     background: ${colors.base.paletteTrueWhite};

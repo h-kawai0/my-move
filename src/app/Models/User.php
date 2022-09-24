@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\ParentItem');
     }
 
+    // clearsテーブルとのリレーション
+    public function clears()
+    {
+        return $this->hasMany('App/Models\Clear');
+    }
     
 
 }

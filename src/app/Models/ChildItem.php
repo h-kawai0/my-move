@@ -18,4 +18,10 @@ class ChildItem extends Model
     {
         return $this->belongsTo('App\Models\ParentItem');
     }
+
+    // challengesテーブルとのリレーション
+    public function clears()
+    {
+        return $this->hasMany('App\Models\Clear');
+    }
 }

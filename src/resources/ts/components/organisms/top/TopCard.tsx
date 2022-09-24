@@ -1,4 +1,4 @@
-import React, { memo, VFC } from "react";
+import React, { memo, useEffect, VFC } from "react";
 import styled from "styled-components";
 
 import { colors } from "../../../theme/setting/colors";
@@ -14,6 +14,11 @@ type Props = {
 };
 
 export const TopCard: VFC<Props> = memo((props) => {
+
+    useEffect(() => {
+        
+    })
+
     const { title, description, imagePath } = props;
     return (
         <SMeritCard>

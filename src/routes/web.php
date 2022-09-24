@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Role\Items\Create\CreateItemController;
 use App\Http\Controllers\Role\Items\Create\NewItemController;
+use App\Http\Controllers\Role\Items\Detail\CreateChallengeItemController;
+use App\Http\Controllers\Role\Items\Detail\CreateClearItemController;
+use App\Http\Controllers\Role\Items\Detail\ShowDetailParentItemController;
 use App\Http\Controllers\Role\Items\Edit\EditItemController;
 use App\Http\Controllers\Role\Items\Edit\UpdateItemController;
 use App\Http\Controllers\Role\Items\Index\GetItemsController;
@@ -36,8 +39,26 @@ Route::post('/mypage/update-profile', [UpdateProfileController::class, '__invoke
 
 Route::post('/mypage/update-password', [
     UpdatePasswordController::class, '__invoke'
-]);
+]);    
 
+//-----------------------------------------
+// 親MyMove詳細
+// ----------------------------------------
+
+// 親MyMove詳細画面を表示
+Route::get('/items/{id}/get', [ShowDetailParentItemController::class, '__invoke']);
+
+// チャレンジボタンを押すとChallengesテーブルに接続して登録
+Route::post('/items/challenge', [CreateChallengeItemController::class, '__invoke']);
+
+// クリアボタンを押すとClearsテーブルに接続して登録
+Route::post('/items/clear',
+[CreateClearItemController::class, '__invoke']);
+
+
+// -------------------------------------------
+// MyMove
+// --------------------------------------------
 Route::get('/items/categories', [NewItemController::class, '__invoke']);
 
 Route::post('/items', [CreateItemController::class, '__invoke']);

@@ -34,7 +34,10 @@ class ParentItem extends Model
         return $this->belongsTo('App\Models\Category');
     }
 
+    // challengesテーブルとのリレーション
+    public function challenges()
+    {
+        return $this->hasMany('App\Models\Challenge');
+    }
 
-
-    //
 }
