@@ -3659,6 +3659,49 @@ var SCatch = styled_components__WEBPACK_IMPORTED_MODULE_3__["default"].div(_temp
 
 /***/ }),
 
+/***/ "./resources/ts/components/molecules/twitter/TwitterShare.tsx":
+/*!********************************************************************!*\
+  !*** ./resources/ts/components/molecules/twitter/TwitterShare.tsx ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TwitterShare": () => (/* binding */ TwitterShare)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../theme/setting/colors */ "./resources/ts/theme/setting/colors.ts");
+/* harmony import */ var _atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../atoms/button/BaseButton */ "./resources/ts/components/atoms/button/BaseButton.tsx");
+var _templateObject;
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+
+
+
+
+var TwitterShare = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
+  var name = props.name;
+  var currentLocation = (0,react_router__WEBPACK_IMPORTED_MODULE_3__.useLocation)();
+
+  var twitterShare = function twitterShare() {
+    var shareURL = "https://twitter.com/intent/tweet?text=".concat(name, "%0a&url=").concat(window.location.href);
+    window.open(shareURL, '_blank');
+  };
+
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(STwitterBtn, {
+    as: "button",
+    onClick: twitterShare
+  }, "\u30C4\u30A4\u30FC\u30C8");
+});
+var STwitterBtn = (0,styled_components__WEBPACK_IMPORTED_MODULE_4__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_2__.BaseButton)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  background: ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteTrueBlue);
+
+/***/ }),
+
 /***/ "./resources/ts/components/organisms/FlashMsg.tsx":
 /*!********************************************************!*\
   !*** ./resources/ts/components/organisms/FlashMsg.tsx ***!
@@ -4728,8 +4771,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DetailParentItem": () => (/* binding */ DetailParentItem)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../libs/axios */ "./resources/ts/libs/axios.tsx");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
@@ -4739,6 +4782,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../theme/setting/space */ "./resources/ts/theme/setting/space.ts");
 /* harmony import */ var _organisms_parentDetail_ChildItemList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../organisms/parentDetail/ChildItemList */ "./resources/ts/components/organisms/parentDetail/ChildItemList.tsx");
 /* harmony import */ var _organisms_parentDetail_ChallengeItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../organisms/parentDetail/ChallengeItem */ "./resources/ts/components/organisms/parentDetail/ChallengeItem.tsx");
+/* harmony import */ var _molecules_twitter_TwitterShare__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../molecules/twitter/TwitterShare */ "./resources/ts/components/molecules/twitter/TwitterShare.tsx");
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -4766,8 +4810,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  var params = (0,react_router__WEBPACK_IMPORTED_MODULE_9__.useParams)();
+  var params = (0,react_router__WEBPACK_IMPORTED_MODULE_10__.useParams)();
   var id = params.id;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
@@ -4908,7 +4953,9 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     className: "p-parentDetail__meta"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCategory, {
     className: "p-parentDetail__category"
-  }, itemData.parentItem.category.name), "Tweet\u3059\u308B"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailFooterContainer, {
+  }, itemData.parentItem.category.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_twitter_TwitterShare__WEBPACK_IMPORTED_MODULE_9__.TwitterShare, {
+    name: "".concat(itemData.parentItem.name, "%7C").concat("MyMove")
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailFooterContainer, {
     className: "p-parentDetail__footerContainer"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailAuthor, {
     className: "p-parentDetail__author"
@@ -4951,24 +4998,24 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     user: itemData.user
   }))));
 });
-var SParentDetail = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].section(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding-top: ", ";\n    padding-bottom: 80px;\n    box-sizing: border-box;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl);
-var SParentDetailContainer = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    width: 60%;\n    margin: 0 auto;\n    background: ", ";\n    padding-top: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    margin-bottom: ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailWrapper = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
-var SParentDetailInfo = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 70%;\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n    padding: ", ";\n    box-sizing: border-box;\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailImg = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    margin-right: auto;\n    width: 100%;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailTitle = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].h2(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    text-align: center;\n    font-size: ", ";\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    fonts-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.l));
-var SParentDetailMeta = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: ", ";\n    align-items: center;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
-var SParentDetailCategory = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    background: ", ";\n    padding: ", " ", ";\n    color: ", ";\n    font-size: ", ";\n    font-weight: 600;\n    text-transform: uppercase;\n    border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteCinnabar, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailFooterContainer = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-end;\n    margin-bottom: ", ";\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    align-items: flex-start;\n    flex-direction: column;\n  "]))));
-var SParentDetailAuthor = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl));
-var SParentDetailAvatar = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["\n    width: 36px;\n    height: 36px;\n    border-radius: 100%;\n    overflow: hidden;\n    margin-right: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m);
-var SParentDetailUsername = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailDate = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailCompTime = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].span(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m);
-var SParentDetailDetail = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["\n    padding-right: ", ";\n    padding-left: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l));
-var SParentDetailComment = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["\n    padding: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
-var SParentDetailMenu = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
-var SParentDetailList = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].ul(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["\n    list-style-type: none;\n    margin-bottom: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl);
+var SParentDetail = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].section(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding-top: ", ";\n    padding-bottom: 80px;\n    box-sizing: border-box;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl);
+var SParentDetailContainer = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    width: 60%;\n    margin: 0 auto;\n    background: ", ";\n    padding-top: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    margin-bottom: ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailWrapper = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
+var SParentDetailInfo = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 70%;\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n    padding: ", ";\n    box-sizing: border-box;\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailImg = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    margin-right: auto;\n    width: 100%;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailTitle = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].h2(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    text-align: center;\n    font-size: ", ";\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    fonts-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.l));
+var SParentDetailMeta = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: ", ";\n    align-items: center;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
+var SParentDetailCategory = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    background: ", ";\n    padding: ", " ", ";\n    color: ", ";\n    font-size: ", ";\n    font-weight: 600;\n    text-transform: uppercase;\n    border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteCinnabar, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailFooterContainer = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-end;\n    margin-bottom: ", ";\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    align-items: flex-start;\n    flex-direction: column;\n  "]))));
+var SParentDetailAuthor = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl));
+var SParentDetailAvatar = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["\n    width: 36px;\n    height: 36px;\n    border-radius: 100%;\n    overflow: hidden;\n    margin-right: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m);
+var SParentDetailUsername = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailDate = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailCompTime = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].span(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m);
+var SParentDetailDetail = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["\n    padding-right: ", ";\n    padding-left: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l));
+var SParentDetailComment = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["\n    padding: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
+var SParentDetailMenu = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
+var SParentDetailList = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].ul(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["\n    list-style-type: none;\n    margin-bottom: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl);
 
 /***/ }),
 

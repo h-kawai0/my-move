@@ -10,6 +10,7 @@ import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
 import { ChildItemList } from "../organisms/parentDetail/ChildItemList";
 import { ChallengeItem } from "../organisms/parentDetail/ChallengeItem";
+import { TwitterShare } from "../molecules/twitter/TwitterShare";
 
 type ItemData = {
   parentItem: {
@@ -225,7 +226,7 @@ export const DetailParentItem: VFC = memo(() => {
                             <SParentDetailCategory className="p-parentDetail__category">
                                 {itemData.parentItem.category.name}
                             </SParentDetailCategory>
-                            Tweetする
+                            <TwitterShare name={`${itemData.parentItem.name}%7C${process.env.MIX_APP_ENV}`} />
                         </SParentDetailMeta>
 
                         <SParentDetailFooterContainer className="p-parentDetail__footerContainer">
