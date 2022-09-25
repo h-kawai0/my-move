@@ -3628,6 +3628,57 @@ var SComponent = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(_
 
 /***/ }),
 
+/***/ "./resources/ts/components/molecules/item/FavoriteItem.tsx":
+/*!*****************************************************************!*\
+  !*** ./resources/ts/components/molecules/item/FavoriteItem.tsx ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FavoriteItem": () => (/* binding */ FavoriteItem)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../theme/setting/breakPoint */ "./resources/ts/theme/setting/breakPoint.ts");
+/* harmony import */ var _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../theme/setting/colors */ "./resources/ts/theme/setting/colors.ts");
+/* harmony import */ var _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../theme/setting/fonts */ "./resources/ts/theme/setting/fonts.ts");
+/* harmony import */ var _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../theme/setting/space */ "./resources/ts/theme/setting/space.ts");
+/* harmony import */ var _atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../atoms/button/BaseButton */ "./resources/ts/components/atoms/button/BaseButton.tsx");
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6;
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+
+
+
+
+
+
+
+var FavoriteItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
+  var userId = props.userId,
+      isFavorite = props.isFavorite,
+      postFavorite = props.postFavorite;
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SFavorite, {
+    className: "p-parentDetail__favorite"
+  }, userId && isFavorite ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SRemoveFavorite, {
+    as: "button",
+    className: "c-btn c-btn--comped p-parentDetail_submit",
+    onClick: postFavorite
+  }, "\u304A\u6C17\u306B\u5165\u308A\u89E3\u9664") : userId && !isFavorite ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SAddFavorite, {
+    as: "button",
+    className: "c-btn c-btn--favorite p-parentDetail__submit",
+    onClick: postFavorite
+  }, "\u3053\u306EMyMove\u304C\u6C17\u306B\u306A\u308B!") : null));
+});
+var SFavorite = styled_components__WEBPACK_IMPORTED_MODULE_6__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  float: right;\n  margin-bottom: ", ";\n  ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    float: initial;\n  "]))));
+var SRemoveFavorite = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n  background: ", ";\n  color: ", ";\n  font-weight: initial;\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.font.fontColorDefault, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"]));
+var SAddFavorite = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n  background: ", ";\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteGambogeOrange, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"]));
+
+/***/ }),
+
 /***/ "./resources/ts/components/molecules/top/CatchContainer.tsx":
 /*!******************************************************************!*\
   !*** ./resources/ts/components/molecules/top/CatchContainer.tsx ***!
@@ -4771,8 +4822,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DetailParentItem": () => (/* binding */ DetailParentItem)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../libs/axios */ "./resources/ts/libs/axios.tsx");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
@@ -4783,6 +4834,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _organisms_parentDetail_ChildItemList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../organisms/parentDetail/ChildItemList */ "./resources/ts/components/organisms/parentDetail/ChildItemList.tsx");
 /* harmony import */ var _organisms_parentDetail_ChallengeItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../organisms/parentDetail/ChallengeItem */ "./resources/ts/components/organisms/parentDetail/ChallengeItem.tsx");
 /* harmony import */ var _molecules_twitter_TwitterShare__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../molecules/twitter/TwitterShare */ "./resources/ts/components/molecules/twitter/TwitterShare.tsx");
+/* harmony import */ var _molecules_item_FavoriteItem__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../molecules/item/FavoriteItem */ "./resources/ts/components/molecules/item/FavoriteItem.tsx");
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -4811,8 +4863,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  var params = (0,react_router__WEBPACK_IMPORTED_MODULE_10__.useParams)();
+  var params = (0,react_router__WEBPACK_IMPORTED_MODULE_11__.useParams)();
   var id = params.id;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
@@ -4869,6 +4922,11 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       isSuccess = _useState6[0],
       setIsSuccess = _useState6[1];
 
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      isFavorite = _useState8[0],
+      setIsFavorite = _useState8[1];
+
   var getItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
     _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/items/".concat(id, "/get")).then(function (res) {
       var _a;
@@ -4917,6 +4975,21 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     }).then(function (res) {
       console.log(res);
       getItem();
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  };
+
+  var postFavorite = function postFavorite() {
+    console.log('おきにいり');
+    _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post('/items/favorite', {
+      userId: itemData.user,
+      parentItemId: itemData.parentItem.id
+    }).then(function (res) {
+      console.log(res);
+      setIsFavorite(function (prev) {
+        return !prev;
+      });
     })["catch"](function (err) {
       console.log(err);
     });
@@ -4969,7 +5042,11 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     className: "p-parentDetail__date"
   }, dayjs__WEBPACK_IMPORTED_MODULE_2__(itemData.parentItem.created_at).format("YYYY[年]M[月]D[日]")))), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCompTime, {
     className: "p-parentDetail__compTime"
-  }, "\u76EE\u5B89\u9054\u6210\u6642\u9593:", " ", itemData.parentItem.cleartime, "\u6642\u9593"))), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "\u304A\u6C17\u306B\u5165\u308A"))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDetail, {
+  }, "\u76EE\u5B89\u9054\u6210\u6642\u9593:", " ", itemData.parentItem.cleartime, "\u6642\u9593"))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_item_FavoriteItem__WEBPACK_IMPORTED_MODULE_10__.FavoriteItem, {
+    userId: itemData.user,
+    postFavorite: postFavorite,
+    isFavorite: isFavorite
+  }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDetail, {
     className: "p-parentDetail__detail"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComment, {
     className: "p-parentDetail__comment"
@@ -4998,24 +5075,24 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     user: itemData.user
   }))));
 });
-var SParentDetail = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].section(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding-top: ", ";\n    padding-bottom: 80px;\n    box-sizing: border-box;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl);
-var SParentDetailContainer = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    width: 60%;\n    margin: 0 auto;\n    background: ", ";\n    padding-top: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    margin-bottom: ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailWrapper = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
-var SParentDetailInfo = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 70%;\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n    padding: ", ";\n    box-sizing: border-box;\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailImg = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    margin-right: auto;\n    width: 100%;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailTitle = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].h2(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    text-align: center;\n    font-size: ", ";\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    fonts-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.l));
-var SParentDetailMeta = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: ", ";\n    align-items: center;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
-var SParentDetailCategory = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    background: ", ";\n    padding: ", " ", ";\n    color: ", ";\n    font-size: ", ";\n    font-weight: 600;\n    text-transform: uppercase;\n    border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteCinnabar, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailFooterContainer = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-end;\n    margin-bottom: ", ";\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    align-items: flex-start;\n    flex-direction: column;\n  "]))));
-var SParentDetailAuthor = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl));
-var SParentDetailAvatar = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["\n    width: 36px;\n    height: 36px;\n    border-radius: 100%;\n    overflow: hidden;\n    margin-right: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m);
-var SParentDetailUsername = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailDate = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailCompTime = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].span(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m);
-var SParentDetailDetail = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["\n    padding-right: ", ";\n    padding-left: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l));
-var SParentDetailComment = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["\n    padding: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
-var SParentDetailMenu = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].div(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
-var SParentDetailList = styled_components__WEBPACK_IMPORTED_MODULE_11__["default"].ul(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["\n    list-style-type: none;\n    margin-bottom: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl);
+var SParentDetail = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].section(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding-top: ", ";\n    padding-bottom: 80px;\n    box-sizing: border-box;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl);
+var SParentDetailContainer = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    width: 60%;\n    margin: 0 auto;\n    background: ", ";\n    padding-top: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    margin-bottom: ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailWrapper = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
+var SParentDetailInfo = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 70%;\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n    padding: ", ";\n    box-sizing: border-box;\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailImg = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    margin-right: auto;\n    width: 100%;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailTitle = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].h2(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    text-align: center;\n    font-size: ", ";\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    fonts-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.l));
+var SParentDetailMeta = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: ", ";\n    align-items: center;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
+var SParentDetailCategory = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    background: ", ";\n    padding: ", " ", ";\n    color: ", ";\n    font-size: ", ";\n    font-weight: 600;\n    text-transform: uppercase;\n    border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteCinnabar, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailFooterContainer = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-end;\n    margin-bottom: ", ";\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    align-items: flex-start;\n    flex-direction: column;\n  "]))));
+var SParentDetailAuthor = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl));
+var SParentDetailAvatar = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["\n    width: 36px;\n    height: 36px;\n    border-radius: 100%;\n    overflow: hidden;\n    margin-right: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m);
+var SParentDetailUsername = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailDate = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailCompTime = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].span(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m);
+var SParentDetailDetail = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["\n    padding-right: ", ";\n    padding-left: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l));
+var SParentDetailComment = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["\n    padding: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
+var SParentDetailMenu = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].div(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
+var SParentDetailList = styled_components__WEBPACK_IMPORTED_MODULE_12__["default"].ul(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["\n    list-style-type: none;\n    margin-bottom: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl);
 
 /***/ }),
 

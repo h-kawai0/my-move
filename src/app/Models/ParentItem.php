@@ -22,7 +22,7 @@ class ParentItem extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    // child_stepsテーブルとのリレーション
+    // child_itemsテーブルとのリレーション
     public function childItems()
     {
         return $this->hasMany('App\Models\ChildItem');
@@ -38,6 +38,12 @@ class ParentItem extends Model
     public function challenges()
     {
         return $this->hasMany('App\Models\Challenge');
+    }
+
+    // faovritesテーブルとのリレーション
+    public function favorite()
+    {
+        return $this->hasOne('App\Models\Favorite');
     }
 
 }

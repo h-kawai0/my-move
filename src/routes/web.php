@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Role\Items\Create\CreateItemController;
 use App\Http\Controllers\Role\Items\Create\NewItemController;
+use App\Http\Controllers\Role\Items\Detail\ChangeFavoriteItemController;
 use App\Http\Controllers\Role\Items\Detail\CreateChallengeItemController;
 use App\Http\Controllers\Role\Items\Detail\CreateClearItemController;
 use App\Http\Controllers\Role\Items\Detail\ShowDetailParentItemController;
@@ -54,6 +55,10 @@ Route::post('/items/challenge', [CreateChallengeItemController::class, '__invoke
 // クリアボタンを押すとClearsテーブルに接続して登録
 Route::post('/items/clear',
 [CreateClearItemController::class, '__invoke']);
+
+// お気に入りボタンを押すとDBのfavoritesテーブルに接続して登録
+Route::post('/items/favorite',
+[ChangeFavoriteItemController::class, '__invoke']);
 
 
 // -------------------------------------------

@@ -45,7 +45,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // parent_stepsテーブルとのリレーション
+    // parent_itemsテーブルとのリレーション
     public function parentItems()
     {
         return $this->hasMany('App\Models\ParentItem');
@@ -55,6 +55,12 @@ class User extends Authenticatable
     public function clears()
     {
         return $this->hasMany('App/Models\Clear');
+    }
+
+    // favoritesテーブルとのリレーション
+    public function favorites()
+    {
+        return $this->hasMany('App\Models\Favorite');
     }
     
 

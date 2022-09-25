@@ -11,6 +11,7 @@ import { space } from "../../theme/setting/space";
 import { ChildItemList } from "../organisms/parentDetail/ChildItemList";
 import { ChallengeItem } from "../organisms/parentDetail/ChallengeItem";
 import { TwitterShare } from "../molecules/twitter/TwitterShare";
+import { FavoriteItem } from "../molecules/item/FavoriteItem";
 
 type ItemData = {
   parentItem: {
@@ -109,6 +110,8 @@ export const DetailParentItem: VFC = memo(() => {
 
     const [isSuccess, setIsSuccess] = useState(false);
 
+    const [isFavorite, setIsFavorite] = useState(false);
+
     const getItem = useCallback(() => {
 
       axios
@@ -190,6 +193,24 @@ export const DetailParentItem: VFC = memo(() => {
       })
     }
 
+    const postFavorite = () => {
+      console.log('おきにいり');
+
+      axios
+      .post('/items/favorite', {
+        userId: itemData.user,
+        parentItemId: itemData.parentItem.id
+      })
+      .then((res) => {
+        console.log(res);
+
+        setIsFavorite((prev) => !prev);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+
     // MyMoveを全て達成しているか判定
     const totalChallenge = () => {
       let sum: number[] = [];
@@ -257,7 +278,9 @@ export const DetailParentItem: VFC = memo(() => {
                             </div>
                         </SParentDetailFooterContainer>
 
-                        <div>お気に入り</div>
+                        <FavoriteItem userId={itemData.user}
+                        postFavorite={postFavorite}
+                        isFavorite={isFavorite} />
                     </SParentDetailInfo>
                 </SParentDetailWrapper>
 
