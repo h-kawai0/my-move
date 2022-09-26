@@ -12,6 +12,7 @@ import { ChildItemList } from "../organisms/parentDetail/ChildItemList";
 import { ChallengeItem } from "../organisms/parentDetail/ChallengeItem";
 import { TwitterShare } from "../molecules/twitter/TwitterShare";
 import { FavoriteItem } from "../molecules/item/FavoriteItem";
+import { Author } from "../organisms/item/Author";
 
 type ItemData = {
   parentItem: {
@@ -46,6 +47,7 @@ type ItemData = {
         id: number;
         name: string;
         pic: string;
+        profile: string;
     },
     user_id: number;
 },
@@ -97,6 +99,7 @@ export const DetailParentItem: VFC = memo(() => {
                 id: 0,
                 name: "",
                 pic: "",
+                profile: ""
             },
             user_id: 0,
         },
@@ -230,6 +233,7 @@ export const DetailParentItem: VFC = memo(() => {
 
     return (
         <SParentDetail className="p-parentDetail">
+
             <SParentDetailContainer className="p-parentDetail__container">
                 <SParentDetailWrapper className="p-parentDetail__info--wrapper">
                     <SParentDetailInfo className="p-parentDetail__info">
@@ -319,6 +323,9 @@ export const DetailParentItem: VFC = memo(() => {
                     />
                 </SParentDetailMenu>
             </SParentDetailContainer>
+
+            <Author pic={itemData.parentItem.user.pic} name={itemData.parentItem.user.name} profile={itemData.parentItem.user.profile} />
+
         </SParentDetail>
     );
 });

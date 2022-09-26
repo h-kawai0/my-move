@@ -26,7 +26,7 @@ class ShowDetailParentItemController extends Controller
         $user = Auth::id();
         
         // リクエストを受け取ったidを条件にMyMoveの情報を取得する(退会済を除く)
-        $parentItem = ParentItem::with('user:id,name,pic','childItems:id,name,detail,parent_item_id', 'category:id,name')->select('id', 'name', 'pic', 'detail', 'user_id', 'cleartime', 'category_id', 'created_at')->where('id', $id)->whereHas('user', function($query) {
+        $parentItem = ParentItem::with('user:id,name,pic,profile','childItems:id,name,detail,parent_item_id', 'category:id,name')->select('id', 'name', 'pic', 'detail', 'user_id', 'cleartime', 'category_id', 'created_at')->where('id', $id)->whereHas('user', function($query) {
             $query->whereNull('deleted_at');
         })->first();
 
