@@ -6,44 +6,31 @@ import { fonts } from '../../../theme/setting/fonts';
 import { space } from '../../../theme/setting/space';
 import { breakPoint } from "../../../theme/setting/breakPoint";
 import { BaseButton } from '../../atoms/button/BaseButton';
+import { Link } from 'react-router-dom';
+import { Clear } from '../../../types/api/item';
 
 type Props = {
   name: string;
   index: number;
   user: number;
   isChallenge: boolean;
-  id: number;
+  childId: number;
+  parentId: number;
   toggleClear: (e:number) => void;
   childItems:{
-    detail: string;
     id: number;
     name:string;
+    detail: string;
     parent_item_id: number;
-    clears:{
-      child_item_id: number;
-      created_at: string;
-      deleted_at: null;
-      id: number;
-      parent_item_id: number;
-      updated_at: string;
-      user_id: number;
-    }[]; 
+    clears:Clear[]; 
     
   }[];
-  clearItem:{
-    child_item_id: number;
-    created_at: string;
-    deleted_at: null;
-    id: number;
-    parent_item_id: number;
-    updated_at: string;
-    user_id: number;
-  }[];
+  clearItem:Clear[];
 }
 
 export const ChildItemList:VFC<Props> = memo((props) => {
 
-  const { name, index, user, isChallenge, childItems, toggleClear, id, clearItem } = props;
+  const { name, index, user, isChallenge, childItems, toggleClear, childId, clearItem, parentId } = props;
   
 
   // MyMoveを順番にクリアさせるため、クリアボタンの表示を制御する
@@ -75,7 +62,7 @@ export const ChildItemList:VFC<Props> = memo((props) => {
 
   return(
     <SParentDetailItem className="p-parentDetail__item">
-    <SParentDetailLink className="p-parentDetail__link">
+    <SParentDetailLink to={`/items/${parentId}/${childId}`} className="p-parentDetail__link">
       <p>MyMove{index + 1}「{name}」</p>
     </SParentDetailLink>
 
@@ -88,7 +75,7 @@ export const ChildItemList:VFC<Props> = memo((props) => {
       <SParentDetailComplete as="span" className="c-btn c-btn--comped c-btn--notAllowed p-parentDetail__clear">クリア済み</SParentDetailComplete>
       : (isChallenge && user && currentClear ?
         
-        <SParentDetailClear as="button" className="c-btn c-btn--clear p-parentDetail__clear" onClick={() => toggleClear(id)}>クリア</SParentDetailClear>
+        <SParentDetailClear as="button" className="c-btn c-btn--clear p-parentDetail__clear" onClick={() => toggleClear(childId)}>クリア</SParentDetailClear>
         : ( isChallenge && user && !currentClear) ? 
         
         <SParentDetailComplete as="span" className="c-btn c-btn--comped c-btn--notAllowed p-parentDetail__clear">ロック中</SParentDetailComplete>
@@ -118,7 +105,7 @@ const SParentDetailItem = styled.li`
   `};
 `;
 
-const SParentDetailLink = styled.a`
+const SParentDetailLink = styled(Link)`
   padding: ${space.l};
   box-sizing: border-box;
   font-weight: bold;

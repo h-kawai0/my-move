@@ -14,6 +14,7 @@ import { EditPassword } from "../components/pages/EditPassword";
 import { EditItem } from "../components/pages/EditItem";
 import { NewItem } from "../components/pages/NewItem";
 import { DetailParentItem } from "../components/pages/DetailParentItem";
+import { DetailChildItem } from "../components/pages/DetailChildItem";
 
 export const Router: VFC = memo(() => {
     return (
@@ -25,11 +26,6 @@ export const Router: VFC = memo(() => {
             <Route exact path="/index">
                 <Items />
             </Route>
-
-            <Route exact path="/items/:id">
-                <DetailParentItem />
-            </Route>
-
 
             {/* プライベートルート */}
 
@@ -67,6 +63,15 @@ export const Router: VFC = memo(() => {
             <PublicRoute exact path="/reset-password/:code">
                 <ResetPassword />
             </PublicRoute>
+
+            <Route exact path="/items/:id">
+                <DetailParentItem />
+            </Route>
+
+            <Route exact path="/items/:id/:pass">
+                <DetailChildItem />
+            </Route>
+
         </Switch>
     );
 });

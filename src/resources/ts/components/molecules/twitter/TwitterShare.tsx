@@ -5,7 +5,7 @@ import { colors } from "../../../theme/setting/colors";
 import { BaseButton } from "../../atoms/button/BaseButton";
 
 type Props = {
-  name: string;
+  name: string | undefined;
 }
 
 export const TwitterShare:VFC<Props> = memo((props) => {

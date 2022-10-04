@@ -13,50 +13,25 @@ import { ChallengeItem } from "../organisms/parentDetail/ChallengeItem";
 import { TwitterShare } from "../molecules/twitter/TwitterShare";
 import { FavoriteItem } from "../molecules/item/FavoriteItem";
 import { Author } from "../organisms/item/Author";
+import { Category, Clear, ParentItem, User } from "../../types/api/item";
 
 type ItemData = {
-  parentItem: {
-    category: {
-        id: number;
-        name: string;
-    },
-    category_id: number;
-    child_items: 
-        {
-            detail: string;
+    parentItem: ParentItem & {
+        category: Category;
+        child_items: {
             id: number;
             name: string;
+            detail: string;
             parent_item_id: number;
-            clears:{
-              child_item_id: number;
-              created_at: string;
-              deleted_at: null;
-              id: number;
-              parent_item_id: number;
-              updated_at: string;
-              user_id: number;
-            }[];
-        }[],
-    cleartime: string;
-    created_at: string;
-    detail: string;
-    id: number;
-    name: string;
-    pic: string;
-    user: {
+            clears: Clear[];
+        }[];
+        user: User;
+    };
+    user: number;
+    challengeItem: {
         id: number;
-        name: string;
-        pic: string;
-        profile: string;
-    },
-    user_id: number;
-},
-user: number;
-challengeItem: {
-    id: number;
-},
-
-}
+    };
+};
 
 export const DetailParentItem: VFC = memo(() => {
     const params: { id: string } = useParams();
@@ -76,17 +51,17 @@ export const DetailParentItem: VFC = memo(() => {
                     id: 0,
                     name: "",
                     parent_item_id: 0,
-                    clears:[
-                      {
-                        child_item_id: 0,
-                        created_at: "",
-                        deleted_at: null,
-                        id: 0,
-                        parent_item_id: 0,
-                        updated_at: "",
-                        user_id: 0
-                      }
-                    ]
+                    clears: [
+                        {
+                            child_item_id: 0,
+                            created_at: "",
+                            deleted_at: null,
+                            id: 0,
+                            parent_item_id: 0,
+                            updated_at: "",
+                            user_id: 0,
+                        },
+                    ],
                 },
             ],
             cleartime: "",
@@ -99,7 +74,7 @@ export const DetailParentItem: VFC = memo(() => {
                 id: 0,
                 name: "",
                 pic: "",
-                profile: ""
+                profile: "",
             },
             user_id: 0,
         },
@@ -116,51 +91,48 @@ export const DetailParentItem: VFC = memo(() => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     const getItem = useCallback(() => {
+        axios
+            .get<ItemData>(`/items/${id}/get`)
+            .then((res) => {
+                console.log(res.data);
 
-      axios
-      .get<ItemData>(`/items/${id}/get`)
-      .then((res) => {
-          console.log(res.data);
+                const result = res.data;
 
-          const result = res.data;
+                const challengeFlg = res.data.challengeItem?.id ? true : false;
 
-          const challengeFlg = res.data.challengeItem?.id ? true : false;
+                console.log(result, itemData);
 
-          console.log(result, itemData);
+                setItemData(result);
 
-          setItemData(result);
+                challengeFlg ? setIsChallenge(true) : setIsChallenge(false);
 
-          challengeFlg ? setIsChallenge(true) : setIsChallenge(false);
+                let sum: number[] = [];
 
-          let sum: number[] = [];
+                // 取得したMyMoveの配列を展開する
+                res.data.parentItem.child_items.map((child, i) => {
+                    res.data.parentItem.child_items[i].clears.map((clear) => {
+                        sum.push(
+                            res.data.parentItem.child_items[i].clears.length
+                        );
+                    });
+                });
 
-          // 取得したMyMoveの配列を展開する
-          res.data.parentItem.child_items.map((child,i) => {
-            res.data.parentItem.child_items[i].clears.map((clear) => {
-              sum.push(res.data.parentItem.child_items[i].clears.length);
+                console.log(sum.length, res.data.parentItem.child_items.length);
+
+                sum.length === res.data.parentItem.child_items.length
+                    ? setIsSuccess(true)
+                    : setIsSuccess(false);
+            })
+            .catch((err) => {
+                console.log(err);
             });
-          });
-    
-          console.log(sum.length, res.data.parentItem.child_items.length);
-    
-           sum.length === res.data.parentItem.child_items.length ? setIsSuccess(true) : setIsSuccess(false);
-    
-          
-      })
-      .catch((err) => {
-          console.log(err);
-      });
-
     }, [isSuccess]);
 
     useEffect(() => {
-
-      getItem();
-
+        getItem();
     }, []);
 
     const toggleChallenge = () => {
-
         axios
             .post("/items/challenge", {
                 userId: itemData.user,
@@ -176,64 +148,60 @@ export const DetailParentItem: VFC = memo(() => {
     };
 
     const toggleClear = (e: number) => {
+        console.log(e);
 
-      console.log(e);
+        axios
+            .post("/items/clear", {
+                userId: itemData.user,
+                parentItemId: itemData.parentItem.id,
+                childItemId: e,
+            })
+            .then((res) => {
+                console.log(res);
 
-      axios
-      .post('/items/clear', {
-        userId: itemData.user,
-        parentItemId: itemData.parentItem.id,
-        childItemId: e
-      })
-      .then((res) => {
-        console.log(res);
-
-        getItem();
-
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
+                getItem();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     const postFavorite = () => {
-      console.log('おきにいり');
+        console.log("おきにいり");
 
-      axios
-      .post('/items/favorite', {
-        userId: itemData.user,
-        parentItemId: itemData.parentItem.id
-      })
-      .then((res) => {
-        console.log(res);
+        axios
+            .post("/items/favorite", {
+                userId: itemData.user,
+                parentItemId: itemData.parentItem.id,
+            })
+            .then((res) => {
+                console.log(res);
 
-        setIsFavorite((prev) => !prev);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
+                setIsFavorite((prev) => !prev);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     // MyMoveを全て達成しているか判定
     const totalChallenge = () => {
-      let sum: number[] = [];
+        let sum: number[] = [];
 
-      // 取得したMyMoveの配列を展開する
-      itemData.parentItem.child_items.map((child,i) => {
-        itemData.parentItem.child_items[i].clears.map((clear) => {
-          sum.push(itemData.parentItem.child_items[i].clears.length);
+        // 取得したMyMoveの配列を展開する
+        itemData.parentItem.child_items.map((child, i) => {
+            itemData.parentItem.child_items[i].clears.map((clear) => {
+                sum.push(itemData.parentItem.child_items[i].clears.length);
+            });
         });
-      });
 
-      return sum.length === itemData.parentItem.child_items.length ? setIsSuccess(true) : setIsSuccess(false);
-
-
-
-    }
+        return sum.length === itemData.parentItem.child_items.length
+            ? setIsSuccess(true)
+            : setIsSuccess(false);
+    };
 
     return (
         <SParentDetail className="p-parentDetail">
-
             <SParentDetailContainer className="p-parentDetail__container">
                 <SParentDetailWrapper className="p-parentDetail__info--wrapper">
                     <SParentDetailInfo className="p-parentDetail__info">
@@ -251,7 +219,9 @@ export const DetailParentItem: VFC = memo(() => {
                             <SParentDetailCategory className="p-parentDetail__category">
                                 {itemData.parentItem.category.name}
                             </SParentDetailCategory>
-                            <TwitterShare name={`${itemData.parentItem.name}%7C${process.env.MIX_APP_ENV}`} />
+                            <TwitterShare
+                                name={`${itemData.parentItem.name}%7C${process.env.MIX_APP_ENV}`}
+                            />
                         </SParentDetailMeta>
 
                         <SParentDetailFooterContainer className="p-parentDetail__footerContainer">
@@ -282,9 +252,11 @@ export const DetailParentItem: VFC = memo(() => {
                             </div>
                         </SParentDetailFooterContainer>
 
-                        <FavoriteItem userId={itemData.user}
-                        postFavorite={postFavorite}
-                        isFavorite={isFavorite} />
+                        <FavoriteItem
+                            userId={itemData.user}
+                            postFavorite={postFavorite}
+                            isFavorite={isFavorite}
+                        />
                     </SParentDetailInfo>
                 </SParentDetailWrapper>
 
@@ -306,11 +278,12 @@ export const DetailParentItem: VFC = memo(() => {
                                 name={item.name}
                                 index={index}
                                 user={itemData.user}
-                                id={item.id}
+                                childId={item.id}
                                 childItems={itemData.parentItem.child_items}
                                 isChallenge={isChallenge}
                                 toggleClear={toggleClear}
                                 clearItem={item.clears}
+                                parentId={itemData.parentItem.id}
                             />
                         ))}
                     </SParentDetailList>
@@ -324,8 +297,11 @@ export const DetailParentItem: VFC = memo(() => {
                 </SParentDetailMenu>
             </SParentDetailContainer>
 
-            <Author pic={itemData.parentItem.user.pic} name={itemData.parentItem.user.name} profile={itemData.parentItem.user.profile} />
-
+            <Author
+                pic={itemData.parentItem.user.pic}
+                name={itemData.parentItem.user.name}
+                profile={itemData.parentItem.user.profile}
+            />
         </SParentDetail>
     );
 });
