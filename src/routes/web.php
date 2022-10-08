@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\GetUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Role\Items\Create\CreateItemController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Role\Items\Detail\ShowDetailParentItemController;
 use App\Http\Controllers\Role\Items\Edit\EditItemController;
 use App\Http\Controllers\Role\Items\Edit\UpdateItemController;
 use App\Http\Controllers\Role\Items\Index\GetItemsController;
+use App\Http\Controllers\Role\Mypage\DeleteUserController;
 use App\Http\Controllers\Role\UpdatePasswordController;
 use App\Http\Controllers\Role\UpdateProfileController;
 
@@ -37,6 +39,8 @@ Route::post('/password/email', ForgotPasswordController::class);
 
 Route::post('/password/reset', ResetPasswordController::class);
 
+Route::get('/user/get', [GetUserController::class, '__invoke']);
+
 // =================================================
 // ログイン中のみ閲覧可能
 // =================================================
@@ -52,6 +56,13 @@ Route::post('/mypage/update-profile', [UpdateProfileController::class, '__invoke
 Route::post('/mypage/update-password', [
     UpdatePasswordController::class, '__invoke'
 ]);    
+
+// --------------------------------------
+// 退会
+// --------------------------------------
+
+// 退会機能
+Route::post('/withdraw', [DeleteUserController::class, '__invoke']);
 
 //-----------------------------------------
 // 親MyMove詳細

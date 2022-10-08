@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import axios from "../../libs/axios";
 
-import { Challenges, ChildItem, Clear, ParentItem } from "../../types/api/item";
+import { Challenges, ChildItem, Clear, ParentItem, User } from "../../types/api/item";
 
 import { breakPoint } from "../../theme/setting/breakPoint";
 import { colors } from "../../theme/setting/colors";
@@ -16,6 +16,7 @@ import { DetailTitle } from "../atoms/item/DetailTitle";
 import { DetailList } from "../molecules/item/DetailList";
 import { ChildItemList } from "../organisms/parentDetail/ChildItemList";
 import { DetailItems } from "../molecules/item/DetailItems";
+import { Author } from "../organisms/item/Author";
 
 
 type ItemData = {
@@ -25,6 +26,7 @@ type ItemData = {
   } 
   parentItem: ParentItem & {
     challenges: Challenges[];
+    user: User;
     child_items: {
       id: number;
       name: string;
@@ -175,6 +177,12 @@ export const DetailChildItem: VFC = memo(() => {
     </DetailMenu>
 
       </SChildContainer>
+
+
+{itemData && (
+  
+  <Author pic={itemData.parentItem.user.pic} name={itemData.parentItem.user.name} profile={itemData.parentItem.user.profile} />
+  )}
     </SChildDetail>
   );
 });

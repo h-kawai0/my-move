@@ -29,9 +29,9 @@ export const Router: VFC = memo(() => {
 
             {/* プライベートルート */}
 
-            <PrivateRoute exact path="/mypage">
+            <Route exact path="/mypage">
                 <Mypage />
-            </PrivateRoute>
+            </Route>
 
             <PrivateRoute exact path="/mypage/edit-profile">
                 <EdifProfile />
