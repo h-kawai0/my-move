@@ -8,51 +8,54 @@ import { colors } from "../../theme/setting/colors";
 import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
 import { User } from "../../types/api/user";
+import { RegistList } from "../organisms/item/RegistList";
 
 export const Mypage: VFC = memo(() => {
+    const [user, setUser] = useState<User>();
 
-  const [user, setUser] = useState<User>();
+    const getUser = () => {
+        axios
+            .get("/api/user")
+            .then((res) => {
+                console.log(res);
+                const result = res.data;
+                setUser(result);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
+    const withDraw = (e: MouseEvent) => {
+        e.preventDefault();
 
-  const getUser = () => {
-    axios.get('/api/user')
-    .then((res) => {
+        if (
+            !window.confirm(
+                "一度実行するとこの操作は取り消せません。本当に退会しますか?"
+            )
+        ) {
+            console.log("false");
+            return false;
+        } else {
+            axios
+                .post("/withdraw", {
+                    id: user?.id,
+                })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
 
-      console.log(res);
-      const result = res.data;
-      setUser(result);
+            console.log("true");
+            return true;
+        }
+    };
 
-    }).catch((err) => {
-      console.log(err);
-    });
-  };
-
-  const withDraw = (e: MouseEvent) => {
-    e.preventDefault();
-
-    if(!window.confirm('一度実行するとこの操作は取り消せません。本当に退会しますか?')){
-
-      console.log('false');
-      return false;
-    } else {
-      
-      axios.post('/withdraw', {
-        id: user?.id
-      }).then((res) => {
-        console.log(res);
-      }).catch((err) => {
-        console.log(err);
-      });
-
-      console.log('true');
-      return true;
-    }
-  }
-
-  useEffect(() => {
-    getUser();
-
-  },[]);
+    useEffect(() => {
+        getUser();
+    }, []);
 
     return (
         <SMyPage className="p-mypage">
@@ -61,7 +64,10 @@ export const Mypage: VFC = memo(() => {
             <SMyPageContainer className="p-mypage__container">
                 <SMypageAuthor className="p-mypage__author">
                     <SMypageAvatar className="p-mypage__avatar">
-                        <img src={`/storage/img/user/original/${user?.pic}`} alt={user?.name} />
+                        <img
+                            src={`/storage/img/user/original/${user?.pic}`}
+                            alt={user?.name}
+                        />
                     </SMypageAvatar>
                     <SMypageUserName className="p-mypage__username">
                         {user?.name}
@@ -98,9 +104,13 @@ export const Mypage: VFC = memo(() => {
                         </SMypagePassEdit>
                     </SMypageItem>
                     <SMypageItem className="p-mypage__item">
-                        <SMypageWithDraw as="button" onClick={withDraw}>退会する</SMypageWithDraw>
+                        <SMypageWithDraw as="button" onClick={withDraw}>
+                            退会する
+                        </SMypageWithDraw>
                     </SMypageItem>
                 </SMypageList>
+
+                <RegistList />
             </SMyPageContainer>
         </SMyPage>
     );

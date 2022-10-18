@@ -14,7 +14,9 @@ use App\Http\Controllers\Role\Items\Detail\ShowDetailParentItemController;
 use App\Http\Controllers\Role\Items\Edit\EditItemController;
 use App\Http\Controllers\Role\Items\Edit\UpdateItemController;
 use App\Http\Controllers\Role\Items\Index\GetItemsController;
+use App\Http\Controllers\Role\Mypage\DeleteItemController;
 use App\Http\Controllers\Role\Mypage\DeleteUserController;
+use App\Http\Controllers\Role\Mypage\GetRegistItemController;
 use App\Http\Controllers\Role\UpdatePasswordController;
 use App\Http\Controllers\Role\UpdateProfileController;
 
@@ -57,6 +59,9 @@ Route::post('/mypage/update-password', [
     UpdatePasswordController::class, '__invoke'
 ]);    
 
+// 自分が登録したMyMove一覧を取得
+Route::get('/mypage/regists', [GetRegistItemController::class, '__invoke']);
+
 // --------------------------------------
 // 退会
 // --------------------------------------
@@ -92,6 +97,8 @@ Route::get('/items/{id}/edit', [EditItemController::class, '__invoke']);
 // MyMoveを更新
 Route::post('/items/{id}', [UpdateItemController::class, '__invoke']);
 
+// MyMoveを削除
+Route::post('/items/{id}/delete', [DeleteItemController::class, '__invoke']);
 
 // ==============================================
 // ログイン済み・未ログイン共通で閲覧可能

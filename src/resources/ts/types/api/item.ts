@@ -23,10 +23,10 @@ export type Item = {
 export type ParentItem = {
     id: number;
     name: string;
-    detail: string;
+    detail?: string;
     pic: string;
-    user_id: number;
-    category_id: number;
+    user_id?: number;
+    category_id?: number;
     cleartime: string;
     created_at: string;
 };
@@ -34,7 +34,7 @@ export type ParentItem = {
 export type ChildItem = {
     id: number;
     name: string;
-    detail: string;
+    detail?: string;
     parent_item_id: number;
     cleartime?: string;
     deleted_at?: null;
@@ -75,3 +75,22 @@ export type Favorite = {
     user_id: string;
     parent_item_id: string;
 }
+
+export type Paginate = {
+    current_page: number;
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: {
+        active: boolean;
+        labe: string;
+        url: null | string;
+    }[];
+    next_page_url: string;
+    path: string;
+    per_page: null | number;
+    prev_page_url: null | number;
+    to: number;
+    total: number;
+};
