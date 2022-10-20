@@ -75,9 +75,12 @@ export type Clear = {
 
 export type Favorite = {
     id: number;
-    user_id: string;
-    parent_item_id: string;
-}
+    user_id: number;
+    parent_item_id: number;
+    deleted_at: null | string;
+    created_at: string;
+    updated_at: string;
+};
 
 export type Paginate = {
     current_page: number;

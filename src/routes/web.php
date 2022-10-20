@@ -17,6 +17,7 @@ use App\Http\Controllers\Role\Items\Index\GetItemsController;
 use App\Http\Controllers\Role\Mypage\DeleteItemController;
 use App\Http\Controllers\Role\Mypage\DeleteUserController;
 use App\Http\Controllers\Role\Mypage\GetChallengeItemController;
+use App\Http\Controllers\Role\Mypage\GetFavoriteItemController;
 use App\Http\Controllers\Role\Mypage\GetRegistItemController;
 use App\Http\Controllers\Role\UpdatePasswordController;
 use App\Http\Controllers\Role\UpdateProfileController;
@@ -65,6 +66,9 @@ Route::get('/mypage/regists', [GetRegistItemController::class, '__invoke']);
 
 // 自分がチャレンジしているMyMove一覧を取得
 Route::get('/mypage/challenges', [GetChallengeItemController::class, '__invoke']);
+
+// 自分がお気に入りのMyMove一覧を取得
+Route::get('/mypage/favorites', [GetFavoriteItemController::class, '__invoke']);
 
 // --------------------------------------
 // 退会
