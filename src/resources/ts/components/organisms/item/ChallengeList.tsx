@@ -1,13 +1,10 @@
 import React, { memo, useEffect, useState, VFC } from "react";
-import styled from "styled-components";
 import axios from "../../../libs/axios";
-import { breakPoint } from "../../../theme/setting/breakPoint";
-import { colors } from "../../../theme/setting/colors";
-import { fonts } from "../../../theme/setting/fonts";
-import { space } from "../../../theme/setting/space";
 import {
     Category,
+    Challenges,
     ChildItem,
+    Clear,
     Paginate,
     ParentItem,
     User,
@@ -17,21 +14,26 @@ import { Empty } from "../../molecules/mypage/Empty";
 import { Index } from "../mypage/Index";
 import { Pagination } from "./Pagination";
 import { Body } from "./panel/Body";
+import { ChallengePanel } from "./panel/ChallengePanel";
 import { PanelMaster } from "./panel/PanelMaster";
-import { RegistPanel } from "./panel/RegistPanel";
+
+type IChildItem = ChildItem & {
+    clears: Clear[];
+};
 
 type IParentItem = ParentItem & {
     category: Category;
-    child_items: ChildItem[];
+    child_items: IChildItem[];
     user: Omit<User, "profile">;
+    challenges: Challenges[];
 };
 
-type RegistItem = Paginate & {
+type ChallengeItem = Paginate & {
     data: IParentItem[];
 };
 
-export const RegistList: VFC = memo(() => {
-    const [RegistItems, setRegistItems] = useState<RegistItem>({
+export const ChallengeList: VFC = memo(() => {
+    const [challengeItems, setChallengeItems] = useState<ChallengeItem>({
         current_page: 1,
         data: [
             {
@@ -39,12 +41,38 @@ export const RegistList: VFC = memo(() => {
                     id: 0,
                     name: "",
                 },
+                challenges: [
+                    {
+                        id: 0,
+                        parent_item_id: 0,
+                        user_id: 0,
+                        updated_at: "",
+                        deleted_at: "",
+                        created_at: "",
+                    },
+                ],
                 category_id: 0,
                 child_items: [
                     {
                         id: 0,
                         name: "",
+                        detail: "",
+                        cleartime: "",
                         parent_item_id: 0,
+                        deleted_at: "",
+                        created_at: "",
+                        updated_at: "",
+                        clears: [
+                            {
+                                id: 0,
+                                user_id: 0,
+                                parent_item_id: 0,
+                                child_item_id: 0,
+                                deleted_at: "",
+                                created_at: "",
+                                updated_at: "",
+                            },
+                        ],
                     },
                 ],
                 cleartime: "",
@@ -79,70 +107,46 @@ export const RegistList: VFC = memo(() => {
         total: 0,
     });
 
-    const getRegistItems = (page: number = 1) => {
+    // チャレンジ中のMyMoveを取得
+    const getChallengeItems = (page: number = 1) => {
         axios
-            .get("/mypage/regists", {
+            .get("/mypage/challenges", {
                 params: {
                     page: page,
                 },
             })
             .then((res) => {
-                console.log(res);
+                console.log("ChallengeList_UseEffect", res);
 
-                setRegistItems(res.data);
+                setChallengeItems(res.data);
             })
             .catch((err) => {
                 console.log(err);
             });
     };
 
-    // 削除ボタンをクリックした時に警告文を表示
-    const deleteItem = (id: number) => {
-        console.log(id);
-
-        if (
-            !window.confirm(
-                "一度実行するとこの操作は取り消せません。本当に削除しますか?"
-            )
-        ) {
-            console.log("いいえ");
-            return false;
-        } else {
-            console.log("はい");
-
-            axios
-                .post(`/items/${id}/delete`)
-                .then((res) => {
-                    console.log(res);
-                    getRegistItems();
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-            return true;
-        }
-    };
-
     const movePage = (page: number) => {
-        getRegistItems(page);
+        getChallengeItems(page);
     };
 
     useEffect(() => {
-        getRegistItems();
+        getChallengeItems();
     }, []);
+
     return (
         <Index>
-            <MypageTitle>登録したMyMove</MypageTitle>
+            <MypageTitle>チャレンジ中のMyMove</MypageTitle>
 
-            {RegistItems?.data.length === 0 || RegistItems?.data[0].id === 0 ? (
+            {challengeItems?.data.length === 0 ||
+            challengeItems?.data[0].id === 0 ? (
                 <Empty>
-                    <p>登録したMyMoveはまだありません。</p>
+                    <p>チャレンジ中のMyMoveはまだありません。</p>
                 </Empty>
             ) : (
                 <PanelMaster>
                     <Body>
-                        {RegistItems?.data.map((el, i) => (
-                            <RegistPanel
+                        {challengeItems?.data.map((el, i) => (
+                            <ChallengePanel
                                 key={el.id}
                                 itemId={el.id}
                                 itemLength={el.child_items.length}
@@ -153,16 +157,16 @@ export const RegistList: VFC = memo(() => {
                                 userName={el.user.name}
                                 itemDate={el.created_at}
                                 itemClearTime={el.cleartime}
-                                deleteItem={deleteItem}
+                                childItems={el.child_items}
                             />
                         ))}
                     </Body>
 
                     <Pagination
-                        prev_page_url={RegistItems.prev_page_url}
-                        next_page_url={RegistItems.next_page_url}
-                        current_page={RegistItems.current_page}
-                        last_page={RegistItems.last_page}
+                        prev_page_url={challengeItems?.prev_page_url}
+                        next_page_url={challengeItems?.next_page_url}
+                        current_page={challengeItems?.current_page}
+                        last_page={challengeItems?.last_page}
                         movePage={movePage}
                     />
                 </PanelMaster>

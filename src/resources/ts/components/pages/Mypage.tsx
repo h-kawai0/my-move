@@ -8,6 +8,7 @@ import { colors } from "../../theme/setting/colors";
 import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
 import { User } from "../../types/api/user";
+import { ChallengeList } from "../organisms/item/ChallengeList";
 import { RegistList } from "../organisms/item/RegistList";
 
 export const Mypage: VFC = memo(() => {
@@ -111,6 +112,8 @@ export const Mypage: VFC = memo(() => {
                 </SMypageList>
 
                 <RegistList />
+
+                <ChallengeList />
             </SMyPageContainer>
         </SMyPage>
     );

@@ -43,5 +43,4 @@ const SPanelContainer = styled(Link)`
     ${breakPoint.md`
         width: calc(50% - ${space.xl});
     `}
-    width: calc(50% - ${space.xl});
 `;
