@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\GetUserController;
+// use App\Http\Controllers\Auth\GetUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Role\Items\Create\CreateItemController;
@@ -43,7 +43,7 @@ Route::post('/password/email', ForgotPasswordController::class);
 
 Route::post('/password/reset', ResetPasswordController::class);
 
-Route::get('/user/get', [GetUserController::class, '__invoke']);
+// Route::get('/user/get', [GetUserController::class, '__invoke']);
 
 // =================================================
 // ログイン中のみ閲覧可能

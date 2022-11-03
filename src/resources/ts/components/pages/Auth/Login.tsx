@@ -2,6 +2,9 @@ import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
 import styled from "styled-components";
 import { useAuth } from "../../../context/AuthContext";
 import axios from "../../../libs/axios";
+
+import { useLogin } from "../../../queries/AuthQuery";
+
 import { Alert } from "../../atoms/inputForm/Alert";
 import { Button } from "../../atoms/inputForm/Button";
 import { Input } from "../../atoms/inputForm/Input";
@@ -13,7 +16,6 @@ import { UserComponent } from "../../molecules/inputForm/UserComponent";
 import { Form } from "../../organisms/inputForm/Form";
 
 export const Login: VFC = memo(() => {
-
     const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -29,6 +31,8 @@ export const Login: VFC = memo(() => {
     const [isChecked, setIsChecked] = useState(false);
 
     const auth = useAuth();
+
+    const login = useLogin();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -67,8 +71,6 @@ export const Login: VFC = memo(() => {
                         setFormData(newFormData);
                         console.log("Login Error", err.response.data.errors);
                         setIsLoading(false);
-
-
                     } else {
                         console.log("Login Error", err.response);
                         setIsLoading(false);
@@ -77,8 +79,20 @@ export const Login: VFC = memo(() => {
         });
     };
 
+    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault();
+        const {email, password} = formData;
+
+        await axios.get("/sanctum/csrf-cookie").then(() => {
+
+            login.mutate({ email, password });
+        })
+
+    };
+
     return (
-        <Form onSubmit={(e) => loginSubmit(e)}>
+        <Form onSubmit={handleLogin}>
             <Title>ログイン</Title>
 
             <UserComponent>
@@ -124,7 +138,9 @@ export const Login: VFC = memo(() => {
             </Label>
 
             <ContainerLink>
-                <LinkButton path="/forgot-password">パスワードを忘れたかたはこちら</LinkButton>
+                <LinkButton path="/forgot-password">
+                    パスワードを忘れたかたはこちら
+                </LinkButton>
                 <LinkButton path="/register">
                     初めてのかた&#40;新規会員登録&#41;はこちら
                 </LinkButton>

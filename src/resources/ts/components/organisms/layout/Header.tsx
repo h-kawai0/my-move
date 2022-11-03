@@ -1,6 +1,16 @@
-import React, { memo, VFC } from "react";
-import { Link, useHistory } from "react-router-dom";
-import styled from "styled-components";
+import React, { memo, useEffect, useState, VFC } from "react";
+import {
+    Link,
+    Redirect,
+    Route,
+    RouteProps,
+    useHistory,
+} from "react-router-dom";
+import styled, { css } from "styled-components";
+
+import { useLogOut, useUser } from "../../../queries/AuthQuery";
+
+import { useAuth as sUseAuth } from "../../../hooks/AuthContext";
 
 import { useAuth } from "../../../context/AuthContext";
 import axios from "../../../libs/axios";
@@ -9,59 +19,97 @@ import { breakPoint } from "../../../theme/setting/breakPoint";
 import { colors } from "../../../theme/setting/colors";
 import { fonts } from "../../../theme/setting/fonts";
 import { space } from "../../../theme/setting/space";
+import { Spinner } from "../../atoms/spinner/Spinner";
+import { Oval } from "react-loader-spinner";
 
 export const Header: VFC = memo(() => {
     const history = useHistory();
     const auth = useAuth();
 
-    const logout = () => {
-        axios.get("/sanctum/csrf-cookie").then(() => {
-            auth?.signout().then(() => {
-                history.push("/login");
-            });
-        });
+    const logOut = useLogOut();
+    const { isAuth, setIsAuth, isLoading } = sUseAuth();
+
+    const [isActive, setIsActive] = useState(false);
+
+    // const logout = () => {
+    //     axios.get("/sanctum/csrf-cookie").then(() => {
+    //         auth?.signout().then(() => {
+    //             history.push("/login");
+    //         });
+    //     });
+    // };
+
+    const naviOpen = () => {
+        setIsActive((prevState) => !prevState);
     };
+
+    const loggedIn = (
+        <>
+            <SItem>
+                <SLink to="/index">MyMove一覧</SLink>
+            </SItem>
+
+            <SItem>
+                <SLink to="/items/new">MyMove投稿</SLink>
+            </SItem>
+            <SItem>
+                <SLink to="/mypage">マイページ</SLink>
+            </SItem>
+            <SItem>
+                <SLink as="span" onClick={() => logOut.mutate()}>
+                    ログアウト
+                </SLink>
+            </SItem>
+        </>
+    );
+
+    const notLoggedIn = (
+        <>
+            <SItem>
+                <SLink to="/index">MyMove一覧</SLink>
+            </SItem>
+            <SItem>
+                <SLink to="/login">ログイン</SLink>
+            </SItem>
+            <SItem>
+                <SLink to="/register">無料会員登録</SLink>
+            </SItem>
+        </>
+    );
+
     return (
         <SHeader>
             <Link to="/">
                 <STitle>MyMove</STitle>
             </Link>
 
-            <SHamburger>
+            <SHamburger onClick={naviOpen}>
                 <SHamburgerLine></SHamburgerLine>
                 <SHamburgerLine></SHamburgerLine>
                 <SHamburgerLine></SHamburgerLine>
             </SHamburger>
 
-            <SNav>
+            <SNav $isActive={isActive}>
                 <SList>
-                    <SItem>
-                        <SLink to="/index">MyMove一覧</SLink>
-                    </SItem>
-
-                    {!auth?.user ? (
-                        <>
-                            <SItem>
-                                <SLink to="/login">ログイン</SLink>
-                            </SItem>
-                            <SItem>
-                                <SLink to="/register">無料会員登録</SLink>
-                            </SItem>
-                        </>
+                    {isLoading ? (
+                        <Spinner>
+                            <Oval
+                                height={50}
+                                width={50}
+                                color="#555"
+                                visible={true}
+                                ariaLabel="oval-loading"
+                                secondaryColor="#555"
+                                strokeWidth={2}
+                                strokeWidthSecondary={2}
+                            />
+                        </Spinner>
+                    ) : 
+                    
+                    isAuth ? (
+                        loggedIn
                     ) : (
-                        <>
-                            <SItem>
-                                <SLink to="/items/new">MyMove投稿</SLink>
-                            </SItem>
-                            <SItem>
-                                <SLink to="/mypage">マイページ</SLink>
-                            </SItem>
-                            <SItem>
-                                <SLink to="" onClick={logout}>
-                                    ログアウト
-                                </SLink>
-                            </SItem>
-                        </>
+                        notLoggedIn
                     )}
                 </SList>
             </SNav>
@@ -141,7 +189,7 @@ const SHamburgerLine = styled.span`
     }
 `;
 
-const SNav = styled.nav`
+const SNav = styled.nav<{ $isActive: boolean }>`
     ${breakPoint.sm`
     display: flex;
     justify-content: center;
@@ -155,7 +203,14 @@ const SNav = styled.nav`
     box-sizing: border-box;
     background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
     transition: 0.5s;
-    z-index:3
+    z-index:3;
+
+    ${({ $isActive }: { $isActive: boolean }) =>
+        $isActive &&
+        css`
+            transform: translateX(-100%);
+            z-index: 2;
+        `};
     `}
 `;
 

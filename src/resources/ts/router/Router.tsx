@@ -1,11 +1,10 @@
-import React, { memo, VFC } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { memo, useEffect, VFC } from "react";
+import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 
 import { Items } from "../components/pages/Items";
 import { Top } from "../components/pages/Top";
 import { Login } from "../components/pages/Auth/Login";
 import { Register } from "../components/pages/Auth/Register";
-import { PrivateRoute, PublicRoute } from "../context/AuthContext";
 import { Forgot } from "../components/pages/Auth/Forgot";
 import { ResetPassword } from "../components/pages/Auth/ResetPassword";
 import { Mypage } from "../components/pages/Mypage";
@@ -15,54 +14,103 @@ import { EditItem } from "../components/pages/EditItem";
 import { NewItem } from "../components/pages/NewItem";
 import { DetailParentItem } from "../components/pages/DetailParentItem";
 import { DetailChildItem } from "../components/pages/DetailChildItem";
+import { useUser } from "../queries/AuthQuery";
+import { useAuth } from "../hooks/AuthContext";
+import axios from "../libs/axios";
 
 export const Router: VFC = memo(() => {
+    const { isAuth, setIsAuth, isLoading, setIsLoading } = useAuth();
+
+    // const getUser = async () => {
+
+    //     setIsLoading(true);
+    //     await axios
+    //         .get("/api/user")
+    //         .then((res) => {
+    //             console.log(res);
+    //             setIsLoading(false);
+    //             setIsAuth(true);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             setIsLoading(false);
+    //             setIsAuth(false);
+    //         });
+    // };
+
+    // useEffect(() => {
+
+    //     console.log("ログイン確認中");
+
+    //     getUser();
+
+    //     // axios.get('/api/user').then((res) => {
+    //     //     setIsLoading(false);
+    //     //     setIsAuth(true);
+    //     // }).catch((err) => {
+    //     //     setIsLoading(false);
+    //     //     setIsAuth(false);
+    //     // });
+    // }, []);
+
+    const GuardRoute = (props: RouteProps) => {
+        if (!isAuth) return <Redirect to="/login" />;
+        return <Route {...props} />;
+    };
+
+    const LoginRoute = (props: RouteProps) => {
+        if (isAuth) return <Redirect to="/index" />;
+        return <Route {...props} />;
+    };
+
     return (
+        
         <Switch>
-            <Route exact path="/">
+            <LoginRoute exact path="/">
                 <Top />
-            </Route>
+            </LoginRoute>
 
             <Route exact path="/index">
                 <Items />
             </Route>
 
             {/* プライベートルート */}
+            
 
-            <Route exact path="/mypage">
+            <GuardRoute exact path="/mypage">
                 <Mypage />
-            </Route>
+            </GuardRoute>
 
-            <PrivateRoute exact path="/mypage/edit-profile">
+            <GuardRoute exact path="/mypage/edit-profile">
                 <EdifProfile />
-            </PrivateRoute>
+            </GuardRoute>
 
-            <PrivateRoute exact path="/mypage/edit-password">
+            <GuardRoute exact path="/mypage/edit-password">
                 <EditPassword />
-            </PrivateRoute>
+            </GuardRoute>
 
-            <PrivateRoute exact path="/items/new">
+            <GuardRoute exact path="/items/new">
                 <NewItem />
-            </PrivateRoute>
+            </GuardRoute>
 
-            <PrivateRoute exact path="/items/:id/editing">
+            <GuardRoute exact path="/items/:id/editing">
                 <EditItem />
-            </PrivateRoute>
+            </GuardRoute>
 
             {/* パブリックルート */}
-            <PublicRoute exact path="/login">
+            <LoginRoute exact path="/login">
                 <Login />
-            </PublicRoute>
-            <PublicRoute exact path="/register">
+            </LoginRoute>
+            <LoginRoute exact path="/register">
                 <Register />
-            </PublicRoute>
-            <PublicRoute exact path="/forgot-password">
+            </LoginRoute>
+            <LoginRoute exact path="/forgot-password">
                 <Forgot />
-            </PublicRoute>
+            </LoginRoute>
 
-            <PublicRoute exact path="/reset-password/:code">
+            <LoginRoute exact path="/reset-password/:code">
                 <ResetPassword />
-            </PublicRoute>
+            </LoginRoute>
 
             <Route exact path="/items/:id">
                 <DetailParentItem />
@@ -71,7 +119,6 @@ export const Router: VFC = memo(() => {
             <Route exact path="/items/:id/:pass">
                 <DetailChildItem />
             </Route>
-
         </Switch>
     );
 });

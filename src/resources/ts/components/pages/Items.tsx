@@ -12,6 +12,7 @@ import React, {
 import axios from "axios";
 import styled from "styled-components";
 import _ from "lodash";
+import { Oval } from "react-loader-spinner";
 
 import { breakPoint } from "../../theme/setting/breakPoint";
 import { colors } from "../../theme/setting/colors";
@@ -19,6 +20,7 @@ import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
 import { Panel } from "../organisms/item/Panel";
 import { Link } from "react-router-dom";
+import { Spinner } from "../atoms/spinner/Spinner";
 
 type Item = {
     category: {
@@ -63,7 +65,6 @@ type Data = {
     to: number;
     total: number;
 };
-
 
 export const Items: VFC = memo(() => {
     const [items, setItems] = useState<Data>({
@@ -119,142 +120,157 @@ export const Items: VFC = memo(() => {
             id: 0,
             name: "",
             created_at: "",
-            updated_at: ""
-        }
+            updated_at: "",
+        },
     ]);
 
     const [pages, setPages] = useState<number | number[]>([]);
 
-    const[ formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
         sort: 0,
-        category: 0
+        category: 0,
     });
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const hasPrev = items.prev_page_url !== null;
 
     const hasNext = items.next_page_url !== null;
 
     const hasPages = useMemo(() => {
+        let start = _.max([items.current_page - 2, 1]);
 
-    let start =  _.max([items.current_page - 2, 1]);
+        let end = start ? _.min([start + 5, items.last_page + 1]) : 0;
 
-    let end = start ? _.min([start + 5, items.last_page + 1 ]) : 0;
+        start = end ? _.max([end - 5, 1]) : 0;
 
-    start = end ?  _.max([end - 5 , 1]) : 0;
+        let page = start && end ? _.range(start, end) : 0;
 
-    let page = start && end ? _.range(start, end) : 0;
-
-    
-    setPages(page);
-    
+        setPages(page);
     }, [items.current_page, items.last_page]);
 
-    const getItems = useCallback((page:number = 1) => {
+    const getItems = useCallback(
+        (page: number = 1) => {
+            console.log(formData);
 
-        console.log(formData);
+            setIsLoading(true);
 
-        axios
-            .get<Data>("/items/get", {
-                params: {
-                    page: page,
-                    sort: formData.sort,
-                    category: formData.category
-                }
-            })
-            .then((res) => {
-                console.log(res.data);
+            axios
+                .get<Data>("/items/get", {
+                    params: {
+                        page: page,
+                        sort: formData.sort,
+                        category: formData.category,
+                    },
+                })
+                .then((res) => {
+                    console.log(res.data);
 
-                let result = res.data;
+                    let result = res.data;
 
-                setItems(result);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+                    setItems(result);
+                    setIsLoading(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setIsLoading(false);
+                });
+        },
+        [formData.category, formData.sort]
+    );
 
-    },[formData.category, formData.sort]);
+    const move = useCallback(
+        (e: number) => {
+            console.log(items.current_page, e);
+            if (!isCurrentPage(e)) {
+                getItems(e);
+            }
+        },
+        [items.current_page]
+    );
 
-    const move = useCallback((e: number) => {
+    const isCurrentPage = useCallback(
+        (page: number) => items.current_page === page,
+        [items.current_page]
+    );
 
-        console.log(items.current_page, e);
-        if(!isCurrentPage(e)){
-            getItems(e);
-            
-        }
-
-
-    },[items.current_page]);
-
-    const isCurrentPage = useCallback((page:number) => items.current_page === page, [items.current_page]);
-
-    const handleChange = (e:ChangeEvent<HTMLSelectElement>) => {
-
-        const { name, value} = e.target;
+    const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
 
         setFormData((prevState) => ({
-            ...prevState, [name]: value
+            ...prevState,
+            [name]: value,
         }));
-    }
+    };
 
     const searchItem = (e: MouseEvent<HTMLElement>) => {
         e.preventDefault();
-        console.log('search');
+        console.log("search");
         getItems();
-    }
-
+    };
 
     useEffect(() => {
+        axios
+            .get("/items/categories")
+            .then((res) => {
+                setCategoryList(res.data.categories);
+            })
+            .catch((err) => {
+                console.log(err.response.data.errors);
+            });
 
-        axios.get('/items/categories')
-        .then((res) => {
-            setCategoryList(res.data.categories);
-        }).catch((err) => {
-            console.log(err.response.data.errors);
-        });
-
-            getItems();
+        getItems();
     }, []);
-
 
     return (
         <SIndex className="p-index">
             <SContainer className="p-index__container">
                 <SSearch className="c-search p-index__search">
                     <form>
-
-                    <STitle className="c-search__title">表示順</STitle>
-
-                    <SSelectBox className="c-search__selectBox c-search__sl">
-                        <SSelect name="sort" className="c-search__select" value={formData.sort} onChange={handleChange}>
-                            <option selected value={0}>
-                                選択してください
-                            </option>
-                            <option value={1}>投稿日が新しい順</option>
-                            <option value={2}>投稿日が古い順</option>
-                        </SSelect>
-                    </SSelectBox>
-
-                    <>
-                        <STitle className="c-search__title">カテゴリー</STitle>
+                        <STitle className="c-search__title">表示順</STitle>
 
                         <SSelectBox className="c-search__selectBox c-search__sl">
-                            <SSelect name="category" className="c-search__select" value={formData.category} onChange={handleChange}>
-                                <option selected value={0}>
-                                    選択してください
-                                </option>
-                                {categoryList.map((val) => (
-                                    <option key={val.id} value={val.id}>{val.name}</option>
-                                ))}
+                            <SSelect
+                                name="sort"
+                                className="c-search__select"
+                                value={formData.sort}
+                                onChange={handleChange}
+                            >
+                                <option value={0}>選択してください</option>
+                                <option value={1}>投稿日が新しい順</option>
+                                <option value={2}>投稿日が古い順</option>
                             </SSelect>
                         </SSelectBox>
 
-                        <SSearchBtn className="c-search__btn p-index__btn" onClick={searchItem}>
-                            検索
-                        </SSearchBtn>
-                    </>
+                        <>
+                            <STitle className="c-search__title">
+                                カテゴリー
+                            </STitle>
 
+                            <SSelectBox className="c-search__selectBox c-search__sl">
+                                <SSelect
+                                    name="category"
+                                    className="c-search__select"
+                                    value={formData.category}
+                                    onChange={handleChange}
+                                >
+                                    <option value={0}>選択してください</option>
+                                    {categoryList.map((val) => (
+                                        <option key={val.id} value={val.id}>
+                                            {val.name}
+                                        </option>
+                                    ))}
+                                </SSelect>
+                            </SSelectBox>
+
+                            <SSearchBtn
+                                className="c-search__btn p-index__btn"
+                                onClick={searchItem}
+                            >
+                                検索
+                            </SSearchBtn>
+                        </>
                     </form>
-
                 </SSearch>
 
                 <SIndexList className="p-index__list">
@@ -262,7 +278,20 @@ export const Items: VFC = memo(() => {
                         MyMove一覧
                     </SIndexTitle>
 
-                    {( items.data.length === 0 || items.data[0].id === 0) ? (
+                    {isLoading ? (
+                        <Spinner>
+                            <Oval
+                                height={80}
+                                width={80}
+                                color="#555"
+                                visible={true}
+                                ariaLabel="oval-loading"
+                                secondaryColor="#555"
+                                strokeWidth={2}
+                                strokeWidthSecondary={2}
+                            />
+                        </Spinner>
+                    ) : items.data.length === 0 || items.data[0].id === 0 ? (
                         <SIndexEmpty className="p-index__empty">
                             <p>MyMoveはまだありません。</p>
                         </SIndexEmpty>
@@ -295,47 +324,47 @@ export const Items: VFC = memo(() => {
                                             <SPaginationLink
                                                 to="#"
                                                 className="c-pagination__link"
-                                                onClick={() => move(items.current_page - 1)}
+                                                onClick={() =>
+                                                    move(items.current_page - 1)
+                                                }
                                             >
                                                 &lt;
                                             </SPaginationLink>
                                         </SPaginationItem>
                                     )}
 
-                                        {(pages instanceof Array) &&
-
-                                        pages.map((el,) => (
-
-                                            <SPaginationItem className="c-pagination__item" key={el}
-                                            page={el}
-                                            currentPage={items.current_page}
-                                            isActive={true}
+                                    {pages instanceof Array &&
+                                        pages.map((el) => (
+                                            <SPaginationItem
+                                                className="c-pagination__item"
+                                                key={el}
+                                                page={el}
+                                                currentPage={items.current_page}
+                                                isActive={true}
                                             >
-                                        <SPaginationLink
-                                            to="#"
-                                            className="c-pagination__link"
-                                            onClick={() => move(el)}
+                                                <SPaginationLink
+                                                    to="#"
+                                                    className="c-pagination__link"
+                                                    onClick={() => move(el)}
+                                                >
+                                                    {el}
+                                                </SPaginationLink>
+                                            </SPaginationItem>
+                                        ))}
+
+                                    {hasNext && (
+                                        <SPaginationItem className="c-pagination__item">
+                                            <SPaginationLink
+                                                to="#"
+                                                className="c-pagination__link"
+                                                onClick={() =>
+                                                    move(items.current_page + 1)
+                                                }
                                             >
-                                            {el}
-                                        </SPaginationLink>
-                                    </SPaginationItem>
-                                        ))
-                                        }
-
-                                        {hasNext && (
-
-                                    <SPaginationItem className="c-pagination__item">
-                                        <SPaginationLink
-                                            to="#"
-                                            className="c-pagination__link"
-                                            onClick={() => move(items.current_page + 1)}
-                                        >
-                                            &gt;
-                                        </SPaginationLink>
-                                    </SPaginationItem>
-                                        )}
-
-
+                                                &gt;
+                                            </SPaginationLink>
+                                        </SPaginationItem>
+                                    )}
                                 </SPaginationWrap>
                             </SPagination>
                         </SPanel>
@@ -376,7 +405,7 @@ const SSearch = styled.div`
         width: 100%;
     `}
     ${breakPoint.md`
-    margin-bottom: ${space.l}
+    margin-bottom: ${space.l};
     width: 100%;
     `};
 `;
@@ -514,11 +543,18 @@ const SPaginationWrap = styled.ul`
     list-style: none;
 `;
 
-const SPaginationItem = styled.li<{page?: number, currentPage?: number, isActive?: boolean}>`
+const SPaginationItem = styled.li<{
+    page?: number;
+    currentPage?: number;
+    isActive?: boolean;
+}>`
     margin-right: ${space.s};
     padding: ${space.m};
     font-size: ${fonts.size.m};
-    background: ${(props) => props.isActive === true && props.page === props.currentPage ? colors.base.paletteVeryDarkBlack : colors.base.paletteDarkBlue  };
+    background: ${(props) =>
+        props.isActive === true && props.page === props.currentPage
+            ? colors.base.paletteVeryDarkBlack
+            : colors.base.paletteDarkBlue};
     border-radius: 3px;
     transition: 1s;
     &:last-child {

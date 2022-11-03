@@ -16,7 +16,7 @@ export const breakPoint = {
         sm: CSSObject | TemplateStringsArray,
         ...interpolations: SimpleInterpolation[]
     ): FlattenSimpleInterpolation => css`
-        @media (max-width: 414px) {
+        @media (max-width: 560px) {
             ${css(sm, ...interpolations)}
         }
     `,
@@ -24,7 +24,7 @@ export const breakPoint = {
         md: CSSObject | TemplateStringsArray,
         ...interpolations: SimpleInterpolation[]
     ): FlattenSimpleInterpolation => css`
-        @media ((max-width: 823px) and (min-width: 415px) ) {
+        @media ((max-width: 1024px) and (min-width: 561px) ) {
             ${css(md, ...interpolations)}
         }
     `,
