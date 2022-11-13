@@ -164,11 +164,11 @@ export const Items: VFC = memo(() => {
                     },
                 })
                 .then((res) => {
-                    console.log(res.data);
+                    console.log(res);
 
                     let result = res.data;
 
-                    setItems(result);
+                    if (result) setItems(result);
                     setIsLoading(false);
                 })
                 .catch((err) => {

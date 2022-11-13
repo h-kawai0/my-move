@@ -15,7 +15,7 @@ export const Button: VFC<Props> = memo((props) => {
     return (
         <SButton
             type="submit"
-            value={value}
+            value={isLoading ? "処理中です..." : value}
             disabled={isLoading}
             $isLoading={isLoading}
         />
@@ -40,6 +40,16 @@ const SButton = styled.input<{ $isLoading: boolean }>`
             $isLoading &&
             css`
                 cursor: not-allowed;
+                opacity: 1;
+                background: ${colors.base.paletteDarkGray};
+                color: ${colors.font.fontColorDefault};
             `}
     }
+    ${({ $isLoading }) =>
+            $isLoading &&
+            css`
+                background: ${colors.base.paletteDarkGray};
+                color: ${colors.font.fontColorDefault};
+            `}
+
 `;

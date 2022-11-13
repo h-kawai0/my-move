@@ -30,5 +30,8 @@ class DeleteUserController extends Controller
         // 退会に成功したらメールを送信
         Mail::to($user)->send(new WithDrawMail($user));
 
+
+        return response(['message' => '退会しました!!またのご利用をお待ちしております。'], 200);
+
     }
 }

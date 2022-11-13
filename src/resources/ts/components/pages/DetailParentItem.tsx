@@ -14,6 +14,8 @@ import { TwitterShare } from "../molecules/twitter/TwitterShare";
 import { FavoriteItem } from "../molecules/item/FavoriteItem";
 import { Author } from "../organisms/item/Author";
 import { Category, Clear, ParentItem, User } from "../../types/api/item";
+import { Spinner } from "../atoms/spinner/Spinner";
+import { Oval } from "react-loader-spinner";
 
 type ItemData = {
     parentItem: ParentItem & {
@@ -37,6 +39,8 @@ export const DetailParentItem: VFC = memo(() => {
     const params: { id: string } = useParams();
 
     const { id } = params;
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [itemData, setItemData] = useState<ItemData>({
         parentItem: {
@@ -91,6 +95,7 @@ export const DetailParentItem: VFC = memo(() => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     const getItem = useCallback(() => {
+        setIsLoading(true);
         axios
             .get<ItemData>(`/items/${id}/get`)
             .then((res) => {
@@ -122,9 +127,12 @@ export const DetailParentItem: VFC = memo(() => {
                 sum.length === res.data.parentItem.child_items.length
                     ? setIsSuccess(true)
                     : setIsSuccess(false);
+
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setIsLoading(false);
             });
     }, [isSuccess]);
 
@@ -201,108 +209,134 @@ export const DetailParentItem: VFC = memo(() => {
     };
 
     return (
-        <SParentDetail className="p-parentDetail">
-            <SParentDetailContainer className="p-parentDetail__container">
-                <SParentDetailWrapper className="p-parentDetail__info--wrapper">
-                    <SParentDetailInfo className="p-parentDetail__info">
-                        <SParentDetailImg className="p-parentDetail__img">
-                            <img
-                                src={`/storage/img/items/original/${itemData.parentItem.pic}`}
-                                alt={itemData.parentItem.name}
-                            />
-                        </SParentDetailImg>
-
-                        <SParentDetailTitle className="p-parentDetail__title">
-                            {itemData.parentItem.name}
-                        </SParentDetailTitle>
-                        <SParentDetailMeta className="p-parentDetail__meta">
-                            <SParentDetailCategory className="p-parentDetail__category">
-                                {itemData.parentItem.category.name}
-                            </SParentDetailCategory>
-                            <TwitterShare
-                                name={`${itemData.parentItem.name}%7C${process.env.MIX_APP_ENV}`}
-                            />
-                        </SParentDetailMeta>
-
-                        <SParentDetailFooterContainer className="p-parentDetail__footerContainer">
-                            <SParentDetailAuthor className="p-parentDetail__author">
-                                <SParentDetailAvatar className="p-parentDetail__avatar">
-                                    <img
-                                        src={`/storage/img/user/original/${itemData.parentItem.user.pic}`}
-                                    />
-                                </SParentDetailAvatar>
-
-                                <div>
-                                    <SParentDetailUsername className="p-parentDetail__username">
-                                        {itemData.parentItem.user.name}
-                                    </SParentDetailUsername>
-                                    <SParentDetailDate className="p-parentDetail__date">
-                                        {dayjs(
-                                            itemData.parentItem.created_at
-                                        ).format("YYYY[年]M[月]D[日]")}
-                                    </SParentDetailDate>
-                                </div>
-                            </SParentDetailAuthor>
-
-                            <div>
-                                <SParentDetailCompTime className="p-parentDetail__compTime">
-                                    目安達成時間:{" "}
-                                    {itemData.parentItem.cleartime}時間
-                                </SParentDetailCompTime>
-                            </div>
-                        </SParentDetailFooterContainer>
-
-                        <FavoriteItem
-                            userId={itemData.user}
-                            postFavorite={postFavorite}
-                            isFavorite={isFavorite}
-                        />
-                    </SParentDetailInfo>
-                </SParentDetailWrapper>
-
-                <SParentDetailDetail className="p-parentDetail__detail">
-                    <SParentDetailComment className="p-parentDetail__comment">
-                        <p>{itemData.parentItem.detail}</p>
-                    </SParentDetailComment>
-                </SParentDetailDetail>
-
-                <SParentDetailMenu className="p-parentDetail__menu">
-                    <SParentDetailTitle className="p-parentDetail__title">
-                        このMyMoveのメニュー
-                    </SParentDetailTitle>
-
-                    <SParentDetailList className="p-parentDetail__list">
-                        {itemData.parentItem.child_items.map((item, index) => (
-                            <ChildItemList
-                                key={item.id}
-                                name={item.name}
-                                index={index}
-                                user={itemData.user}
-                                childId={item.id}
-                                childItems={itemData.parentItem.child_items}
-                                isChallenge={isChallenge}
-                                toggleClear={toggleClear}
-                                clearItem={item.clears}
-                                parentId={itemData.parentItem.id}
-                            />
-                        ))}
-                    </SParentDetailList>
-
-                    <ChallengeItem
-                        toggleChallenge={toggleChallenge}
-                        isChallenge={isChallenge}
-                        isSuccess={isSuccess}
-                        user={itemData.user}
+        <>
+            {isLoading ? (
+                <Spinner>
+                    <Oval
+                        height={80}
+                        width={80}
+                        color="#555"
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#555"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
                     />
-                </SParentDetailMenu>
-            </SParentDetailContainer>
+                </Spinner>
+            ) : (
+                <SParentDetail className="p-parentDetail">
+                    <SParentDetailContainer className="p-parentDetail__container">
+                        <SParentDetailWrapper className="p-parentDetail__info--wrapper">
+                            <SParentDetailInfo className="p-parentDetail__info">
+                                <SParentDetailImg className="p-parentDetail__img">
+                                    <img
+                                        src={
+                                            itemData.parentItem.pic
+                                                ? `/storage/img/items/original/${itemData.parentItem.pic}`
+                                                : `/images/item/item_no_image.png`
+                                        }
+                                        alt={itemData.parentItem.name}
+                                    />
+                                </SParentDetailImg>
 
-            <Author
-                pic={itemData.parentItem.user.pic}
-                name={itemData.parentItem.user.name}
-                profile={itemData.parentItem.user.profile}
-            />
-        </SParentDetail>
+                                <SParentDetailTitle className="p-parentDetail__title">
+                                    {itemData.parentItem.name}
+                                </SParentDetailTitle>
+                                <SParentDetailMeta className="p-parentDetail__meta">
+                                    <SParentDetailCategory className="p-parentDetail__category">
+                                        {itemData.parentItem.category.name}
+                                    </SParentDetailCategory>
+                                    <TwitterShare
+                                        name={`${itemData.parentItem.name}%7C${process.env.MIX_APP_ENV}`}
+                                    />
+                                </SParentDetailMeta>
+
+                                <SParentDetailFooterContainer className="p-parentDetail__footerContainer">
+                                    <SParentDetailAuthor className="p-parentDetail__author">
+                                        <SParentDetailAvatar className="p-parentDetail__avatar">
+                                            <img
+                                                src={`/storage/img/user/original/${itemData.parentItem.user.pic}`}
+                                            />
+                                        </SParentDetailAvatar>
+
+                                        <div>
+                                            <SParentDetailUsername className="p-parentDetail__username">
+                                                {itemData.parentItem.user.name}
+                                            </SParentDetailUsername>
+                                            <SParentDetailDate className="p-parentDetail__date">
+                                                {dayjs(
+                                                    itemData.parentItem
+                                                        .created_at
+                                                ).format("YYYY[年]M[月]D[日]")}
+                                            </SParentDetailDate>
+                                        </div>
+                                    </SParentDetailAuthor>
+
+                                    <div>
+                                        <SParentDetailCompTime className="p-parentDetail__compTime">
+                                            目安達成時間:{" "}
+                                            {itemData.parentItem.cleartime}時間
+                                        </SParentDetailCompTime>
+                                    </div>
+                                </SParentDetailFooterContainer>
+
+                                <FavoriteItem
+                                    userId={itemData.user}
+                                    postFavorite={postFavorite}
+                                    isFavorite={isFavorite}
+                                />
+                            </SParentDetailInfo>
+                        </SParentDetailWrapper>
+
+                        <SParentDetailDetail className="p-parentDetail__detail">
+                            <SParentDetailComment className="p-parentDetail__comment">
+                                <p>{itemData.parentItem.detail}</p>
+                            </SParentDetailComment>
+                        </SParentDetailDetail>
+
+                        <SParentDetailMenu className="p-parentDetail__menu">
+                            <SParentDetailTitle className="p-parentDetail__title">
+                                このMyMoveのメニュー
+                            </SParentDetailTitle>
+
+                            <SParentDetailList className="p-parentDetail__list">
+                                {itemData.parentItem.child_items.map(
+                                    (item, index) => (
+                                        <ChildItemList
+                                            key={item.id}
+                                            name={item.name}
+                                            index={index}
+                                            user={itemData.user}
+                                            childId={item.id}
+                                            childItems={
+                                                itemData.parentItem.child_items
+                                            }
+                                            isChallenge={isChallenge}
+                                            toggleClear={toggleClear}
+                                            clearItem={item.clears}
+                                            parentId={itemData.parentItem.id}
+                                        />
+                                    )
+                                )}
+                            </SParentDetailList>
+
+                            <ChallengeItem
+                                toggleChallenge={toggleChallenge}
+                                isChallenge={isChallenge}
+                                isSuccess={isSuccess}
+                                user={itemData.user}
+                            />
+                        </SParentDetailMenu>
+                    </SParentDetailContainer>
+
+                    <Author
+                        pic={itemData.parentItem.user.pic}
+                        name={itemData.parentItem.user.name}
+                        profile={itemData.parentItem.user.profile}
+                    />
+                </SParentDetail>
+            )}
+        </>
     );
 });
 

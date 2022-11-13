@@ -1,19 +1,13 @@
-import React, { memo, useEffect, useState, VFC } from "react";
+import React, { memo, useState, VFC } from "react";
 import {
     Link,
-    Redirect,
-    Route,
-    RouteProps,
     useHistory,
 } from "react-router-dom";
 import styled, { css } from "styled-components";
 
-import { useLogOut, useUser } from "../../../queries/AuthQuery";
+import { useLogOut } from "../../../queries/AuthQuery";
 
 import { useAuth as sUseAuth } from "../../../hooks/AuthContext";
-
-import { useAuth } from "../../../context/AuthContext";
-import axios from "../../../libs/axios";
 
 import { breakPoint } from "../../../theme/setting/breakPoint";
 import { colors } from "../../../theme/setting/colors";
@@ -24,7 +18,6 @@ import { Oval } from "react-loader-spinner";
 
 export const Header: VFC = memo(() => {
     const history = useHistory();
-    const auth = useAuth();
 
     const logOut = useLogOut();
     const { isAuth, setIsAuth, isLoading } = sUseAuth();
@@ -38,6 +31,10 @@ export const Header: VFC = memo(() => {
     //         });
     //     });
     // };
+
+    const handleLogOut = () => {
+        console.log(logOut.mutate());
+    }
 
     const naviOpen = () => {
         setIsActive((prevState) => !prevState);
@@ -56,7 +53,7 @@ export const Header: VFC = memo(() => {
                 <SLink to="/mypage">マイページ</SLink>
             </SItem>
             <SItem>
-                <SLink as="span" onClick={() => logOut.mutate()}>
+                <SLink as="span" onClick={handleLogOut}>
                     ログアウト
                 </SLink>
             </SItem>

@@ -6,10 +6,11 @@ import React, {
     useState,
     VFC,
 } from "react";
+import { Oval } from "react-loader-spinner";
 import { useHistory } from "react-router";
-import { useAuth } from "../../context/AuthContext";
-import { useFlash } from "../../hooks/useFlash";
+import { toast } from "react-toastify";
 import axios from "../../libs/axios";
+
 import { Alert } from "../atoms/inputForm/Alert";
 import { Button } from "../atoms/inputForm/Button";
 import { Input } from "../atoms/inputForm/Input";
@@ -18,6 +19,7 @@ import { InputTextArea } from "../atoms/inputForm/InputTextArea";
 import { Label } from "../atoms/inputForm/Label";
 import { Notes } from "../atoms/inputForm/Notes";
 import { Title } from "../atoms/inputForm/Title";
+import { Spinner } from "../atoms/spinner/Spinner";
 import { UserComponent } from "../molecules/inputForm/UserComponent";
 import { Form } from "../organisms/inputForm/Form";
 
@@ -35,11 +37,10 @@ type Form = {
 };
 
 export const EdifProfile: VFC = memo(() => {
-    const auth = useAuth();
-
     const history = useHistory();
 
-    const { handleFlashMessage } = useFlash();
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSending, setIsSending] = useState(false);
 
     const [formData, setFormData] = useState<Form>({
         name: "",
@@ -57,6 +58,7 @@ export const EdifProfile: VFC = memo(() => {
     const [dbPic, setDbPic] = useState("");
 
     useEffect(() => {
+        setIsLoading(true);
         axios
             .get("/api/user")
             .then((res) => {
@@ -70,11 +72,13 @@ export const EdifProfile: VFC = memo(() => {
                 });
 
                 setDbPic(res.data.pic ?? "");
+                setIsLoading(false);
             })
-            .catch((error) => {});
+            .catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+            });
     }, []);
-
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -104,7 +108,7 @@ export const EdifProfile: VFC = memo(() => {
     };
 
     const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setIsLoading(true);
+        setIsSending(true);
         e.preventDefault();
 
         const data = new FormData();
@@ -121,8 +125,11 @@ export const EdifProfile: VFC = memo(() => {
                 .post("/mypage/update-profile", data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push("/");
-                    handleFlashMessage(res.data.message);
+                    history.push("/mypage");
+                    toast.success("プロフィールを更新しました!", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    });
                 })
                 .catch((err) => {
                     console.log(err);
@@ -136,78 +143,104 @@ export const EdifProfile: VFC = memo(() => {
                         setFormData(newFormData);
 
                         console.log("Send Error", err.response.data.errors);
-                        setIsLoading(false);
+                        setIsSending(false);
                     } else {
                         console.log("Send Error", err.response.data.errors);
-                        setIsLoading(false);
+                        setIsSending(false);
+                        toast.error("プロフィールの更新に失敗しました。", {
+                            position: toast.POSITION.TOP_CENTER,
+                            autoClose: 3000,
+                        });
+    
                     }
                 });
         });
     };
 
     return (
-        <Form onSubmit={registerSubmit}>
-            <Title>プロフィール登録・編集</Title>
-
-            <UserComponent>
-                <Label>
-                    ユーザーネーム
-                    <Notes>&#8251;必須</Notes>
-                    <Input
-                        type="text"
-                        name="name"
-                        placeholder="ユーザーネーム"
-                        value={formData.name}
-                        onChange={handleChange}
-                        isValid={formData.error_list.name}
-                        autoFocus
-                        autoComplete="username"
+        <>
+            {isLoading ? (
+                <Spinner>
+                    <Oval
+                        height={80}
+                        width={80}
+                        color="#555"
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#555"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
                     />
-                </Label>
-                <Alert>{formData.error_list.name}</Alert>
-            </UserComponent>
+                </Spinner>
+            ) : (
+                <Form onSubmit={registerSubmit}>
+                    <Title>プロフィール登録・編集</Title>
 
-            <UserComponent>
-                <Label>
-                    メールアドレス
-                    <Notes>&#8251;必須</Notes>
-                    <Input
-                        type="text"
-                        name="email"
-                        placeholder="メールアドレス"
-                        value={formData.email}
-                        onChange={handleChange}
-                        isValid={formData.error_list.email}
-                        autoComplete="email"
-                    />
-                </Label>
-                <Alert>{formData.error_list.email}</Alert>
-            </UserComponent>
+                    <UserComponent>
+                        <Label>
+                            ユーザーネーム
+                            <Notes>&#8251;必須</Notes>
+                            <Input
+                                type="text"
+                                name="name"
+                                placeholder="ユーザーネーム"
+                                value={formData.name}
+                                onChange={handleChange}
+                                isValid={formData.error_list.name}
+                                autoFocus
+                                autoComplete="username"
+                            />
+                        </Label>
+                        <Alert>{formData.error_list.name}</Alert>
+                    </UserComponent>
 
-            <UserComponent>
-                <Label>
-                    自己紹介文
-                    <Notes>&#8251;任意</Notes>
-                    <InputTextArea
-                        value={formData.profile}
-                        name="profile"
-                        isValid={formData.error_list.profile}
-                        onChange={handleChange}
-                    />
-                </Label>
-                <Alert>{formData.error_list.profile}</Alert>
-            </UserComponent>
+                    <UserComponent>
+                        <Label>
+                            メールアドレス
+                            <Notes>&#8251;必須</Notes>
+                            <Input
+                                type="text"
+                                name="email"
+                                placeholder="メールアドレス"
+                                value={formData.email}
+                                onChange={handleChange}
+                                isValid={formData.error_list.email}
+                                autoComplete="email"
+                            />
+                        </Label>
+                        <Alert>{formData.error_list.email}</Alert>
+                    </UserComponent>
 
-            <UserComponent>
-                <Label>
-                    アイコン画像
-                    <Notes>&#8251;任意</Notes>
-                    <InputPic onChange={handlePicChange} dbPic={dbPic} role="user" />
-                </Label>
-                <Alert>{formData.error_list.pic}</Alert>
-            </UserComponent>
+                    <UserComponent>
+                        <Label>
+                            自己紹介文
+                            <Notes>&#8251;任意</Notes>
+                            <InputTextArea
+                                value={formData.profile}
+                                name="profile"
+                                isValid={formData.error_list.profile}
+                                onChange={handleChange}
+                            />
+                        </Label>
+                        <Alert>{formData.error_list.profile}</Alert>
+                    </UserComponent>
 
-            <Button value="登録する" isLoading={isLoading} />
-        </Form>
+                    <UserComponent>
+                        <Label>
+                            アイコン画像
+                            <Notes>&#8251;任意</Notes>
+                            <InputPic
+                                onChange={handlePicChange}
+                                dbPic={dbPic}
+                                role="user"
+                            />
+                        </Label>
+                        <Alert>{formData.error_list.pic}</Alert>
+                    </UserComponent>
+
+                    <Button value="登録する" isLoading={isSending} />
+                </Form>
+            )}
+        </>
     );
 });

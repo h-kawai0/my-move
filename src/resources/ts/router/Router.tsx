@@ -1,4 +1,4 @@
-import React, { memo, useEffect, VFC } from "react";
+import React, { memo, ReactNode, VFC } from "react";
 import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
 
 import { Items } from "../components/pages/Items";
@@ -14,57 +14,46 @@ import { EditItem } from "../components/pages/EditItem";
 import { NewItem } from "../components/pages/NewItem";
 import { DetailParentItem } from "../components/pages/DetailParentItem";
 import { DetailChildItem } from "../components/pages/DetailChildItem";
-import { useUser } from "../queries/AuthQuery";
 import { useAuth } from "../hooks/AuthContext";
-import axios from "../libs/axios";
+
+type Props = {
+    children: ReactNode;
+    exact: boolean;
+    path: string;
+};
 
 export const Router: VFC = memo(() => {
-    const { isAuth, setIsAuth, isLoading, setIsLoading } = useAuth();
+    const { isAuth } = useAuth();
 
-    // const getUser = async () => {
+    const GuardRoute = (props: Props) => {
 
-    //     setIsLoading(true);
-    //     await axios
-    //         .get("/api/user")
-    //         .then((res) => {
-    //             console.log(res);
-    //             setIsLoading(false);
-    //             setIsAuth(true);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //             setIsLoading(false);
-    //             setIsAuth(false);
-    //         });
-    // };
+        const { children, ...rest} = props;
 
-    // useEffect(() => {
-
-    //     console.log("ログイン確認中");
-
-    //     getUser();
-
-    //     // axios.get('/api/user').then((res) => {
-    //     //     setIsLoading(false);
-    //     //     setIsAuth(true);
-    //     // }).catch((err) => {
-    //     //     setIsLoading(false);
-    //     //     setIsAuth(false);
-    //     // });
-    // }, []);
-
-    const GuardRoute = (props: RouteProps) => {
-        if (!isAuth) return <Redirect to="/login" />;
-        return <Route {...props} />;
+        return (
+            <Route
+                {...rest}
+                render={({ location }) =>
+                    isAuth ? (
+                        children
+                    ) : (
+                        <Redirect
+                            to={{
+                                pathname: "/login",
+                                state: { from: location },
+                            }}
+                        />
+                    )
+                }
+            />
+        );
     };
-
+    // ログインしている場合はMyMove一覧へ遷移
     const LoginRoute = (props: RouteProps) => {
         if (isAuth) return <Redirect to="/index" />;
         return <Route {...props} />;
     };
 
     return (
-        
         <Switch>
             <LoginRoute exact path="/">
                 <Top />
@@ -75,7 +64,6 @@ export const Router: VFC = memo(() => {
             </Route>
 
             {/* プライベートルート */}
-            
 
             <GuardRoute exact path="/mypage">
                 <Mypage />

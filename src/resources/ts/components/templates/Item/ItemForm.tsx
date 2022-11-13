@@ -23,8 +23,10 @@ import axios from "../../../libs/axios";
 import { SelectBox } from "../../molecules/inputForm/SelectBox";
 import { CategoryList } from "../../atoms/inputForm/CategoryList";
 import { useHistory } from "react-router";
-import { useFlash } from "../../../hooks/useFlash";
 import { Item } from "../../../types/api/item";
+import { toast } from "react-toastify";
+import { Spinner } from "../../atoms/spinner/Spinner";
+import { Oval } from "react-loader-spinner";
 
 type Form = {
     parent_name: string;
@@ -65,7 +67,9 @@ export const ItemForm: VFC<Props> = memo((props) => {
 
     const history = useHistory();
 
-    const { handleFlashMessage } = useFlash();
+    const [isSending, setIsSending] = useState(false);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState<Form>({
         parent_name: "",
@@ -110,6 +114,8 @@ export const ItemForm: VFC<Props> = memo((props) => {
 
     useEffect(() => {
         if (pId) {
+
+            setIsLoading(true);
             axios
                 .get<Item>(`${method}/edit`)
                 .then((res) => {
@@ -169,9 +175,11 @@ export const ItemForm: VFC<Props> = memo((props) => {
                         })),
                     }));
                     setDbPic(result.pic ?? "");
+                    setIsLoading(false);
                 })
                 .catch((err) => {
                     console.log(err.response.data.errors);
+                    setIsLoading(false);
                 });
         } else {
             [...Array(4)].map((val, i) => {
@@ -193,6 +201,7 @@ export const ItemForm: VFC<Props> = memo((props) => {
                     child_item: [...prevstate.child_item, nextData],
                 }));
             });
+            setIsLoading(false);
         }
 
         axios
@@ -257,6 +266,8 @@ export const ItemForm: VFC<Props> = memo((props) => {
     const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        setIsSending(true);
+
         console.log(formData);
 
         const data = new FormData();
@@ -280,8 +291,13 @@ export const ItemForm: VFC<Props> = memo((props) => {
                 .post(method, data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push("/");
-                    handleFlashMessage(res.data.message);
+                    history.push("/mypage");
+                    toast.success(res.data.message, {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    });
+
+                    setIsSending(false);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -315,6 +331,8 @@ export const ItemForm: VFC<Props> = memo((props) => {
                                             : el
                                     ),
                                 }));
+
+                                setIsSending(false);
                             } else {
                                 setFormData((prevState) => ({
                                     ...prevState,
@@ -339,154 +357,183 @@ export const ItemForm: VFC<Props> = memo((props) => {
                         console.log(formData);
 
                         console.log("Send Error", err.response.data.errors);
+
+                        setIsSending(false);
                     } else {
                         console.log("Send Error", err.response.data.errors);
+
+                        setIsSending(false);
                     }
                 });
         });
     };
 
     return (
-        <Form onSubmit={registerSubmit}>
-            <Title>{title}</Title>
-
-            <UserComponent>
-                <Label>
-                    タイトル
-                    <Notes>&#8251;必須</Notes>
-                    <Input
-                        type="text"
-                        name="parent_name"
-                        placeholder="タイトル"
-                        value={formData.parent_name}
-                        onChange={handleChange}
-                        isValid={formData.error_list.parent_name}
-                        autoFocus
+        <>
+            {isLoading ? (
+                <Spinner>
+                    <Oval
+                        height={80}
+                        width={80}
+                        color="#555"
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#555"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
                     />
-                </Label>
-                <Alert>{formData.error_list.parent_name}</Alert>
-            </UserComponent>
+                </Spinner>
+            ) : (
+                <Form onSubmit={registerSubmit}>
+                    <Title>{title}</Title>
 
-            <UserComponent>
-                <Label>
-                    カテゴリー
-                    <Notes>&#8251;必須</Notes>
-                    <SelectBox>
-                        <CategoryList
-                            name="category_id"
-                            category_id={formData.category_id}
-                            onChange={handleSelect}
-                            categoryList={categoryList}
-                            isValid={formData.error_list.category_id}
-                        />
-                    </SelectBox>
-                </Label>
-                <Alert>{formData.error_list.category_id}</Alert>
-            </UserComponent>
-
-            <UserComponent>
-                <Label>
-                    目安達成時間
-                    <Notes>&#8251;必須</Notes>
-                    <Number
-                        name="parent_cleartime"
-                        value={formData.parent_cleartime}
-                        isValid={formData.error_list.parent_cleartime}
-                        onChange={handleChange}
-                    />
-                </Label>
-                <Sup>&#8251;3桁まで&#40;小数点第一位まで&#41;入力可能。</Sup>
-                <Alert>{formData.error_list.parent_cleartime}</Alert>
-            </UserComponent>
-
-            <UserComponent>
-                <Label>
-                    タイトルの説明
-                    <Notes>&#8251;必須</Notes>
-                    <InputTextArea
-                        value={formData.parent_detail}
-                        name="parent_detail"
-                        isValid={formData.error_list.parent_detail}
-                        onChange={handleChange}
-                    />
-                </Label>
-                <Alert>{formData.error_list.parent_detail}</Alert>
-            </UserComponent>
-
-            <UserComponent>
-                <Label>
-                    画像
-                    <Notes>&#8251;任意</Notes>
-                    <InputPic
-                        onChange={handlePicChange}
-                        dbPic={dbPic}
-                        role="items"
-                    />
-                </Label>
-                <Alert>{formData.error_list.pic}</Alert>
-            </UserComponent>
-
-            {/*  mapで生成 */}
-            {formData.child_item.map((val, i) => (
-                <div key={val.index}>
                     <UserComponent>
                         <Label>
-                            MyMove{i + 1}のタイトル
-                            <Notes>
-                                &#8251;
-                                {i === 0 ? "必須" : "任意"}
-                            </Notes>
+                            タイトル
+                            <Notes>&#8251;必須</Notes>
                             <Input
                                 type="text"
-                                name={`name`}
-                                placeholder={`MyMove${i + 1}のタイトル`}
-                                value={val.name}
-                                onChange={(e) => handleChange(e, val.index)}
-                                isValid={val.error_list.name}
+                                name="parent_name"
+                                placeholder="タイトル"
+                                value={formData.parent_name}
+                                onChange={handleChange}
+                                isValid={formData.error_list.parent_name}
+                                autoFocus
                             />
                         </Label>
-                        <Alert>{val.error_list.name}</Alert>
+                        <Alert>{formData.error_list.parent_name}</Alert>
                     </UserComponent>
 
                     <UserComponent>
                         <Label>
-                            MyMove{i + 1}の目安達成時間
-                            <Notes>
-                                &#8251;
-                                {i === 0 ? "必須" : "任意"}
-                            </Notes>
+                            カテゴリー
+                            <Notes>&#8251;必須</Notes>
+                            <SelectBox>
+                                <CategoryList
+                                    name="category_id"
+                                    category_id={formData.category_id}
+                                    onChange={handleSelect}
+                                    categoryList={categoryList}
+                                    isValid={formData.error_list.category_id}
+                                />
+                            </SelectBox>
+                        </Label>
+                        <Alert>{formData.error_list.category_id}</Alert>
+                    </UserComponent>
+
+                    <UserComponent>
+                        <Label>
+                            目安達成時間
+                            <Notes>&#8251;必須</Notes>
                             <Number
-                                name={`cleartime`}
-                                value={val.cleartime}
-                                isValid={val.error_list.cleartime}
-                                onChange={(e) => handleChange(e, val.index)}
+                                name="parent_cleartime"
+                                value={formData.parent_cleartime}
+                                isValid={formData.error_list.parent_cleartime}
+                                onChange={handleChange}
                             />
                         </Label>
                         <Sup>
                             &#8251;3桁まで&#40;小数点第一位まで&#41;入力可能。
                         </Sup>
-                        <Alert>{val.error_list.cleartime}</Alert>
+                        <Alert>{formData.error_list.parent_cleartime}</Alert>
                     </UserComponent>
 
                     <UserComponent>
                         <Label>
-                            MyMove{i + 1}の説明
-                            <Notes>
-                                &#8251;
-                                {i === 0 ? "必須" : "任意"}
-                            </Notes>
+                            タイトルの説明
+                            <Notes>&#8251;必須</Notes>
                             <InputTextArea
-                                value={val.detail}
-                                name={`detail`}
-                                isValid={val.error_list.detail}
-                                onChange={(e) => handleChange(e, val.index)}
+                                value={formData.parent_detail}
+                                name="parent_detail"
+                                isValid={formData.error_list.parent_detail}
+                                onChange={handleChange}
                             />
                         </Label>
-                        <Alert>{val.error_list.detail}</Alert>
+                        <Alert>{formData.error_list.parent_detail}</Alert>
                     </UserComponent>
-                </div>
-            ))}
-            <Button value="登録する" isLoading={false} />
-        </Form>
+
+                    <UserComponent>
+                        <Label>
+                            画像
+                            <Notes>&#8251;任意</Notes>
+                            <InputPic
+                                onChange={handlePicChange}
+                                dbPic={dbPic}
+                                role="items"
+                            />
+                        </Label>
+                        <Alert>{formData.error_list.pic}</Alert>
+                    </UserComponent>
+
+                    {/*  mapで生成 */}
+                    {formData.child_item.map((val, i) => (
+                        <div key={val.index}>
+                            <UserComponent>
+                                <Label>
+                                    MyMove{i + 1}のタイトル
+                                    <Notes>
+                                        &#8251;
+                                        {i === 0 ? "必須" : "任意"}
+                                    </Notes>
+                                    <Input
+                                        type="text"
+                                        name={`name`}
+                                        placeholder={`MyMove${i + 1}のタイトル`}
+                                        value={val.name}
+                                        onChange={(e) =>
+                                            handleChange(e, val.index)
+                                        }
+                                        isValid={val.error_list.name}
+                                    />
+                                </Label>
+                                <Alert>{val.error_list.name}</Alert>
+                            </UserComponent>
+
+                            <UserComponent>
+                                <Label>
+                                    MyMove{i + 1}の目安達成時間
+                                    <Notes>
+                                        &#8251;
+                                        {i === 0 ? "必須" : "任意"}
+                                    </Notes>
+                                    <Number
+                                        name={`cleartime`}
+                                        value={val.cleartime}
+                                        isValid={val.error_list.cleartime}
+                                        onChange={(e) =>
+                                            handleChange(e, val.index)
+                                        }
+                                    />
+                                </Label>
+                                <Sup>
+                                    &#8251;3桁まで&#40;小数点第一位まで&#41;入力可能。
+                                </Sup>
+                                <Alert>{val.error_list.cleartime}</Alert>
+                            </UserComponent>
+
+                            <UserComponent>
+                                <Label>
+                                    MyMove{i + 1}の説明
+                                    <Notes>
+                                        &#8251;
+                                        {i === 0 ? "必須" : "任意"}
+                                    </Notes>
+                                    <InputTextArea
+                                        value={val.detail}
+                                        name={`detail`}
+                                        isValid={val.error_list.detail}
+                                        onChange={(e) =>
+                                            handleChange(e, val.index)
+                                        }
+                                    />
+                                </Label>
+                                <Alert>{val.error_list.detail}</Alert>
+                            </UserComponent>
+                        </div>
+                    ))}
+                    <Button value="登録する" isLoading={isSending} />
+                </Form>
+            )}
+        </>
     );
 });

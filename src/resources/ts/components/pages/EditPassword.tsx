@@ -1,5 +1,6 @@
 import React, { VFC, memo, useState, ChangeEvent, FormEvent } from "react";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 import { useFlash } from "../../hooks/useFlash";
 import axios from "../../libs/axios";
 import { Alert } from "../atoms/inputForm/Alert";
@@ -49,8 +50,11 @@ export const EditPassword: VFC = memo(() => {
                 .post("/mypage/update-password", data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push("/");
-                    handleFlashMessage(res.data.message);
+                    history.push("/mypage");
+                    toast.success(res.data.message ,{
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    });
                 })
                 .catch((err) => {
                     console.log(err);

@@ -1,5 +1,7 @@
 import React, { memo, MouseEvent, useEffect, useState, VFC } from "react";
-import { Link } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import axios from "../../libs/axios";
 
@@ -8,6 +10,7 @@ import { colors } from "../../theme/setting/colors";
 import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
 import { User } from "../../types/api/user";
+import { Spinner } from "../atoms/spinner/Spinner";
 import { ChallengeList } from "../organisms/item/ChallengeList";
 import { FavoriteList } from "../organisms/item/FavoriteList";
 import { RegistList } from "../organisms/item/RegistList";
@@ -15,16 +18,23 @@ import { RegistList } from "../organisms/item/RegistList";
 export const Mypage: VFC = memo(() => {
     const [user, setUser] = useState<User>();
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const history = useHistory();
+
     const getUser = () => {
+        setIsLoading(true);
         axios
             .get("/api/user")
             .then((res) => {
                 console.log(res);
                 const result = res.data;
                 setUser(result);
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setIsLoading(false);
             });
     };
 
@@ -44,10 +54,21 @@ export const Mypage: VFC = memo(() => {
                     id: user?.id,
                 })
                 .then((res) => {
-                    console.log(res);
+                    console.log(res.data);
+                    history.push('/');
+                    toast.success(res.data.message , {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    });
+
+
                 })
                 .catch((err) => {
                     console.log(err);
+                    toast.error('退会に失敗しました。',{
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    })
                 });
 
             console.log("true");
@@ -60,65 +81,84 @@ export const Mypage: VFC = memo(() => {
     }, []);
 
     return (
-        <SMyPage className="p-mypage">
-            <SMypageTitle className="p-mypage__title">マイページ</SMypageTitle>
+        <>
+            {isLoading ? (
+                <Spinner>
+                    <Oval
+                        height={80}
+                        width={80}
+                        color="#555"
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#555"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                    />
+                </Spinner>
+            ) : (
+                <SMyPage className="p-mypage">
+                    <SMypageTitle className="p-mypage__title">
+                        マイページ
+                    </SMypageTitle>
 
-            <SMyPageContainer className="p-mypage__container">
-                <SMypageAuthor className="p-mypage__author">
-                    <SMypageAvatar className="p-mypage__avatar">
-                        <img
-                            src={`/storage/img/user/original/${user?.pic}`}
-                            alt={user?.name}
-                        />
-                    </SMypageAvatar>
-                    <SMypageUserName className="p-mypage__username">
-                        {user?.name}
-                    </SMypageUserName>
-                </SMypageAuthor>
+                    <SMyPageContainer className="p-mypage__container">
+                        <SMypageAuthor className="p-mypage__author">
+                            <SMypageAvatar className="p-mypage__avatar">
+                                <img
+                                    src={`/storage/img/user/original/${user?.pic}`}
+                                    alt={user?.name}
+                                />
+                            </SMypageAvatar>
+                            <SMypageUserName className="p-mypage__username">
+                                {user?.name}
+                            </SMypageUserName>
+                        </SMypageAuthor>
 
-                <SMypageProfile className="p-mypage__profile">
-                    <p>{user?.profile}</p>
-                </SMypageProfile>
+                        <SMypageProfile className="p-mypage__profile">
+                            <p>{user?.profile}</p>
+                        </SMypageProfile>
 
-                <SMypageList className="p-mypage__list">
-                    <SMypageItem className="p-mypage__item">
-                        <SMypageProfEdit
-                            to="/mypage/edit-profile"
-                            className="p-mypage__link p-mypage__profedit"
-                        >
-                            プロフィールを編集・登録する
-                        </SMypageProfEdit>
-                    </SMypageItem>
-                    <SMypageItem className="p-mypage__item">
-                        <SMypageMyMoveEdit
-                            to="/items/new"
-                            className="p-mypage__link p-mypage__stepedit"
-                        >
-                            MyMoveを登録する
-                        </SMypageMyMoveEdit>
-                    </SMypageItem>
-                    <SMypageItem className="p-mypage__item">
-                        <SMypagePassEdit
-                            to="/mypage/edit-password"
-                            className="p-mypage__link p-mypage__passedit"
-                        >
-                            パスワードを変更する
-                        </SMypagePassEdit>
-                    </SMypageItem>
-                    <SMypageItem className="p-mypage__item">
-                        <SMypageWithDraw as="button" onClick={withDraw}>
-                            退会する
-                        </SMypageWithDraw>
-                    </SMypageItem>
-                </SMypageList>
+                        <SMypageList className="p-mypage__list">
+                            <SMypageItem className="p-mypage__item">
+                                <SMypageProfEdit
+                                    to="/mypage/edit-profile"
+                                    className="p-mypage__link p-mypage__profedit"
+                                >
+                                    プロフィールを編集・登録する
+                                </SMypageProfEdit>
+                            </SMypageItem>
+                            <SMypageItem className="p-mypage__item">
+                                <SMypageMyMoveEdit
+                                    to="/items/new"
+                                    className="p-mypage__link p-mypage__stepedit"
+                                >
+                                    MyMoveを登録する
+                                </SMypageMyMoveEdit>
+                            </SMypageItem>
+                            <SMypageItem className="p-mypage__item">
+                                <SMypagePassEdit
+                                    to="/mypage/edit-password"
+                                    className="p-mypage__link p-mypage__passedit"
+                                >
+                                    パスワードを変更する
+                                </SMypagePassEdit>
+                            </SMypageItem>
+                            <SMypageItem className="p-mypage__item">
+                                <SMypageWithDraw as="button" onClick={withDraw}>
+                                    退会する
+                                </SMypageWithDraw>
+                            </SMypageItem>
+                        </SMypageList>
 
-                <RegistList />
+                        <RegistList />
 
-                <ChallengeList />
+                        <ChallengeList />
 
-                <FavoriteList />
-            </SMyPageContainer>
-        </SMyPage>
+                        <FavoriteList />
+                    </SMyPageContainer>
+                </SMyPage>
+            )}
+        </>
     );
 });
 
