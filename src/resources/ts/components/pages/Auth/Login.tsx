@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
+import { toast } from "react-toastify";
 import styled from "styled-components";
-import { useAuth } from "../../../context/AuthContext";
 import axios from "../../../libs/axios";
 
 import { useLogin } from "../../../queries/AuthQuery";
@@ -15,9 +15,13 @@ import { ContainerLink } from "../../molecules/inputForm/ContainerLink";
 import { UserComponent } from "../../molecules/inputForm/UserComponent";
 import { Form } from "../../organisms/inputForm/Form";
 
+// ログイン画面
 export const Login: VFC = memo(() => {
+
+    // 送信ボタンのログイン処理用
     const [isLoading, setIsLoading] = useState(false);
 
+    // フォーム入力データ
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -28,40 +32,44 @@ export const Login: VFC = memo(() => {
         },
     });
 
+    // 「ログインしたままにする」の状態管理
     const [isChecked, setIsChecked] = useState(false);
 
-    const auth = useAuth();
-
+    // ログイン用hook
     const login = useLogin();
 
+    // フォームへ入力した内容をstateに詰める
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
         setFormData({ ...formData, [name]: value });
     };
 
+    // 「ログインしたままにする」にチェックを入れた場合の処理
     const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
         const { checked } = e.target;
         setIsChecked(checked);
     };
 
-    const loginSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setIsLoading(true);
+    // ログイン処理
+    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+        // 画面を遷移させないよう停止
         e.preventDefault();
 
+        // フォームへの入力データを変数に詰める
         const data = {
             email: formData.email,
             password: formData.password,
             remember: isChecked,
         };
 
-        axios.get("/sanctum/csrf-cookie").then((res) => {
-            auth?.signin(data)
-                .then((res) => {
-                    // history.push("/");
-                })
-                .catch((err) => {
-                    console.log(err);
+        // ボタンを連打させないようにする
+        setIsLoading(true);
+
+        // ログイン処理を行う
+        await axios.get("/sanctum/csrf-cookie").then(() => {
+            login.mutate(data, {
+                onError: (err: any) => {
                     if (err.response.status === 422) {
                         const newFormData = {
                             ...formData,
@@ -69,26 +77,18 @@ export const Login: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
-                        console.log("Login Error", err.response.data.errors);
                         setIsLoading(false);
                     } else {
-                        console.log("Login Error", err.response);
                         setIsLoading(false);
                     }
-                });
+
+                    toast.error("ログインに失敗しました。", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    });
+                },
+            });
         });
-    };
-
-    const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-
-        e.preventDefault();
-        const {email, password} = formData;
-
-        await axios.get("/sanctum/csrf-cookie").then(() => {
-
-            login.mutate({ email, password });
-        })
-
     };
 
     return (

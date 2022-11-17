@@ -23,9 +23,7 @@ export const App = () => {
                                 <ThemeProvider theme={theme}>
                                     <GlobalStyle />
                                     <BrowserRouter>
-                                        <Layout>
                                             <Router />
-                                        </Layout>
                                     </BrowserRouter>
                                 </ThemeProvider>
                 </QueryClientProvider>

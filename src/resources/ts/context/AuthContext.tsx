@@ -6,7 +6,7 @@ import React, {
     ReactNode,
     useEffect,
 } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { useFlash } from "../hooks/useFlash";
 
 type User = {
@@ -157,58 +157,58 @@ const useProvideAuth = () => {
 /**
  * 認証済みのみアクセス可能
  */
-export const PrivateRoute = ({ children, path, exact = false }: RouteProps) => {
-    const auth = useAuth();
-    return (
-        <Route
-            path={path}
-            exact={exact}
-            render={({ location }) => {
-                if (auth?.user == null) {
-                    // console.log("private true", auth?.isLoading);
-                    return (
-                        <Redirect
-                            to={{
-                                pathname: "/login",
-                                state: { from: location },
-                            }}
-                        />
-                    );
-                } else {
-                    // console.log("private false");
-                    return children;
-                }
-            }}
-        />
-    );
-};
+// export const PrivateRoute = ({ children, path, exact = false }: RouteProps) => {
+//     const auth = useAuth();
+//     return (
+//         <Route
+//             path={path}
+//             exact={exact}
+//             render={({ location }) => {
+//                 if (auth?.user == null) {
+//                     // console.log("private true", auth?.isLoading);
+//                     return (
+//                         <Navigate
+//                             to={{
+//                                 pathname: "/login",
+//                                 state: { from: location },
+//                             }}
+//                         />
+//                     );
+//                 } else {
+//                     // console.log("private false");
+//                     return children;
+//                 }
+//             }}
+//         />
+//     );
+// };
 
 /**
  * 認証していない場合のみアクセス可能（ログイン画面など）
  */
-export const PublicRoute = ({ children, path, exact = false }: RouteProps) => {
-    const auth = useAuth();
-    return (
-        <Route
-            path={path}
-            exact={exact}
-            render={({ location }) => {
-                if (auth?.user == null) {
+// export const PublicRoute = ({ children, path, exact = false }: RouteProps) => {
+//     const auth = useAuth();
+//     return (
+//         <Route
+//             path={path}
+//             exact={exact}
+//             render={({ location }) => {
+//                 if (auth?.user == null) {
 
-                    // console.log("public true", auth?.user);
-                    return children;
-                } else {
-                    // console.log("public false");
-                    return (
-                        <Redirect
-                            to={{
-                                pathname: "/",
-                                state: { from: location },
-                            }}
-                        />
-                    );
-                }
-            }}
-        />
-    );
-};
+//                     // console.log("public true", auth?.user);
+//                     return children;
+//                 } else {
+//                     // console.log("public false");
+//                     return (
+//                         <Navigate
+//                             to={{
+//                                 pathname: "/",
+//                                 state: { from: location },
+//                             }}
+//                         />
+//                     );
+//                 }
+//             }}
+//         />
+//     );
+// };

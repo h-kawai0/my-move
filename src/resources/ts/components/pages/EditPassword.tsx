@@ -1,5 +1,5 @@
 import React, { VFC, memo, useState, ChangeEvent, FormEvent } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { useFlash } from "../../hooks/useFlash";
 import axios from "../../libs/axios";
@@ -14,7 +14,7 @@ import { Form } from "../organisms/inputForm/Form";
 export const EditPassword: VFC = memo(() => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const { handleFlashMessage } = useFlash();
 
@@ -50,7 +50,7 @@ export const EditPassword: VFC = memo(() => {
                 .post("/mypage/update-password", data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push("/mypage");
+                    navigate("/mypage");
                     toast.success(res.data.message ,{
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 3000,

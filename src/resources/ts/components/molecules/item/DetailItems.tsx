@@ -22,7 +22,7 @@ type Props = {
       parent_item_id: number;
       clears: Clear[];
     }[] | undefined;
-    getPass: string;
+    getPass?: string;
 };
 
 export const DetailItems: VFC<Props> = memo((props) => {
@@ -35,7 +35,7 @@ export const DetailItems: VFC<Props> = memo((props) => {
     const current =  childItems?.map((el, i) => {
 
         // GETパラメータの子MyMoveのIDを数値に変換
-        const childItemNum = parseInt(getPass);
+        const childItemNum = getPass ? parseInt(getPass) : '';
 
         
         // 数値に変換した子MyMoveの値と展開中の子MyMoveの値が一致するか確認

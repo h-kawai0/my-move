@@ -1,21 +1,17 @@
-import React, { memo, ReactNode, VFC } from "react";
+import React, { memo, VFC } from "react";
+import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { FlashMsg } from "../organisms/FlashMsg";
 
 import { Footer } from "../organisms/layout/Footer";
 import { Header } from "../organisms/layout/Header";
 
-type Props = {
-    children: ReactNode;
-};
-
-export const Layout: VFC<Props> = memo((props) => {
-    const { children } = props;
+export const Layout: VFC = memo(() => {
     return (
         <>
-            <FlashMsg />
             <Header />
-            <SMain>{children}</SMain>
+            <SMain>
+                <Outlet />
+            </SMain>
             <Footer />
         </>
     );
@@ -24,6 +20,6 @@ export const Layout: VFC<Props> = memo((props) => {
 const SMain = styled.main`
     margin: 0 auto;
     width: 100%;
-    padding-top: 160px;
-    padding-bottom: 160px;
+    padding-top: 100px;
+    padding-bottom: 100px;
 `;

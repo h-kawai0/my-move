@@ -52,7 +52,7 @@ type ItemData = {
 // 子MyMove詳細画面
 export const DetailChildItem: VFC = memo(() => {
     // GETパラメータを取得
-    const params: { id: string; pass: string } = useParams();
+    const params: { id?: string; pass?: string } = useParams();
 
     // GETパラメータを変数に詰める
     const { id, pass } = params;

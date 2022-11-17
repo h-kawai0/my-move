@@ -7,7 +7,7 @@ import React, {
     VFC,
 } from "react";
 import { Oval } from "react-loader-spinner";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "../../libs/axios";
 
@@ -37,7 +37,7 @@ type Form = {
 };
 
 export const EdifProfile: VFC = memo(() => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isSending, setIsSending] = useState(false);
@@ -125,7 +125,7 @@ export const EdifProfile: VFC = memo(() => {
                 .post("/mypage/update-profile", data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push("/mypage");
+                    navigate("/mypage");
                     toast.success("プロフィールを更新しました!", {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 3000,

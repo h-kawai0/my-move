@@ -1,13 +1,10 @@
 import React, { memo, useState, VFC } from "react";
-import {
-    Link,
-    useHistory,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 import { useLogOut } from "../../../queries/AuthQuery";
 
-import { useAuth as sUseAuth } from "../../../hooks/AuthContext";
+import { useAuth } from "../../../hooks/AuthContext";
 
 import { breakPoint } from "../../../theme/setting/breakPoint";
 import { colors } from "../../../theme/setting/colors";
@@ -17,24 +14,17 @@ import { Spinner } from "../../atoms/spinner/Spinner";
 import { Oval } from "react-loader-spinner";
 
 export const Header: VFC = memo(() => {
-    const history = useHistory();
-
     const logOut = useLogOut();
-    const { isAuth, setIsAuth, isLoading } = sUseAuth();
+    const { isAuth, isLoading, setIsLoading } = useAuth();
+    
 
     const [isActive, setIsActive] = useState(false);
 
-    // const logout = () => {
-    //     axios.get("/sanctum/csrf-cookie").then(() => {
-    //         auth?.signout().then(() => {
-    //             history.push("/login");
-    //         });
-    //     });
-    // };
-
     const handleLogOut = () => {
-        console.log(logOut.mutate());
-    }
+        
+        setIsLoading(true);
+        logOut.mutate();
+    };
 
     const naviOpen = () => {
         setIsActive((prevState) => !prevState);
@@ -101,9 +91,7 @@ export const Header: VFC = memo(() => {
                                 strokeWidthSecondary={2}
                             />
                         </Spinner>
-                    ) : 
-                    
-                    isAuth ? (
+                    ) : isAuth ? (
                         loggedIn
                     ) : (
                         notLoggedIn
@@ -246,6 +234,7 @@ const SLink = styled(Link)`
     display: block;
     padding: ${space.m};
     transition: 0.4s;
+    cursor: pointer;
 
     ${breakPoint.sm`
         color: ${colors.font.fontColorSub()}

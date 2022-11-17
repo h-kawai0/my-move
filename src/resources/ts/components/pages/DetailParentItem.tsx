@@ -36,7 +36,7 @@ type ItemData = {
 };
 
 export const DetailParentItem: VFC = memo(() => {
-    const params: { id: string } = useParams();
+    const params: { id?: string } = useParams();
 
     const { id } = params;
 

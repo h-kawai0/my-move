@@ -22,7 +22,7 @@ import { Form } from "../../organisms/inputForm/Form";
 import axios from "../../../libs/axios";
 import { SelectBox } from "../../molecules/inputForm/SelectBox";
 import { CategoryList } from "../../atoms/inputForm/CategoryList";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { Item } from "../../../types/api/item";
 import { toast } from "react-toastify";
 import { Spinner } from "../../atoms/spinner/Spinner";
@@ -65,7 +65,7 @@ type Props = {
 export const ItemForm: VFC<Props> = memo((props) => {
     const { title, method, pId } = props;
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const [isSending, setIsSending] = useState(false);
 
@@ -114,7 +114,6 @@ export const ItemForm: VFC<Props> = memo((props) => {
 
     useEffect(() => {
         if (pId) {
-
             setIsLoading(true);
             axios
                 .get<Item>(`${method}/edit`)
@@ -291,7 +290,7 @@ export const ItemForm: VFC<Props> = memo((props) => {
                 .post(method, data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push("/mypage");
+                    navigate("/mypage");
                     toast.success(res.data.message, {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 3000,

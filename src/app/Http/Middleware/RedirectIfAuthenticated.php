@@ -17,21 +17,26 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle(Request $request, Closure $next, $guard = null)
     {
-        $guards = empty($guards) ? [null] : $guards;
+        // $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
+        // foreach ($guards as $guard) {
+        //     if (Auth::guard($guard)->check()) {
 
-                if ($request->expectsJson()) {
-                    // クライアントからJSONレスポンスを要求されている場合はリダイレクトさせず、　JSON形式メッセージをレスポンスする。
-                    return response()->json(['message' => 'すでにログインされています。'], 200);
-                }
+        //         if ($request->expectsJson()) {
+        //             // クライアントからJSONレスポンスを要求されている場合はリダイレクトさせず、　JSON形式メッセージをレスポンスする。
+        //             return response()->json(['message' => 'すでにログインされています。'], 200);
+        //         }
 
-                return redirect(RouteServiceProvider::HOME);
-            }
+        //         return redirect(RouteServiceProvider::HOME);
+        //     }
+        // }
+
+        if (Auth::guard($guard)->check()) {
+            return redirect()->route('user');
         }
+    
 
         return $next($request);
     }

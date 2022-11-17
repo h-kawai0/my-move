@@ -1,6 +1,6 @@
 import React, { memo, MouseEvent, useEffect, useState, VFC } from "react";
 import { Oval } from "react-loader-spinner";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import axios from "../../libs/axios";
@@ -20,7 +20,7 @@ export const Mypage: VFC = memo(() => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const getUser = () => {
         setIsLoading(true);
@@ -55,20 +55,18 @@ export const Mypage: VFC = memo(() => {
                 })
                 .then((res) => {
                     console.log(res.data);
-                    history.push('/');
-                    toast.success(res.data.message , {
+                    navigate("/");
+                    toast.success(res.data.message, {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 3000,
                     });
-
-
                 })
                 .catch((err) => {
                     console.log(err);
-                    toast.error('退会に失敗しました。',{
+                    toast.error("退会に失敗しました。", {
                         position: toast.POSITION.TOP_CENTER,
                         autoClose: 3000,
-                    })
+                    });
                 });
 
             console.log("true");

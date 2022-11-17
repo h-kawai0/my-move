@@ -1,5 +1,5 @@
 import React, { VFC, memo, useState, ChangeEvent, FormEvent } from "react";
-import { useHistory, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axios from "../../../libs/axios";
 
 import { useFlash } from '../../../hooks/useFlash';
@@ -15,9 +15,7 @@ import { Form } from "../../organisms/inputForm/Form";
 export const ResetPassword: VFC = memo(() => {
     const { code } = useParams<{ code: string }>();
 
-    // console.log(code);
-
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const { handleFlashMessage } = useFlash();
 
@@ -58,7 +56,7 @@ export const ResetPassword: VFC = memo(() => {
                 .post("/password/reset", data)
                 .then((res) => {
                     console.log(res.data);
-                    history.push('/');
+                    navigate('/');
                     handleFlashMessage('パスワードを変更しました!');
 
 

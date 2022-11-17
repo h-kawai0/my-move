@@ -9,16 +9,35 @@ const getUser = async () => {
     return data;
 };
 
-const login = async ({
+const register = async ({
+    name,
     email,
-    password,
+    password
 }: {
+    name: string,
     email: string;
     password: string;
 }) => {
-    const { data } = await axios.post<GetUser>(`/api/login`, {
+    const { data } = await axios.post<GetUser>(`/api/register`, {
+        email,
+        password
+    });
+    return data;
+}
+
+const login = async ({
+    email,
+    password,
+    remember
+}: {
+    email: string;
+    password: string;
+    remember: boolean;
+}) => {
+    const { data } = await axios.post<GetUser>(`/login`, {
         email,
         password,
+        remember
     });
     return data;
 };
@@ -28,4 +47,4 @@ const logout = async () => {
     return data
 };
 
-export { getUser, login, logout };
+export { getUser, register, login, logout };

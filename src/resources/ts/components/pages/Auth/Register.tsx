@@ -1,5 +1,5 @@
 import React, { memo, VFC, useState, ChangeEvent, FormEvent } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../../libs/axios";
 
 import { useFlash } from "../../../hooks/useFlash";
@@ -16,7 +16,7 @@ import { Label } from "../../atoms/inputForm/Label";
 import { useAuth } from "../../../context/AuthContext";
 
 export const Register: VFC = memo(() => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const auth = useAuth();
 
@@ -57,7 +57,7 @@ export const Register: VFC = memo(() => {
         axios.get("/sanctum/csrf-cookie").then((res) => {
             auth?.register(data)
                 .then(() => {
-                    history.push("/items");
+                    navigate("/items");
                     handleFlashMessage('会員登録が完了しました!');
                 })
                 .catch((err) => {

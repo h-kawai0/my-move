@@ -1,5 +1,11 @@
-import React, { memo, ReactNode, VFC } from "react";
-import { Redirect, Route, RouteProps, Switch } from "react-router-dom";
+import React, { memo, ReactElement, ReactNode, VFC } from "react";
+import {
+    Navigate,
+    Outlet,
+    Route,
+    Routes,
+    useLocation,
+} from "react-router-dom";
 
 import { Items } from "../components/pages/Items";
 import { Top } from "../components/pages/Top";
@@ -15,6 +21,9 @@ import { NewItem } from "../components/pages/NewItem";
 import { DetailParentItem } from "../components/pages/DetailParentItem";
 import { DetailChildItem } from "../components/pages/DetailChildItem";
 import { useAuth } from "../hooks/AuthContext";
+import { useUser } from "../queries/AuthQuery";
+import { Layout } from "../components/templates/Layout";
+import { Page404 } from "../components/pages/404";
 
 type Props = {
     children: ReactNode;
@@ -26,87 +35,89 @@ export const Router: VFC = memo(() => {
     const { isAuth } = useAuth();
 
     const GuardRoute = (props: Props) => {
-
-        const { children, ...rest} = props;
+        const { children, ...rest } = props;
 
         return (
             <Route
                 {...rest}
-                render={({ location }) =>
+                children={({ location }: { location: ReactNode }) =>
                     isAuth ? (
                         children
                     ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/login",
-                                state: { from: location },
-                            }}
-                        />
+                        <Navigate to="/login" state={{ from: location }} />
                     )
                 }
             />
         );
     };
+
     // ログインしている場合はMyMove一覧へ遷移
-    const LoginRoute = (props: RouteProps) => {
-        if (isAuth) return <Redirect to="/index" />;
-        return <Route {...props} />;
+    const NotLoginRoute = () => {
+        if (isAuth) return <Navigate to="/index" />;
+        return <Outlet />;
+    };
+    
+    const RequireAuth = () => {
+        const location = useLocation();
+
+        if (!isAuth) {
+            console.log("ろぐいんしていません");
+            return <Navigate to="/login" state={{ from: location }} replace />;
+        }
+        return <Outlet />;
     };
 
+
     return (
-        <Switch>
-            <LoginRoute exact path="/">
-                <Top />
-            </LoginRoute>
+        <Routes>
+            <Route element={<Layout />}>
+                {/* ログインしていない時のみ表示 */}
 
-            <Route exact path="/index">
-                <Items />
+                <Route element={<NotLoginRoute />}>
+                    <Route index element={<Top />} />
+                    <Route path="/" element={<Top />} />
+
+                    <Route path="/login" element={<Login />} />
+
+                    <Route path="/register" element={<Register />} />
+
+                    <Route path="/forgot-password" element={<Forgot />} />
+
+                    <Route
+                        path="/reset-password/:code"
+                        element={<ResetPassword />}
+                    />
+                </Route>
+
+                {/* プライベートルート */}
+
+                <Route element={<RequireAuth />}>
+                    <Route path="/mypage" element={<Mypage />} />
+
+                    <Route
+                        path="/mypage/edit-profile"
+                        element={<EdifProfile />}
+                    />
+
+                    <Route
+                        path="/mypage/edit-password"
+                        element={<EditPassword />}
+                    />
+
+                    <Route path="/items/new" element={<NewItem />} />
+
+                    <Route path="/items/:id/editing" element={<EditItem />} />
+                </Route>
+
+                {/* 共通ルート */}
+                <Route path="/index" element={<Items />} />
+
+                <Route path="/items/:id" element={<DetailParentItem />} />
+
+                <Route path="/items/:id/:pass" element={<DetailChildItem />} />
+
+                <Route path="*" element={<Page404 />} />
             </Route>
-
-            {/* プライベートルート */}
-
-            <GuardRoute exact path="/mypage">
-                <Mypage />
-            </GuardRoute>
-
-            <GuardRoute exact path="/mypage/edit-profile">
-                <EdifProfile />
-            </GuardRoute>
-
-            <GuardRoute exact path="/mypage/edit-password">
-                <EditPassword />
-            </GuardRoute>
-
-            <GuardRoute exact path="/items/new">
-                <NewItem />
-            </GuardRoute>
-
-            <GuardRoute exact path="/items/:id/editing">
-                <EditItem />
-            </GuardRoute>
-
-            {/* パブリックルート */}
-            <LoginRoute exact path="/login">
-                <Login />
-            </LoginRoute>
-            <LoginRoute exact path="/register">
-                <Register />
-            </LoginRoute>
-            <LoginRoute exact path="/forgot-password">
-                <Forgot />
-            </LoginRoute>
-
-            <LoginRoute exact path="/reset-password/:code">
-                <ResetPassword />
-            </LoginRoute>
-
-            <Route exact path="/items/:id">
-                <DetailParentItem />
-            </Route>
-
-            <Route exact path="/items/:id/:pass">
-                <DetailChildItem />
-            </Route>
-        </Switch>
+        </Routes>
     );
 });

@@ -147,9 +147,11 @@ Route::get('/items/{id}/{pass}/get',
 
 
 
-Route::get('/{any}', function () {
-    return view('index');
-})->where('any', '.*');
+// Route::get('/{any}', function () {
+//     return view('index');
+// })->where('any', '.*');
+
+Route::get('/{any?}', function() { return view('index');})->where('any', '(?!api).+');
 
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
