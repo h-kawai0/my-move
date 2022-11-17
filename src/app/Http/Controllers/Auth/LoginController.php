@@ -14,6 +14,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Fortify;
 
 
+// ログイン処理
 class LoginController extends Controller
 {
     /*
@@ -51,21 +52,26 @@ class LoginController extends Controller
      *
      * @return response()
      */
-    public function login(Request $request) : JsonResponse
+
+     // ログイン処理
+    public function login(Request $request)
     {
         Log::debug($request);
+
+        // バリデーション処理
         $credentials = $request->validate([
             'email' => ['required','email:filter,dns', 'max:255'],
             'password' => ['required', 'string', new AlphaNumHalf, 'max:255', 'min:8'],
         ]);
 
+        // ログインに成功した場合
         if (Auth::attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            return response()->json(['name' => Auth::user()->email,
-        'message' => 'ログインに成功しました。'
+            return response(['message' => 'ログインに成功しました。'
         ], 200);
         }
 
+        // ログインに失敗した場合
         throw ValidationException::withMessages([
             Fortify::username() => "メールアドレスまたはパスワードが一致しません。",
         ]);

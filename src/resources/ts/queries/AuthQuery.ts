@@ -8,13 +8,16 @@ const useUser = () => {
     return useQuery("users", api.getUser);
 };
 
-const register = () => {
+// 会員登録処理
+const useRegister = () => {
     const navigate = useNavigate();
 
     const { setIsAuth } = useAuth();
 
     return useMutation(api.register, {
-        onSuccess: (user) => {
+        onSuccess: (data) => {
+
+            console.log(data);
             toast.success("会員登録が完了しました!", {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 3000,
@@ -22,12 +25,6 @@ const register = () => {
 
             setIsAuth(true);
             navigate("/index");
-        },
-        onError: () => {
-            toast.error("ログインに失敗しました。", {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 3000,
-            });
         },
     });
 };
@@ -42,8 +39,9 @@ const useLogin = () => {
     const { from } = location.state as { from: string} || {from: { pathname: '/' }};
 
     return useMutation(api.login, {
-        onSuccess: (user) => {
-            toast.success("ログインしました!", {
+        onSuccess: (data) => {
+            console.log(data);
+            toast.success(data.message, {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 3000,
             });
@@ -77,4 +75,4 @@ const useLogOut = () => {
     });
 };
 
-export { useUser, useLogin, useLogOut };
+export { useUser, useRegister ,useLogin, useLogOut };

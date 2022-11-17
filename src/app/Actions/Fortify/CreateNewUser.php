@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
+// 会員登録処理
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
@@ -31,7 +32,6 @@ class CreateNewUser implements CreatesNewUsers
                 'max:255',
                 Rule::unique(User::class),
             ],
-            // 'password' => $this->passwordRules(),
             'password' => ['required', 'string', 'max:255', 'min:8', 'confirmed', new AlphaNumHalf],
             'password_confirmation' => ['required']
         ])->validate();

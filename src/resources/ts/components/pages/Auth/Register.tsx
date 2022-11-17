@@ -1,8 +1,5 @@
 import React, { memo, VFC, useState, ChangeEvent, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "../../../libs/axios";
-
-import { useFlash } from "../../../hooks/useFlash";
 
 import { UserComponent } from "../../molecules/inputForm/UserComponent";
 import { Input } from "../../atoms/inputForm/Input";
@@ -13,17 +10,18 @@ import { LinkButton } from "../../atoms/inputForm/LinkButton";
 import { ContainerLink } from "../../molecules/inputForm/ContainerLink";
 import { Form } from "../../organisms/inputForm/Form";
 import { Label } from "../../atoms/inputForm/Label";
-import { useAuth } from "../../../context/AuthContext";
+import { useRegister } from "../../../queries/AuthQuery";
+import { toast } from "react-toastify";
 
+// 新規会員登録ページ
 export const Register: VFC = memo(() => {
-    const navigate = useNavigate();
+    // 会員登録用hook
+    const register = useRegister();
 
-    const auth = useAuth();
-
-    const { handleFlashMessage} = useFlash();
-
+    // ボタン送信時に連打がされないよう状態を管理
     const [isLoading, setIsLoading] = useState(false);
 
+    // フォーム入力データの状態管理
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -37,30 +35,32 @@ export const Register: VFC = memo(() => {
         },
     });
 
+    // フォームへデータが入力された時にstateへ詰める
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
         setFormData({ ...formData, [name]: value });
     };
 
-    const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setIsLoading(true);
+    // 会員登録処理
+    const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+        console.log("ろぐいん");
+        // 画面を遷移させないよう停止
         e.preventDefault();
 
+        // フォームへの入力データを変数に詰める
         const data = {
             name: formData.name,
             email: formData.email,
             password: formData.password,
             password_confirmation: formData.passwordConfirmation,
         };
+        // ボタン連打防止のためtrue
+        setIsLoading(true);
 
-        axios.get("/sanctum/csrf-cookie").then((res) => {
-            auth?.register(data)
-                .then(() => {
-                    navigate("/items");
-                    handleFlashMessage('会員登録が完了しました!');
-                })
-                .catch((err) => {
+        await axios.get("/sanctum/csrf-cookie").then(() => {
+            register.mutate(data, {
+                onError: (err: any) => {
                     if (err.response.status === 422) {
                         const newFormData = {
                             ...formData,
@@ -68,18 +68,22 @@ export const Register: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
-                        console.log("Login Error", err.response.data.errors);
                         setIsLoading(false);
                     } else {
-                        console.log("Login Error", err.response);
                         setIsLoading(false);
                     }
-                });
+
+                    toast.error("会員登録に失敗しました。", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    });
+                },
+            });
         });
     };
 
     return (
-        <Form onSubmit={(e) => registerSubmit(e)}>
+        <Form onSubmit={handleRegister}>
             <Title>新規会員登録</Title>
 
             <UserComponent>

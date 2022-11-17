@@ -12,15 +12,19 @@ const getUser = async () => {
 const register = async ({
     name,
     email,
-    password
+    password,
+    password_confirmation
 }: {
     name: string,
     email: string;
     password: string;
+    password_confirmation: string
 }) => {
-    const { data } = await axios.post<GetUser>(`/api/register`, {
+    const { data } = await axios.post(`/api/register`, {
+        name,
         email,
-        password
+        password,
+        password_confirmation
     });
     return data;
 }
@@ -34,7 +38,7 @@ const login = async ({
     password: string;
     remember: boolean;
 }) => {
-    const { data } = await axios.post<GetUser>(`/login`, {
+    const { data } = await axios.post(`/login`, {
         email,
         password,
         remember
