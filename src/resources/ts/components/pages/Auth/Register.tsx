@@ -44,7 +44,6 @@ export const Register: VFC = memo(() => {
 
     // 会員登録処理
     const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
-        console.log("ろぐいん");
         // 画面を遷移させないよう停止
         e.preventDefault();
 
@@ -70,13 +69,13 @@ export const Register: VFC = memo(() => {
                         setFormData(newFormData);
                         setIsLoading(false);
                     } else {
+                        toast.error("会員登録に失敗しました。しばらくたってからやり直してください。", {
+                            position: toast.POSITION.TOP_CENTER,
+                            autoClose: 3000,
+                        });
                         setIsLoading(false);
                     }
 
-                    toast.error("会員登録に失敗しました。", {
-                        position: toast.POSITION.TOP_CENTER,
-                        autoClose: 3000,
-                    });
                 },
             });
         });

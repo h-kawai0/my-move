@@ -1,6 +1,8 @@
 import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
+import { toast } from "react-toastify";
 import { useFlash } from "../../../hooks/useFlash";
 import axios from "../../../libs/axios";
+import { useForgotPassword } from "../../../queries/AuthQuery";
 import { Alert } from "../../atoms/inputForm/Alert";
 import { Button } from "../../atoms/inputForm/Button";
 import { Input } from "../../atoms/inputForm/Input";
@@ -10,7 +12,13 @@ import { Title } from "../../atoms/inputForm/Title";
 import { UserComponent } from "../../molecules/inputForm/UserComponent";
 import { Form } from "../../organisms/inputForm/Form";
 
+// リセットパスワードリクエスト用ページ
 export const Forgot: VFC = memo(() => {
+
+    // パスワードリセットリクエスト用hook
+    const forgotPassword = useForgotPassword();
+
+    // 入力データの管理
     const [formData, setFormData] = useState({
         email: "",
         error_list: {
@@ -18,10 +26,12 @@ export const Forgot: VFC = memo(() => {
         },
     });
 
-    const [isLoading, setIsloading] = useState(false);
+    // ボタン連打防止用state
+    const [isLoading, setIsLoading] = useState(false);
 
     const { handleFlashMessage } = useFlash();
 
+    // フォーム入力情報をstateに詰める
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -29,7 +39,7 @@ export const Forgot: VFC = memo(() => {
     };
 
     const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setIsloading(true);
+        setIsLoading(true);
         e.preventDefault();
 
         const data = {
@@ -42,7 +52,7 @@ export const Forgot: VFC = memo(() => {
                 .then((res) => {
                     console.log(res.data);
                     handleFlashMessage('メールを送信しました。もしメールが届かない場合は、入力されたメールアドレスが間違っているか登録されていません。');
-                    setIsloading(false);
+                    setIsLoading(false);
                 })
                 .catch((err) => {
                     if (err.response.status === 422) {
@@ -53,17 +63,57 @@ export const Forgot: VFC = memo(() => {
 
                         setFormData(newFormData);
                         console.log("Send Error", err.response.data.errors);
-                        setIsloading(false);
+                        setIsLoading(false);
                     } else {
                         console.log("Send Error", err.response.data.errors);
-                        setIsloading(false);
+                        setIsLoading(false);
                     }
                 });
         });
     };
 
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+        // 画面遷移防止
+        e.preventDefault();
+
+        // ボタン連打防止
+        setIsLoading(true);
+
+        // 入力情報を変数に詰める
+        const data = {
+            email: formData.email,
+        };
+
+        axios.get("/sanctum/csrf-cookie").then((res) => {
+           forgotPassword.mutate(data, {
+            onError: (err: any) => {
+                if (err.response.status === 422) {
+                    const newFormData = {
+                        ...formData,
+                        error_list: err.response.data.errors,
+                    };
+
+                    setFormData(newFormData);
+                    setIsLoading(false);
+                } else {
+                    toast.error("エラーが発生しました。しばらくたってからやり直してください。", {
+                        position: toast.POSITION.TOP_CENTER,
+                        autoClose: 3000,
+                    });
+                    setIsLoading(false);
+                }
+
+            },
+
+           }); 
+        });
+
+
+    }
+
     return (
-        <Form onSubmit={registerSubmit}>
+        <Form onSubmit={handleSubmit}>
             <Title>パスワードをお忘れのかた</Title>
             <UserComponent>
                 <Label>

@@ -51,6 +51,7 @@ const useLogin = () => {
     });
 };
 
+// ログアウト処理
 const useLogOut = () => {
     const navigate = useNavigate();
     const { setIsAuth, setIsLoading } = useAuth();
@@ -75,4 +76,19 @@ const useLogOut = () => {
     });
 };
 
-export { useUser, useRegister ,useLogin, useLogOut };
+const useForgotPassword = () => {
+    return useMutation(api.forgotPassword, {
+        onSuccess: (data) => {
+
+            console.log(data);
+            toast.success("'メールを送信しました。もしメールが届かない場合は、入力されたメールアドレスが間違っているか登録されていません。'", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
+
+        },
+    });
+
+}
+
+export { useUser, useRegister ,useLogin, useLogOut, useForgotPassword };

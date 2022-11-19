@@ -79,13 +79,13 @@ export const Login: VFC = memo(() => {
                         setFormData(newFormData);
                         setIsLoading(false);
                     } else {
+                        toast.error("ログインに失敗しました。しばらくたってからやり直してください。", {
+                            position: toast.POSITION.TOP_CENTER,
+                            autoClose: 3000,
+                        });
                         setIsLoading(false);
                     }
 
-                    toast.error("ログインに失敗しました。", {
-                        position: toast.POSITION.TOP_CENTER,
-                        autoClose: 3000,
-                    });
                 },
             });
         });
