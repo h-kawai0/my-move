@@ -6352,7 +6352,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getUser": () => (/* binding */ getUser),
 /* harmony export */   "login": () => (/* binding */ login),
 /* harmony export */   "logout": () => (/* binding */ logout),
-/* harmony export */   "register": () => (/* binding */ register)
+/* harmony export */   "register": () => (/* binding */ register),
+/* harmony export */   "resetPassword": () => (/* binding */ resetPassword)
 /* harmony export */ });
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/axios */ "./resources/ts/libs/axios.tsx");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -6510,7 +6511,7 @@ var logout = function logout() {
       }
     }, _callee4);
   }));
-}; // パスワードリセットリクエスト
+}; // パスワードリセット用リクエスト
 
 
 var forgotPassword = function forgotPassword(_ref3) {
@@ -6523,7 +6524,9 @@ var forgotPassword = function forgotPassword(_ref3) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.next = 2;
-            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/password/email", email);
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/password/email", {
+              email: email
+            });
 
           case 2:
             _yield$axios$post4 = _context5.sent;
@@ -6536,6 +6539,41 @@ var forgotPassword = function forgotPassword(_ref3) {
         }
       }
     }, _callee5);
+  }));
+}; // パスワードリセット
+
+
+var resetPassword = function resetPassword(_ref4) {
+  var email = _ref4.email,
+      password = _ref4.password,
+      password_confirmation = _ref4.password_confirmation,
+      code = _ref4.code;
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+    var _yield$axios$post5, data;
+
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/password/reset", {
+              email: email,
+              password: password,
+              password_confirmation: password_confirmation,
+              code: code
+            });
+
+          case 2:
+            _yield$axios$post5 = _context6.sent;
+            data = _yield$axios$post5.data;
+            return _context6.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6);
   }));
 };
 
@@ -9178,7 +9216,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../theme/setting/space */ "./resources/ts/theme/setting/space.ts");
 /* harmony import */ var _atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../atoms/spinner/Spinner */ "./resources/ts/components/atoms/spinner/Spinner.tsx");
 /* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/esm/index.js");
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -9267,13 +9305,12 @@ var SHeader = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].header(
 var STitle = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].h1(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    font-size: ", ";\n    font-family: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxxl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.family.logo);
 var SHamburger = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    transition: all 0.4s;\n    box-sizing: border-box;\n    position: relative;\n    width: 40px;\n    height: 32px;\n    z-index: 3;\n    display: none;\n\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n        display: inline-block;\n    "]))));
 var SHamburgerLine = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].span(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    display: inline-block;\n    transition: all 0.4s;\n    box-sizing: border-box;\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 4px;\n    background-color: ", ";\n    border-radius: 4px;\n    &:nth-of-type(1) {\n        top: 0;\n    }\n    &:nth-of-type(2) {\n        top: 14px;\n    }\n    &:nth-of-type(3) {\n        bottom: 0;\n    }\n    &--active {\n        &:nth-of-type(1) {\n            transform: translateY(15px) rotate(-45deg);\n        }\n        &:nth-of-type(2) {\n            opacity: 0;\n        }\n        &:nth-of-type(3) {\n            transform: translateY(-13px) rotate(45deg);\n        }\n    }\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteDimGray);
-var SNav = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].nav(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    top: 0;\n    width: 100%;\n    height: 100vh;\n    right: -100%;\n    background: ", ";\n    box-sizing: border-box;\n    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);\n    transition: 0.5s;\n    z-index:3;\n\n    ", ";\n    "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteDimGray, function (_ref) {
-  var $isActive = _ref.$isActive;
-  return $isActive && (0,styled_components__WEBPACK_IMPORTED_MODULE_10__.css)(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n            transform: translateX(-100%);\n            z-index: 2;\n        "])));
+var SNav = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].nav(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    top: 0;\n    width: 100%;\n    height: 100vh;\n    right: -100%;\n    background: ", ";\n    box-sizing: border-box;\n    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);\n    transition: 0.5s;\n    z-index:3;\n\n    ", ";\n    "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteDimGray, function (props) {
+  return props.$isActive && "\n            transform: translateX(-100%);\n            z-index: 2;\n        ";
 }));
-var SList = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].ul(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    font-size: ", ";\n\n    ", "\n\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    display: block;\n    font-size: ", ";\n    text-align: center;\n    "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    font-size: ", ";\n    "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m));
-var SItem = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].li(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    margin-right: ", ";\n    &:last-child {\n        margin-right: initial;\n    }\n    ", "\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n        margin-right: initial;\n        margin-bottom: ", ";\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    margin-right: ", ";\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.s));
-var SLink = (0,styled_components__WEBPACK_IMPORTED_MODULE_10__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link)(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n    font-weight: bold;\n    display: block;\n    padding: ", ";\n    transition: 0.4s;\n    cursor: pointer;\n\n    ", ";\n\n    &:hover {\n        color: ", ";\n        transition: 0.4s;\n    }\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n        color: ", "\n    "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub()), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteGambogeOrange);
+var SList = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].ul(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    font-size: ", ";\n\n    ", "\n\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    display: block;\n    font-size: ", ";\n    text-align: center;\n    "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    font-size: ", ";\n    "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m));
+var SItem = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].li(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    margin-right: ", ";\n    &:last-child {\n        margin-right: initial;\n    }\n    ", "\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n        margin-right: initial;\n        margin-bottom: ", ";\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    margin-right: ", ";\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.s));
+var SLink = (0,styled_components__WEBPACK_IMPORTED_MODULE_10__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link)(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    font-weight: bold;\n    display: block;\n    padding: ", ";\n    transition: 0.4s;\n    cursor: pointer;\n\n    ", ";\n\n    &:hover {\n        color: ", ";\n        transition: 0.4s;\n    }\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n        color: ", "\n    "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub()), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteGambogeOrange);
 
 /***/ }),
 
@@ -9532,17 +9569,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.mjs");
-/* harmony import */ var _hooks_useFlash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../hooks/useFlash */ "./resources/ts/hooks/useFlash.ts");
-/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
-/* harmony import */ var _queries_AuthQuery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../queries/AuthQuery */ "./resources/ts/queries/AuthQuery.ts");
-/* harmony import */ var _atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../atoms/inputForm/Alert */ "./resources/ts/components/atoms/inputForm/Alert.tsx");
-/* harmony import */ var _atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../atoms/inputForm/Button */ "./resources/ts/components/atoms/inputForm/Button.tsx");
-/* harmony import */ var _atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../atoms/inputForm/Input */ "./resources/ts/components/atoms/inputForm/Input.tsx");
-/* harmony import */ var _atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../atoms/inputForm/Label */ "./resources/ts/components/atoms/inputForm/Label.tsx");
-/* harmony import */ var _atoms_inputForm_Text__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../atoms/inputForm/Text */ "./resources/ts/components/atoms/inputForm/Text.tsx");
-/* harmony import */ var _atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../atoms/inputForm/Title */ "./resources/ts/components/atoms/inputForm/Title.tsx");
-/* harmony import */ var _molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../molecules/inputForm/UserComponent */ "./resources/ts/components/molecules/inputForm/UserComponent.tsx");
-/* harmony import */ var _organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../organisms/inputForm/Form */ "./resources/ts/components/organisms/inputForm/Form.tsx");
+/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
+/* harmony import */ var _queries_AuthQuery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../queries/AuthQuery */ "./resources/ts/queries/AuthQuery.ts");
+/* harmony import */ var _atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../atoms/inputForm/Alert */ "./resources/ts/components/atoms/inputForm/Alert.tsx");
+/* harmony import */ var _atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../atoms/inputForm/Button */ "./resources/ts/components/atoms/inputForm/Button.tsx");
+/* harmony import */ var _atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../atoms/inputForm/Input */ "./resources/ts/components/atoms/inputForm/Input.tsx");
+/* harmony import */ var _atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../atoms/inputForm/Label */ "./resources/ts/components/atoms/inputForm/Label.tsx");
+/* harmony import */ var _atoms_inputForm_Text__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../atoms/inputForm/Text */ "./resources/ts/components/atoms/inputForm/Text.tsx");
+/* harmony import */ var _atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../atoms/inputForm/Title */ "./resources/ts/components/atoms/inputForm/Title.tsx");
+/* harmony import */ var _molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../molecules/inputForm/UserComponent */ "./resources/ts/components/molecules/inputForm/UserComponent.tsx");
+/* harmony import */ var _organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../organisms/inputForm/Form */ "./resources/ts/components/organisms/inputForm/Form.tsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -9568,12 +9604,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
  // リセットパスワードリクエスト用ページ
 
 var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   // パスワードリセットリクエスト用hook
-  var forgotPassword = (0,_queries_AuthQuery__WEBPACK_IMPORTED_MODULE_4__.useForgotPassword)(); // 入力データの管理
+  var forgotPassword = (0,_queries_AuthQuery__WEBPACK_IMPORTED_MODULE_3__.useForgotPassword)(); // 入力データの管理
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     email: "",
@@ -9589,10 +9624,7 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
       isLoading = _useState4[0],
-      setIsLoading = _useState4[1];
-
-  var _useFlash = (0,_hooks_useFlash__WEBPACK_IMPORTED_MODULE_2__.useFlash)(),
-      handleFlashMessage = _useFlash.handleFlashMessage; // フォーム入力情報をstateに詰める
+      setIsLoading = _useState4[1]; // フォーム入力情報をstateに詰める
 
 
   var handleChange = function handleChange(e) {
@@ -9600,33 +9632,6 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
         name = _e$target.name,
         value = _e$target.value;
     setFormData(Object.assign(Object.assign({}, formData), _defineProperty({}, name, value)));
-  };
-
-  var registerSubmit = function registerSubmit(e) {
-    setIsLoading(true);
-    e.preventDefault();
-    var data = {
-      email: formData.email
-    };
-    _libs_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/sanctum/csrf-cookie").then(function (res) {
-      _libs_axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/password/email", data).then(function (res) {
-        console.log(res.data);
-        handleFlashMessage('メールを送信しました。もしメールが届かない場合は、入力されたメールアドレスが間違っているか登録されていません。');
-        setIsLoading(false);
-      })["catch"](function (err) {
-        if (err.response.status === 422) {
-          var newFormData = Object.assign(Object.assign({}, formData), {
-            error_list: err.response.data.errors
-          });
-          setFormData(newFormData);
-          console.log("Send Error", err.response.data.errors);
-          setIsLoading(false);
-        } else {
-          console.log("Send Error", err.response.data.errors);
-          setIsLoading(false);
-        }
-      });
-    });
   };
 
   var handleSubmit = function handleSubmit(e) {
@@ -9637,9 +9642,15 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
     var data = {
       email: formData.email
-    };
-    _libs_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/sanctum/csrf-cookie").then(function (res) {
+    }; // 認証処理
+
+    _libs_axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/sanctum/csrf-cookie").then(function (res) {
       forgotPassword.mutate(data, {
+        // 成功時処理
+        onSuccess: function onSuccess() {
+          setIsLoading(false);
+        },
+        // エラー時処理
         onError: function onError(err) {
           if (err.response.status === 422) {
             var newFormData = Object.assign(Object.assign({}, formData), {
@@ -9659,9 +9670,9 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     });
   };
 
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_12__.Form, {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_11__.Form, {
     onSubmit: handleSubmit
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_10__.Title, null, "\u30D1\u30B9\u30EF\u30FC\u30C9\u3092\u304A\u5FD8\u308C\u306E\u304B\u305F"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_8__.Label, null, "\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_7__.Input, {
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_9__.Title, null, "\u30D1\u30B9\u30EF\u30FC\u30C9\u3092\u304A\u5FD8\u308C\u306E\u304B\u305F"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_10__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_6__.Input, {
     type: "text",
     name: "email",
     placeholder: "\u3054\u767B\u9332\u3055\u308C\u305F\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9",
@@ -9670,7 +9681,7 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     isValid: formData.error_list.email,
     autoComplete: "email",
     autoFocus: true
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_5__.Alert, null, formData.error_list.email)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Text__WEBPACK_IMPORTED_MODULE_9__.Text, null, "\u3054\u767B\u9332\u3055\u308C\u305F\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9\u3078\u30D1\u30B9\u30EF\u30FC\u30C9\u518D\u8A2D\u5B9A\u306E\u3054\u6848\u5185\u3092\u9001\u4FE1\u3057\u307E\u3059\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_6__.Button, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_4__.Alert, null, formData.error_list.email)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Text__WEBPACK_IMPORTED_MODULE_8__.Text, null, "\u3054\u767B\u9332\u3055\u308C\u305F\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9\u3078\u30D1\u30B9\u30EF\u30FC\u30C9\u518D\u8A2D\u5B9A\u306E\u3054\u6848\u5185\u3092\u9001\u4FE1\u3057\u307E\u3059\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__.Button, {
     value: "\u9001\u4FE1\u3059\u308B",
     isLoading: isLoading
   }));
@@ -10128,9 +10139,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ResetPassword": () => (/* binding */ ResetPassword)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
-/* harmony import */ var _hooks_useFlash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../hooks/useFlash */ "./resources/ts/hooks/useFlash.ts");
+/* harmony import */ var _queries_AuthQuery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../queries/AuthQuery */ "./resources/ts/queries/AuthQuery.ts");
 /* harmony import */ var _atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../atoms/inputForm/Alert */ "./resources/ts/components/atoms/inputForm/Alert.tsx");
 /* harmony import */ var _atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../atoms/inputForm/Button */ "./resources/ts/components/atoms/inputForm/Button.tsx");
 /* harmony import */ var _atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../atoms/inputForm/Input */ "./resources/ts/components/atoms/inputForm/Input.tsx");
@@ -10138,6 +10149,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../atoms/inputForm/Title */ "./resources/ts/components/atoms/inputForm/Title.tsx");
 /* harmony import */ var _molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../molecules/inputForm/UserComponent */ "./resources/ts/components/molecules/inputForm/UserComponent.tsx");
 /* harmony import */ var _organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../organisms/inputForm/Form */ "./resources/ts/components/organisms/inputForm/Form.tsx");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.mjs");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -10163,19 +10175,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+ // パスワードリセット画面
+
 var ResetPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  var _useParams = (0,react_router__WEBPACK_IMPORTED_MODULE_10__.useParams)(),
+  // GETパラメータからリセット用コードを取得
+  var _useParams = (0,react_router__WEBPACK_IMPORTED_MODULE_11__.useParams)(),
       code = _useParams.code;
 
-  var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_10__.useNavigate)();
-
-  var _useFlash = (0,_hooks_useFlash__WEBPACK_IMPORTED_MODULE_2__.useFlash)(),
-      handleFlashMessage = _useFlash.handleFlashMessage;
+  var resetPassword = (0,_queries_AuthQuery__WEBPACK_IMPORTED_MODULE_2__.useResetPassword)();
+  var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_11__.useNavigate)(); // ボタン連打禁止用state
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       isLoading = _useState2[0],
-      setIsLoading = _useState2[1];
+      setIsLoading = _useState2[1]; // フォーム入力用データ
+
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     email: "",
@@ -10189,48 +10203,85 @@ var ResetPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }),
       _useState4 = _slicedToArray(_useState3, 2),
       formData = _useState4[0],
-      setFormData = _useState4[1];
+      setFormData = _useState4[1]; // フォーム内容取得処理
+
 
   var handleChange = function handleChange(e) {
     var _e$target = e.target,
         name = _e$target.name,
         value = _e$target.value;
     setFormData(Object.assign(Object.assign({}, formData), _defineProperty({}, name, value)));
-  };
+  }; // パスワードリセット送信処理
 
-  var registerSubmit = function registerSubmit(e) {
-    setIsLoading(true);
-    e.preventDefault();
+
+  var handleSubmit = function handleSubmit(e) {
+    // 画面遷移防止
+    e.preventDefault(); // ボタン連打防止
+
+    setIsLoading(true); // 入力情報を変数に詰める
+
     var data = {
       email: formData.email,
       password: formData.password,
       password_confirmation: formData.passwordConfirmation,
       code: code
-    };
-    console.log(data);
+    }; // 認証処理
+
     _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/sanctum/csrf-cookie").then(function (res) {
-      _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/password/reset", data).then(function (res) {
-        console.log(res.data);
-        navigate('/');
-        handleFlashMessage('パスワードを変更しました!');
-      })["catch"](function (err) {
-        if (err.response.status === 422) {
-          var newFormData = Object.assign(Object.assign({}, formData), {
-            error_list: err.response.data.errors
-          });
-          setFormData(newFormData);
-          console.log("Send Error", err.response.data.errors);
-          setIsLoading(false);
-        } else {
-          console.log("Send Error", err.response.data);
-          setIsLoading(false);
+      resetPassword.mutate(data, {
+        // エラー時処理
+        onError: function onError(err) {
+          console.log(err.response);
+
+          switch (err.response.status) {
+            // 有効期限切れの場合
+            case 401:
+              react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.error(err.response.data.message, {
+                position: react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.POSITION.TOP_CENTER,
+                autoClose: 3000
+              });
+              navigate("/forgot-password");
+              break;
+            // バリデーションエラー
+
+            case 422:
+              var newFormData = Object.assign(Object.assign({}, formData), {
+                error_list: err.response.data.errors
+              }); // パスワードコードがDBに存在しない場合
+
+              if (err.response.data.errors.code[0]) {
+                react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.error(err.response.data.errors.code[0], {
+                  position: react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.POSITION.TOP_CENTER,
+                  autoClose: 3000
+                });
+                navigate("/forgot-password");
+              }
+
+              setFormData(newFormData);
+              setIsLoading(false);
+              break;
+
+            default:
+              react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.error("エラーが発生しました。しばらくたってからやり直してください。", {
+                position: react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.POSITION.TOP_CENTER,
+                autoClose: 3000
+              });
+              setIsLoading(false);
+              break;
+          }
         }
       });
     });
   };
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // GETパラメータが空の場合はTOPへ戻す
+    if (!code) {
+      navigate('/');
+    }
+  }, []);
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_9__.Form, {
-    onSubmit: registerSubmit
+    onSubmit: handleSubmit
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_7__.Title, null, "\u65B0\u3057\u3044\u30D1\u30B9\u30EF\u30FC\u30C9\u306E\u5165\u529B"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_8__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_5__.Input, {
     type: "text",
     name: "email",
@@ -12527,6 +12578,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "useLogOut": () => (/* binding */ useLogOut),
 /* harmony export */   "useLogin": () => (/* binding */ useLogin),
 /* harmony export */   "useRegister": () => (/* binding */ useRegister),
+/* harmony export */   "useResetPassword": () => (/* binding */ useResetPassword),
 /* harmony export */   "useUser": () => (/* binding */ useUser)
 /* harmony export */ });
 /* harmony import */ var _api_AuthApi__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api/AuthApi */ "./resources/ts/api/AuthApi.ts");
@@ -12574,7 +12626,7 @@ var useLogin = function useLogin() {
 
   var _ref = location.state || {
     from: {
-      pathname: '/'
+      pathname: "/"
     }
   },
       from = _ref.from;
@@ -12620,16 +12672,31 @@ var useLogOut = function useLogOut() {
       });
     }
   });
-};
+}; // パスワードリセットリクエスト処理
+
 
 var useForgotPassword = function useForgotPassword() {
   return (0,react_query__WEBPACK_IMPORTED_MODULE_1__.useMutation)(_api_AuthApi__WEBPACK_IMPORTED_MODULE_0__.forgotPassword, {
     onSuccess: function onSuccess(data) {
-      console.log(data);
-      react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.success("'メールを送信しました。もしメールが届かない場合は、入力されたメールアドレスが間違っているか登録されていません。'", {
+      react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.success(data.message, {
         position: react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.POSITION.TOP_CENTER,
         autoClose: 3000
       });
+    }
+  });
+}; // パスワードリセット処理
+
+
+var useResetPassword = function useResetPassword() {
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_1__.useMutation)(_api_AuthApi__WEBPACK_IMPORTED_MODULE_0__.resetPassword, {
+    onSuccess: function onSuccess(data) {
+      react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.success(data.message, {
+        position: react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.POSITION.TOP_CENTER,
+        autoClose: 3000
+      }); // パスワードがリセットできたらログイン画面に遷移させる
+
+      navigate("/login");
     }
   });
 };

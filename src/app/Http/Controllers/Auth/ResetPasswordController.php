@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
+// パスワードリセット処理
 class ResetPasswordController extends Controller
 {
 
@@ -39,31 +40,36 @@ class ResetPasswordController extends Controller
 
     public function __invoke(Request $request)
     {
+        // バリデーション処理
         $request->validate([
             'code' => ['required', 'string', 'exists:reset_code_passwords'],
             'email' => ['required', 'email:filter,dns'],
             'password' => ['required', 'string', 'max:255', 'min:8', 'confirmed', new AlphaNumHalf],
             'password_confirmation' => ['required']
-        ]);
+        ], ['exists' => '不正なリクエスト操作です。もう一度はじめからやり直してください。']);
 
+        // パスワードコードを取得
         $passwordReset = ResetCodePassword::firstWhere('code', $request->code);
 
-        Log::debug($passwordReset);
-
-        if ($passwordReset->created_at > now()->addHour()) {
+        // パスワードリセットリクエストを発行して1時間経過している場合は中断させる
+        if (time() > (strtotime($passwordReset->created_at) + (60 * 30))) {
             $passwordReset->delete();
-            return response(['message' => trans('passwords_code_is_expire')], 422);
+            return response(['message' => trans('passwords.token')], 401);
         }
 
+        // パスワードリセットしたいユーザー情報を取得
         $user = User::firstWhere('email', $passwordReset->email);
 
+        // 新しいパスワードを登録
         $user->password = bcrypt($request->password);
 
         $user->save();
 
+        // パスワードリセットリクエストの情報を削除
         $passwordReset->delete();
         Log::debug($user);
 
+        // パスワードリセット完了のメールを送信
         Mail::to($request->email)->send(new SendUpdatePassword($user->name));
 
         return response(['message' => 'パスワードがリセットされました。'], 200);

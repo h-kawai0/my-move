@@ -55,11 +55,32 @@ const logout = async () => {
     return data;
 };
 
-// パスワードリセットリクエスト
+// パスワードリセット用リクエスト
 const forgotPassword = async ({ email }: { email: string }) => {
-    const { data } = await axios.post(`/password/email`, email);
+    const { data } = await axios.post(`/password/email`, { email });
 
     return data;
 };
 
-export { getUser, register, login, logout, forgotPassword };
+// パスワードリセット
+const resetPassword = async ({
+    email,
+    password,
+    password_confirmation,
+    code,
+}: {
+    email: string;
+    password: string;
+    password_confirmation: string;
+    code?: string;
+}) => {
+    const { data } = await axios.post(`/password/reset`, {
+        email,
+        password,
+        password_confirmation,
+        code,
+    });
+    return data;
+};
+
+export { getUser, register, login, logout, forgotPassword, resetPassword };

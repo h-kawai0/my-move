@@ -16,7 +16,6 @@ const useRegister = () => {
 
     return useMutation(api.register, {
         onSuccess: (data) => {
-
             console.log(data);
             toast.success("会員登録が完了しました!", {
                 position: toast.POSITION.TOP_CENTER,
@@ -36,7 +35,9 @@ const useLogin = () => {
 
     const { setIsAuth } = useAuth();
 
-    const { from } = location.state as { from: string} || {from: { pathname: '/' }};
+    const { from } = (location.state as { from: string }) || {
+        from: { pathname: "/" },
+    };
 
     return useMutation(api.login, {
         onSuccess: (data) => {
@@ -76,19 +77,40 @@ const useLogOut = () => {
     });
 };
 
+// パスワードリセットリクエスト処理
 const useForgotPassword = () => {
     return useMutation(api.forgotPassword, {
         onSuccess: (data) => {
+            toast.success(data.message, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
+        },
+    });
+};
 
-            console.log(data);
-            toast.success("'メールを送信しました。もしメールが届かない場合は、入力されたメールアドレスが間違っているか登録されていません。'", {
+// パスワードリセット処理
+const useResetPassword = () => {
+    const navigate = useNavigate();
+
+    return useMutation(api.resetPassword, {
+        onSuccess: (data) => {
+            toast.success(data.message, {
                 position: toast.POSITION.TOP_CENTER,
                 autoClose: 3000,
             });
 
+            // パスワードがリセットできたらログイン画面に遷移させる
+            navigate("/login");
         },
     });
+};
 
-}
-
-export { useUser, useRegister ,useLogin, useLogOut, useForgotPassword };
+export {
+    useUser,
+    useRegister,
+    useLogin,
+    useLogOut,
+    useForgotPassword,
+    useResetPassword,
+};

@@ -190,9 +190,9 @@ const SNav = styled.nav<{ $isActive: boolean }>`
     transition: 0.5s;
     z-index:3;
 
-    ${({ $isActive }: { $isActive: boolean }) =>
-        $isActive &&
-        css`
+    ${(props) =>
+        props.$isActive &&
+        `
             transform: translateX(-100%);
             z-index: 2;
         `};

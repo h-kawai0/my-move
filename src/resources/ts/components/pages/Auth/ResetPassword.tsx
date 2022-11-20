@@ -1,8 +1,7 @@
-import React, { VFC, memo, useState, ChangeEvent, FormEvent } from "react";
+import React, { VFC, memo, useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 import axios from "../../../libs/axios";
-
-import { useFlash } from '../../../hooks/useFlash';
+import { useResetPassword } from "../../../queries/AuthQuery";
 
 import { Alert } from "../../atoms/inputForm/Alert";
 import { Button } from "../../atoms/inputForm/Button";
@@ -11,16 +10,21 @@ import { Label } from "../../atoms/inputForm/Label";
 import { Title } from "../../atoms/inputForm/Title";
 import { UserComponent } from "../../molecules/inputForm/UserComponent";
 import { Form } from "../../organisms/inputForm/Form";
+import { toast } from "react-toastify";
 
+// パスワードリセット画面
 export const ResetPassword: VFC = memo(() => {
+    // GETパラメータからリセット用コードを取得
     const { code } = useParams<{ code: string }>();
+
+    const resetPassword = useResetPassword();
 
     const navigate = useNavigate();
 
-    const { handleFlashMessage } = useFlash();
-
+    // ボタン連打禁止用state
     const [isLoading, setIsLoading] = useState(false);
 
+    // フォーム入力用データ
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -32,16 +36,22 @@ export const ResetPassword: VFC = memo(() => {
         },
     });
 
+    // フォーム内容取得処理
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
         setFormData({ ...formData, [name]: value });
     };
 
-    const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setIsLoading(true);
+    // パスワードリセット送信処理
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        // 画面遷移防止
         e.preventDefault();
 
+        // ボタン連打防止
+        setIsLoading(true);
+
+        // 入力情報を変数に詰める
         const data = {
             email: formData.email,
             password: formData.password,
@@ -49,38 +59,70 @@ export const ResetPassword: VFC = memo(() => {
             code: code,
         };
 
-        console.log(data);
-
+        // 認証処理
         axios.get("/sanctum/csrf-cookie").then((res) => {
-            axios
-                .post("/password/reset", data)
-                .then((res) => {
-                    console.log(res.data);
-                    navigate('/');
-                    handleFlashMessage('パスワードを変更しました!');
+            resetPassword.mutate(data, {
+                // エラー時処理
+                onError: (err: any) => {
+                    console.log(err.response);
 
+                    switch (err.response.status) {
+                        // 有効期限切れの場合
+                        case 401:
+                            toast.error(err.response.data.message, {
+                                position: toast.POSITION.TOP_CENTER,
+                                autoClose: 3000,
+                            });
+                            navigate("/forgot-password");
+                            break;
 
-                })
-                .catch((err) => {
-                    if (err.response.status === 422) {
-                        const newFormData = {
-                            ...formData,
-                            error_list: err.response.data.errors,
-                        };
+                        // バリデーションエラー
+                        case 422:
+                            const newFormData = {
+                                ...formData,
+                                error_list: err.response.data.errors,
+                            };
 
-                        setFormData(newFormData);
-                        console.log("Send Error", err.response.data.errors);
-                        setIsLoading(false);
-                    } else {
-                        console.log("Send Error", err.response.data);
-                        setIsLoading(false);
+                            // パスワードコードがDBに存在しない場合
+                            if (err.response.data.errors.code[0]) {
+                                toast.error(err.response.data.errors.code[0], {
+                                    position: toast.POSITION.TOP_CENTER,
+                                    autoClose: 3000,
+                                });
+                                navigate("/forgot-password");
+                            }
+
+                            setFormData(newFormData);
+                            setIsLoading(false);
+                            break;
+
+                        default:
+                            toast.error(
+                                "エラーが発生しました。しばらくたってからやり直してください。",
+                                {
+                                    position: toast.POSITION.TOP_CENTER,
+                                    autoClose: 3000,
+                                }
+                            );
+                            setIsLoading(false);
+                            break;
                     }
-                });
+                },
+            });
         });
     };
 
+    useEffect(() => {
+
+        // GETパラメータが空の場合はTOPへ戻す
+        if(!code){
+        navigate('/');
+
+        }
+    }, []);
+
     return (
-        <Form onSubmit={registerSubmit}>
+        <Form onSubmit={handleSubmit}>
             <Title>新しいパスワードの入力</Title>
 
             <UserComponent>
