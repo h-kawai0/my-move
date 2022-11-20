@@ -13,4 +13,8 @@ export const Spinner: VFC<Props> = memo((props) => {
 const SSpinner = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 500px;
 `;
