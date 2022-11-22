@@ -1,50 +1,41 @@
 import React, { memo, MouseEvent, VFC } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { colors } from "../../../theme/setting/colors";
 import { fonts } from "../../../theme/setting/fonts";
 import { space } from "../../../theme/setting/space";
 import { BaseButton, SignUpButton } from "../../atoms/button/BaseButton";
 import { breakPoint } from "../../../theme/setting/breakPoint";
 
+// 型定義
 type Props = {
     toggleChallenge: (e: MouseEvent<HTMLButtonElement>) => void;
     isSuccess: boolean;
     isChallenge: boolean;
     user: number;
+    isLoading: boolean;
 };
 
+// チャレンジボタンコンポーネント
 export const ChallengeItem: VFC<Props> = memo((props) => {
-    const { toggleChallenge, isChallenge, isSuccess, user } = props;
+    const { toggleChallenge, isChallenge, isSuccess, user, isLoading } = props;
 
     return (
         <>
             {user && isChallenge && isSuccess ? (
-                <SAllClearBtn
-                    as="span"
-                    className="c-btn c-btn--comped c-btn--notAllowed p-parentDetail__btn"
-                >
-                    全てクリア!!
-                </SAllClearBtn>
+                <SAllClearBtn as="span">全てクリア!!</SAllClearBtn>
             ) : user && isChallenge ? (
-                <SChallenging
-                    as="span"
-                    className="c-btn c-btn--comped c-btn--notAllwed p-parentDetail__btn"
-                >
-                    チャレンジ中!!
-                </SChallenging>
+                <SChallenging as="span">チャレンジ中!!</SChallenging>
             ) : user && !isChallenge ? (
                 <STryButton
                     as="button"
-                    className="c-btn c-btn--challenge p-parentDetail__btn"
                     onClick={toggleChallenge}
+                    disabled={isLoading}
+                    $sending={isLoading}
                 >
-                    チャレンジ
+                    {isLoading ? "処理中です..." : "チャレンジ"}
                 </STryButton>
             ) : (
-                <SSignUpButton
-                    to="/login"
-                    className="c-btn c-btn--signup p-parentDetail__btn"
-                >
+                <SSignUpButton to="/register">
                     会員登録してチャレンジする
                 </SSignUpButton>
             )}
@@ -96,7 +87,7 @@ const SChallenging = styled(BaseButton)`
   `};
 `;
 
-const STryButton = styled(BaseButton)`
+const STryButton = styled(BaseButton)<{ $sending: boolean }>`
     background: ${colors.base.paletteTrueBlue};
     display: block;
     width: 40%;
@@ -110,6 +101,14 @@ const STryButton = styled(BaseButton)`
     ${breakPoint.md`
     width: 60%;
   `};
+    ${({ $sending }) =>
+        $sending &&
+        css`
+            background: ${colors.base.paletteDarkGray};
+            color: ${colors.font.fontColorDefault};
+            font-weight: initial;
+            cursor: not-allowed;
+        `}
 `;
 
 const SSignUpButton = styled(SignUpButton)`

@@ -6581,6 +6581,151 @@ var resetPassword = function resetPassword(_ref4) {
 
 /***/ }),
 
+/***/ "./resources/ts/api/ItemApi.ts":
+/*!*************************************!*\
+  !*** ./resources/ts/api/ItemApi.ts ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "clearChallenge": () => (/* binding */ clearChallenge),
+/* harmony export */   "detailParentItem": () => (/* binding */ detailParentItem),
+/* harmony export */   "doChallenge": () => (/* binding */ doChallenge)
+/* harmony export */ });
+/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/axios */ "./resources/ts/libs/axios.tsx");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+ // 親MyMove詳細取得
+
+var detailParentItem = function detailParentItem(id) {
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+    var _yield$axios$get, data;
+
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/items/".concat(id, "/get"));
+
+          case 2:
+            _yield$axios$get = _context.sent;
+            data = _yield$axios$get.data;
+            return _context.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+}; // チャレンジ登録
+
+
+var doChallenge = function doChallenge(_ref) {
+  var userId = _ref.userId,
+      parentItemId = _ref.parentItemId;
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+    var _yield$axios$post, data;
+
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/items/challenge", {
+              userId: userId,
+              parentItemId: parentItemId
+            });
+
+          case 2:
+            _yield$axios$post = _context2.sent;
+            data = _yield$axios$post.data;
+            return _context2.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+}; // クリア登録
+
+
+var clearChallenge = function clearChallenge(_ref2) {
+  var userId = _ref2.userId,
+      parentItemId = _ref2.parentItemId,
+      childItemId = _ref2.childItemId;
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+    var _yield$axios$post2, data;
+
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/items/clear", {
+              userId: userId,
+              parentItemId: parentItemId,
+              childItemId: childItemId
+            });
+
+          case 2:
+            _yield$axios$post2 = _context3.sent;
+            data = _yield$axios$post2.data;
+            return _context3.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/ts/components/atoms/button/BaseButton.tsx":
 /*!*************************************************************!*\
   !*** ./resources/ts/components/atoms/button/BaseButton.tsx ***!
@@ -9363,7 +9508,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../theme/setting/space */ "./resources/ts/theme/setting/space.ts");
 /* harmony import */ var _atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../atoms/button/BaseButton */ "./resources/ts/components/atoms/button/BaseButton.tsx");
 /* harmony import */ var _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../theme/setting/breakPoint */ "./resources/ts/theme/setting/breakPoint.ts");
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -9373,31 +9518,34 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
+ // チャレンジボタンコンポーネント
 
 var ChallengeItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   var toggleChallenge = props.toggleChallenge,
       isChallenge = props.isChallenge,
       isSuccess = props.isSuccess,
-      user = props.user;
+      user = props.user,
+      isLoading = props.isLoading;
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, user && isChallenge && isSuccess ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SAllClearBtn, {
-    as: "span",
-    className: "c-btn c-btn--comped c-btn--notAllowed p-parentDetail__btn"
+    as: "span"
   }, "\u5168\u3066\u30AF\u30EA\u30A2!!") : user && isChallenge ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SChallenging, {
-    as: "span",
-    className: "c-btn c-btn--comped c-btn--notAllwed p-parentDetail__btn"
+    as: "span"
   }, "\u30C1\u30E3\u30EC\u30F3\u30B8\u4E2D!!") : user && !isChallenge ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(STryButton, {
     as: "button",
-    className: "c-btn c-btn--challenge p-parentDetail__btn",
-    onClick: toggleChallenge
-  }, "\u30C1\u30E3\u30EC\u30F3\u30B8") : react__WEBPACK_IMPORTED_MODULE_0__.createElement(SSignUpButton, {
-    to: "/login",
-    className: "c-btn c-btn--signup p-parentDetail__btn"
+    onClick: toggleChallenge,
+    disabled: isLoading,
+    "$sending": isLoading
+  }, isLoading ? "処理中です..." : "チャレンジ") : react__WEBPACK_IMPORTED_MODULE_0__.createElement(SSignUpButton, {
+    to: "/register"
   }, "\u4F1A\u54E1\u767B\u9332\u3057\u3066\u30C1\u30E3\u30EC\u30F3\u30B8\u3059\u308B"));
 });
 var SAllClearBtn = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_4__.BaseButton)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    background: ", ";\n    color: ", ";\n    font-weight: initial;\n    &:hover {\n        cursor: initial;\n        opacity: 1;\n    }\n    display: block;\n    width: 40%;\n    margin-left: auto;\n    margin-right: auto;\n    padding: ", " ", ";\n    font-size: ", ";\n    ", ";\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.font.fontColorDefault, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.md(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 60%;\n  "]))));
 var SChallenging = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_4__.BaseButton)(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    background: ", ";\n    color: ", ";\n    font-weight: initial;\n    &:hover {\n        cursor: initial;\n        opacity: 1;\n    }\n    display: block;\n    width: 40%;\n    margin-left: auto;\n    margin-right: auto;\n    padding: ", " ", ";\n    font-size: ", ";\n    ", ";\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.font.fontColorDefault, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.sm(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.md(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 60%;\n  "]))));
-var STryButton = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_4__.BaseButton)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    background: ", ";\n    display: block;\n    width: 40%;\n    margin-left: auto;\n    margin-right: auto;\n    padding: ", " ", ";\n    font-size: ", ";\n    ", ";\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteTrueBlue, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.md(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 60%;\n  "]))));
-var SSignUpButton = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_4__.SignUpButton)(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    display: block;\n    width: 40%;\n    margin-left: auto;\n    margin-right: auto;\n    padding: ", " ", ";\n    font-size: ", ";\n    ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.md(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    width: 60%;\n  "]))));
+var STryButton = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_4__.BaseButton)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    background: ", ";\n    display: block;\n    width: 40%;\n    margin-left: auto;\n    margin-right: auto;\n    padding: ", " ", ";\n    font-size: ", ";\n    ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteTrueBlue, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.md(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 60%;\n  "]))), function (_ref) {
+  var $sending = _ref.$sending;
+  return $sending && (0,styled_components__WEBPACK_IMPORTED_MODULE_6__.css)(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n            background: ", ";\n            color: ", ";\n            font-weight: initial;\n            cursor: not-allowed;\n        "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.font.fontColorDefault);
+});
+var SSignUpButton = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_4__.SignUpButton)(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    display: block;\n    width: 40%;\n    margin-left: auto;\n    margin-right: auto;\n    padding: ", " ", ";\n    font-size: ", ";\n    ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.sm(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_5__.breakPoint.md(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    width: 60%;\n  "]))));
 
 /***/ }),
 
@@ -9420,7 +9568,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../theme/setting/breakPoint */ "./resources/ts/theme/setting/breakPoint.ts");
 /* harmony import */ var _atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../atoms/button/BaseButton */ "./resources/ts/components/atoms/button/BaseButton.tsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10;
+var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -9431,6 +9579,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
+ // 子MyMoveチャレンジリスト
 
 var ChildItemList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   var name = props.name,
@@ -9441,53 +9590,54 @@ var ChildItemList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props)
       toggleClear = props.toggleClear,
       childId = props.childId,
       clearItem = props.clearItem,
-      parentId = props.parentId; // MyMoveを順番にクリアさせるため、クリアボタンの表示を制御する
+      parentId = props.parentId,
+      isLoading = props.isLoading; // MyMoveを順番にクリアさせるため、クリアボタンの表示を制御する
 
   var currentClear = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
     // 最初の配列はクリアボタンを表示する
     if (index === 0) {
+      console.log("最初の配列", index);
       return true; // 配列が最初よりも後の場合のクリアボタン制御
     } else if (index > 0) {
       // 前のMyMoveをクリアしているならクリアボタンを表示
       if (childItems[index - 1].clears.length !== 0) {
+        console.log("前のMyMoveをクリアしています", index);
         return true;
       } else {
+        console.log("前のMyMoveをクリアしていません", index);
         return false;
       }
     } else {
       return false;
     }
-  }, [clearItem]); // DBから取得した　clearレコードが存在するか確認
+  }, [clearItem, childItems]); // DBから取得した　clearレコードが存在するか確認
 
   var isClear = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
     return clearItem.length !== 0 ? true : false;
   }, [clearItem]);
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailItem, {
-    className: "p-parentDetail__item"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailLink, {
-    to: "/items/".concat(parentId, "/").concat(childId),
-    className: "p-parentDetail__link"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "MyMove", index + 1, "\u300C", name, "\u300D")), isChallenge && user && react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailStatus, {
-    className: "p-parentDetail__status"
-  }, isChallenge && user && currentClear && isClear ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComplete, {
-    as: "span",
-    className: "c-btn c-btn--comped c-btn--notAllowed p-parentDetail__clear"
-  }, "\u30AF\u30EA\u30A2\u6E08\u307F") : isChallenge && user && currentClear ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailClear, {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailLink, {
+    to: "/items/".concat(parentId, "/").concat(childId)
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "MyMove", index + 1, "\u300C", name, "\u300D")), isChallenge && user && react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailStatus, null, isChallenge && user && currentClear && isClear ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComplete, {
+    as: "span"
+  }, "\u30AF\u30EA\u30A2\u6E08\u307F") : isChallenge && user && currentClear && !isClear ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailClear, {
     as: "button",
-    className: "c-btn c-btn--clear p-parentDetail__clear",
     onClick: function onClick() {
       return toggleClear(childId);
-    }
-  }, "\u30AF\u30EA\u30A2") : isChallenge && user && !currentClear ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComplete, {
-    as: "span",
-    className: "c-btn c-btn--comped c-btn--notAllowed p-parentDetail__clear"
+    },
+    disabled: isLoading,
+    "$clearSending": isLoading
+  }, isLoading ? "処理中です..." : "クリア") : isChallenge && user && !currentClear && !isClear ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComplete, {
+    as: "span"
   }, "\u30ED\u30C3\u30AF\u4E2D") : null));
 });
-var SParentDetailItem = styled_components__WEBPACK_IMPORTED_MODULE_6__["default"].li(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  background: ", ";\n  margin-bottom: ", ";\n  box-sizing: border-box;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: ", ";\n  border-radius: 3px;\n  flex-wrap: wrap;\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    display: block;\n  "]))));
-var SParentDetailLink = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n  padding: ", ";\n  box-sizing: border-box;\n  font-weight: bold;\n  word-break: break-all;\n  display: block;\n  width: 80%;\n  &:hover{\n    opacity: .8;\n    text-decoration: underline;\n  }\n  ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    padding: ", ";\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size.m));
-var SParentDetailStatus = styled_components__WEBPACK_IMPORTED_MODULE_6__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n  ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    margin-top: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl));
-var SParentDetailComplete = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n  background: ", ";\n  color: ", ";\n  font-weight: initial;\n  &:hover{\n    cursor: initial;\n    opacity: 1;\n  }\n  padding: ", " ", ";\n  display: block;\n  font-size: ", ";\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.font.fontColorDefault, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailClear = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n  background: ", ";\n  padding: ", " ", ";\n  display: block;\n  font-size: ", ";\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkBlue, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailItem = styled_components__WEBPACK_IMPORTED_MODULE_6__["default"].li(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    background: ", ";\n    margin-bottom: ", ";\n    box-sizing: border-box;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    padding: ", ";\n    border-radius: 3px;\n    flex-wrap: wrap;\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    display: block;\n  "]))));
+var SParentDetailLink = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    padding: ", ";\n    box-sizing: border-box;\n    font-weight: bold;\n    word-break: break-all;\n    display: block;\n    width: 80%;\n    &:hover {\n        opacity: 0.8;\n        text-decoration: underline;\n    }\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.l, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    padding: ", ";\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size.m));
+var SParentDetailStatus = styled_components__WEBPACK_IMPORTED_MODULE_6__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    margin-top: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl));
+var SParentDetailComplete = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    background: ", ";\n    color: ", ";\n    font-weight: initial;\n    &:hover {\n        cursor: initial;\n        opacity: 1;\n    }\n    padding: ", " ", ";\n    display: block;\n    font-size: ", ";\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.font.fontColorDefault, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailClear = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    background: ", ";\n    padding: ", " ", ";\n    display: block;\n    font-size: ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkBlue, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_3__.space.xl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_2__.fonts.size.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_4__.breakPoint.sm(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), function (_ref) {
+  var $clearSending = _ref.$clearSending;
+  return $clearSending && (0,styled_components__WEBPACK_IMPORTED_MODULE_6__.css)(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n            background: ", ";\n            color: ", ";\n            font-weight: initial;\n            cursor: not-allowed;\n        "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.font.fontColorDefault);
+});
 
 /***/ }),
 
@@ -10540,8 +10690,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DetailParentItem": () => (/* binding */ DetailParentItem)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../libs/axios */ "./resources/ts/libs/axios.tsx");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
 /* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_2__);
@@ -10556,9 +10706,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _organisms_item_Author__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../organisms/item/Author */ "./resources/ts/components/organisms/item/Author.tsx");
 /* harmony import */ var _atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../atoms/spinner/Spinner */ "./resources/ts/components/atoms/spinner/Spinner.tsx");
 /* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/esm/index.js");
+/* harmony import */ var _queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../queries/ItemsQuery */ "./resources/ts/queries/ItemsQuery.ts");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7, _templateObject8, _templateObject9, _templateObject10, _templateObject11, _templateObject12, _templateObject13, _templateObject14, _templateObject15, _templateObject16, _templateObject17, _templateObject18, _templateObject19, _templateObject20, _templateObject21, _templateObject22, _templateObject23, _templateObject24, _templateObject25, _templateObject26, _templateObject27, _templateObject28;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -10572,6 +10727,37 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
 
 
 
@@ -10587,17 +10773,28 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
+ // 親MyMove詳細画面
 
 var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  var params = (0,react_router__WEBPACK_IMPORTED_MODULE_14__.useParams)();
-  var id = params.id;
+  // GETパラメータから親MyMoveIdを取得
+  var params = (0,react_router__WEBPACK_IMPORTED_MODULE_15__.useParams)();
+  var id = params.id; // 親MyMoveを取得
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isLoading = _useState2[0],
-      setIsLoading = _useState2[1];
+  var _useDetailParentItem = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__.useDetailParentItem)(id),
+      data = _useDetailParentItem.data,
+      isLoading = _useDetailParentItem.isLoading,
+      isError = _useDetailParentItem.isError,
+      refetch = _useDetailParentItem.refetch; // チャレンジ処理
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+
+  var doChallenge = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__.useDoChallenge)(); // チャレンジクリア処理
+
+  var clearChallenge = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__.useClearChallenge)();
+  var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_15__.useNavigate)(); // MyMoveデータ管理用state
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     parentItem: {
       category: {
         id: 0,
@@ -10638,86 +10835,143 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       id: 0
     }
   }),
+      _useState2 = _slicedToArray(_useState, 2),
+      itemData = _useState2[0],
+      setItemData = _useState2[1]; // チャレンジ中管理state
+
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      itemData = _useState4[0],
-      setItemData = _useState4[1];
+      isChallenge = _useState4[0],
+      setIsChallenge = _useState4[1]; // チャレンジ完了state
+
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      isChallenge = _useState6[0],
-      setIsChallenge = _useState6[1];
+      isSuccess = _useState6[0],
+      setIsSuccess = _useState6[1]; // お気に入りstate
+
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState8 = _slicedToArray(_useState7, 2),
-      isSuccess = _useState8[0],
-      setIsSuccess = _useState8[1];
+      isFavorite = _useState8[0],
+      setIsFavorite = _useState8[1]; // MyMoveデータ取得
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState10 = _slicedToArray(_useState9, 2),
-      isFavorite = _useState10[0],
-      setIsFavorite = _useState10[1];
 
-  var getItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
-    setIsLoading(true);
-    _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/items/".concat(id, "/get")).then(function (res) {
-      var _a;
+  var getParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    var _a, _b; // MyMoveが取得できた場合
 
-      console.log(res.data);
-      var result = res.data;
-      var challengeFlg = ((_a = res.data.challengeItem) === null || _a === void 0 ? void 0 : _a.id) ? true : false;
-      console.log(result, itemData);
-      setItemData(result);
-      challengeFlg ? setIsChallenge(true) : setIsChallenge(false);
+
+    if (data) {
+      // stateにMyMoveデータを詰める
+      setItemData(data); // チャレンジ中か判定
+
+      ((_a = data.challengeItem) === null || _a === void 0 ? void 0 : _a.id) ? setIsChallenge(true) : setIsChallenge(false);
       var sum = []; // 取得したMyMoveの配列を展開する
 
-      res.data.parentItem.child_items.map(function (child, i) {
-        res.data.parentItem.child_items[i].clears.map(function (clear) {
-          sum.push(res.data.parentItem.child_items[i].clears.length);
+      data.parentItem.child_items.map(function (child, i) {
+        data.parentItem.child_items[i].clears.map(function () {
+          sum.push(data.parentItem.child_items[i].clears.length);
         });
-      });
-      console.log(sum.length, res.data.parentItem.child_items.length);
-      sum.length === res.data.parentItem.child_items.length ? setIsSuccess(true) : setIsSuccess(false);
-      setIsLoading(false);
-    })["catch"](function (err) {
-      console.log(err);
-      setIsLoading(false);
-    });
-  }, [isSuccess]);
+      }); // 取得したクリア数と子MyMoveの数が一致した場合は全てクリアにする
+
+      sum.length === data.parentItem.child_items.length ? setIsSuccess(true) : setIsSuccess(false); // お気に入り登録があるか判定
+
+      ((_b = data.isFavorite) === null || _b === void 0 ? void 0 : _b.id) ? setIsFavorite(true) : setIsFavorite(false);
+    }
+  }, [data, isSuccess]); // 最初に実行
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    getItem();
-  }, []);
+    // 親MyMoveが取得できない場合
+    if (isError) {
+      // MyMove一覧へ遷移
+      navigate("/index", {
+        replace: true
+      });
+    }
+
+    getParentItem();
+  }, [isError, navigate, data]); // チャレンジボタン押下処理
 
   var toggleChallenge = function toggleChallenge() {
-    _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/items/challenge", {
-      userId: itemData.user,
-      parentItemId: itemData.parentItem.id
-    }).then(function (res) {
-      console.log(res);
-      setIsChallenge(true);
-    })["catch"](function (err) {
-      console.log(err);
-    });
-  };
+    return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/sanctum/csrf-cookie").then(function () {
+                doChallenge.mutate({
+                  userId: itemData.user,
+                  parentItemId: itemData.parentItem.id
+                }, {
+                  onSuccess: function onSuccess() {
+                    setIsChallenge(true);
+                  },
+                  onError: function onError(err) {
+                    console.log(err);
+                  }
+                });
+              });
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+  }; // クリアボタン処理
+
 
   var toggleClear = function toggleClear(e) {
-    console.log(e);
-    _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/items/clear", {
-      userId: itemData.user,
-      parentItemId: itemData.parentItem.id,
-      childItemId: e
-    }).then(function (res) {
-      console.log(res);
-      getItem();
-    })["catch"](function (err) {
-      console.log(err);
-    });
-  };
+    return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              console.log(e); // axios
+              //     .post("/items/clear", {
+              //         userId: data.user,
+              //         parentItemId: data.parentItem.id,
+              //         childItemId: e,
+              //     })
+              //     .then((res) => {
+              //         console.log(res);
+              //         refetch();
+              //     })
+              //     .catch((err) => {
+              //         console.log(err);
+              //     });
+
+              _context2.next = 3;
+              return _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/sanctum/csrf-cookie").then(function () {
+                clearChallenge.mutate({
+                  userId: itemData.user,
+                  parentItemId: itemData.parentItem.id,
+                  childItemId: e
+                }, {
+                  onSuccess: function onSuccess() {
+                    console.log('再取得');
+                    refetch();
+                  }
+                });
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+  }; // お気に入り処理
+
 
   var postFavorite = function postFavorite() {
-    console.log("おきにいり");
     _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/items/favorite", {
-      userId: itemData.user,
-      parentItemId: itemData.parentItem.id
+      userId: data.user,
+      parentItemId: data.parentItem.id
     }).then(function (res) {
       console.log(res);
       setIsFavorite(function (prev) {
@@ -10760,16 +11014,16 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailImg, {
     className: "p-parentDetail__img"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: itemData.parentItem.pic ? "/storage/img/items/original/".concat(itemData.parentItem.pic) : "/images/item/item_no_image.png",
-    alt: itemData.parentItem.name
+    src: (itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic) ? "/storage/img/items/original/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic) : "/images/item/item_no_image.png",
+    alt: itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.name
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailTitle, {
     className: "p-parentDetail__title"
-  }, itemData.parentItem.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMeta, {
+  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMeta, {
     className: "p-parentDetail__meta"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCategory, {
     className: "p-parentDetail__category"
-  }, itemData.parentItem.category.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_twitter_TwitterShare__WEBPACK_IMPORTED_MODULE_9__.TwitterShare, {
-    name: "".concat(itemData.parentItem.name, "%7C").concat("MyMove")
+  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.category.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_twitter_TwitterShare__WEBPACK_IMPORTED_MODULE_9__.TwitterShare, {
+    name: "".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.name, "%7C").concat("MyMove")
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailFooterContainer, {
     className: "p-parentDetail__footerContainer"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailAuthor, {
@@ -10777,28 +11031,28 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailAvatar, {
     className: "p-parentDetail__avatar"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: "/storage/img/user/original/".concat(itemData.parentItem.user.pic)
+    src: "/storage/img/user/original/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic)
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailUsername, {
     className: "p-parentDetail__username"
-  }, itemData.parentItem.user.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDate, {
+  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDate, {
     className: "p-parentDetail__date"
-  }, dayjs__WEBPACK_IMPORTED_MODULE_2__(itemData.parentItem.created_at).format("YYYY[年]M[月]D[日]")))), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCompTime, {
+  }, dayjs__WEBPACK_IMPORTED_MODULE_2__(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.created_at).format("YYYY[年]M[月]D[日]")))), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCompTime, {
     className: "p-parentDetail__compTime"
-  }, "\u76EE\u5B89\u9054\u6210\u6642\u9593:", " ", itemData.parentItem.cleartime, "\u6642\u9593"))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_item_FavoriteItem__WEBPACK_IMPORTED_MODULE_10__.FavoriteItem, {
-    userId: itemData.user,
+  }, "\u76EE\u5B89\u9054\u6210\u6642\u9593:", " ", itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.cleartime, "\u6642\u9593"))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_item_FavoriteItem__WEBPACK_IMPORTED_MODULE_10__.FavoriteItem, {
+    userId: itemData === null || itemData === void 0 ? void 0 : itemData.user,
     postFavorite: postFavorite,
     isFavorite: isFavorite
   }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDetail, {
     className: "p-parentDetail__detail"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComment, {
     className: "p-parentDetail__comment"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, itemData.parentItem.detail))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMenu, {
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.detail))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMenu, {
     className: "p-parentDetail__menu"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailTitle, {
     className: "p-parentDetail__title"
   }, "\u3053\u306EMyMove\u306E\u30E1\u30CB\u30E5\u30FC"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailList, {
     className: "p-parentDetail__list"
-  }, itemData.parentItem.child_items.map(function (item, index) {
+  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.child_items.map(function (item, index) {
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_parentDetail_ChildItemList__WEBPACK_IMPORTED_MODULE_7__.ChildItemList, {
       key: item.id,
       name: item.name,
@@ -10809,37 +11063,39 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       isChallenge: isChallenge,
       toggleClear: toggleClear,
       clearItem: item.clears,
-      parentId: itemData.parentItem.id
+      parentId: itemData.parentItem.id,
+      isLoading: clearChallenge.isLoading
     });
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_parentDetail_ChallengeItem__WEBPACK_IMPORTED_MODULE_8__.ChallengeItem, {
     toggleChallenge: toggleChallenge,
     isChallenge: isChallenge,
     isSuccess: isSuccess,
-    user: itemData.user
+    user: itemData === null || itemData === void 0 ? void 0 : itemData.user,
+    isLoading: doChallenge.isLoading
   }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_item_Author__WEBPACK_IMPORTED_MODULE_11__.Author, {
-    pic: itemData.parentItem.user.pic,
-    name: itemData.parentItem.user.name,
-    profile: itemData.parentItem.user.profile
+    pic: itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic,
+    name: itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.name,
+    profile: itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.profile
   })));
 });
-var SParentDetail = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].section(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding-top: ", ";\n    padding-bottom: 80px;\n    box-sizing: border-box;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl);
-var SParentDetailContainer = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    width: 60%;\n    margin: 0 auto;\n    background: ", ";\n    padding-top: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    margin-bottom: ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailWrapper = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
-var SParentDetailInfo = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 70%;\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n    padding: ", ";\n    box-sizing: border-box;\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailImg = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    margin-right: auto;\n    width: 100%;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var SParentDetailTitle = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].h2(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    text-align: center;\n    font-size: ", ";\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    fonts-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.l));
-var SParentDetailMeta = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: ", ";\n    align-items: center;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
-var SParentDetailCategory = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    background: ", ";\n    padding: ", " ", ";\n    color: ", ";\n    font-size: ", ";\n    font-weight: 600;\n    text-transform: uppercase;\n    border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteCinnabar, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailFooterContainer = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-end;\n    margin-bottom: ", ";\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    align-items: flex-start;\n    flex-direction: column;\n  "]))));
-var SParentDetailAuthor = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl));
-var SParentDetailAvatar = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["\n    width: 36px;\n    height: 36px;\n    border-radius: 100%;\n    overflow: hidden;\n    margin-right: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m);
-var SParentDetailUsername = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailDate = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
-var SParentDetailCompTime = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].span(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m);
-var SParentDetailDetail = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["\n    padding-right: ", ";\n    padding-left: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l));
-var SParentDetailComment = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["\n    padding: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
-var SParentDetailMenu = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].div(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
-var SParentDetailList = styled_components__WEBPACK_IMPORTED_MODULE_15__["default"].ul(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["\n    list-style-type: none;\n    margin-bottom: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl);
+var SParentDetail = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].section(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding-top: ", ";\n    padding-bottom: 80px;\n    box-sizing: border-box;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl);
+var SParentDetailContainer = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    width: 60%;\n    margin: 0 auto;\n    background: ", ";\n    padding-top: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    margin-bottom: ", ";\n    ", ";\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailWrapper = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
+var SParentDetailInfo = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 70%;\n    margin-left: auto;\n    margin-right: auto;\n    overflow: hidden;\n    padding: ", ";\n    box-sizing: border-box;\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailImg = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    margin-right: auto;\n    width: 100%;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var SParentDetailTitle = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].h2(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    text-align: center;\n    font-size: ", ";\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    fonts-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.l));
+var SParentDetailMeta = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: ", ";\n    align-items: center;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl);
+var SParentDetailCategory = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n    background: ", ";\n    padding: ", " ", ";\n    color: ", ";\n    font-size: ", ";\n    font-weight: 600;\n    text-transform: uppercase;\n    border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteCinnabar, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailFooterContainer = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-end;\n    margin-bottom: ", ";\n    ", "\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    align-items: flex-start;\n    flex-direction: column;\n  "]))));
+var SParentDetailAuthor = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject17 || (_templateObject17 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl));
+var SParentDetailAvatar = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject18 || (_templateObject18 = _taggedTemplateLiteral(["\n    width: 36px;\n    height: 36px;\n    border-radius: 100%;\n    overflow: hidden;\n    margin-right: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m);
+var SParentDetailUsername = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject19 || (_templateObject19 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailDate = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject20 || (_templateObject20 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.s);
+var SParentDetailCompTime = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].span(_templateObject21 || (_templateObject21 = _taggedTemplateLiteral(["\n    font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m);
+var SParentDetailDetail = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject22 || (_templateObject22 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    border-bottom: 2px solid ", ";\n    margin-bottom: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject23 || (_templateObject23 = _taggedTemplateLiteral(["\n    padding-right: ", ";\n    padding-left: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l));
+var SParentDetailComment = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject24 || (_templateObject24 = _taggedTemplateLiteral(["\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject25 || (_templateObject25 = _taggedTemplateLiteral(["\n    padding: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
+var SParentDetailMenu = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].div(_templateObject26 || (_templateObject26 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject27 || (_templateObject27 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n  "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m));
+var SParentDetailList = styled_components__WEBPACK_IMPORTED_MODULE_16__["default"].ul(_templateObject28 || (_templateObject28 = _taggedTemplateLiteral(["\n    list-style-type: none;\n    margin-bottom: ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xxl);
 
 /***/ }),
 
@@ -12708,6 +12964,48 @@ var useResetPassword = function useResetPassword() {
       }); // パスワードがリセットできたらログイン画面に遷移させる
 
       navigate("/login");
+    }
+  });
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/ts/queries/ItemsQuery.ts":
+/*!********************************************!*\
+  !*** ./resources/ts/queries/ItemsQuery.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useClearChallenge": () => (/* binding */ useClearChallenge),
+/* harmony export */   "useDetailParentItem": () => (/* binding */ useDetailParentItem),
+/* harmony export */   "useDoChallenge": () => (/* binding */ useDoChallenge)
+/* harmony export */ });
+/* harmony import */ var react_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
+/* harmony import */ var _api_ItemApi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/ItemApi */ "./resources/ts/api/ItemApi.ts");
+
+ // 親MyMove詳細取得処理
+
+var useDetailParentItem = function useDetailParentItem(id) {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)(["parentDetail", id], function () {
+    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.detailParentItem(id);
+  });
+}; // チャレンジ送信処理
+
+
+var useDoChallenge = function useDoChallenge() {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.doChallenge);
+}; // チャレンジクリア送信処理
+
+
+var useClearChallenge = function useClearChallenge() {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.clearChallenge, {
+    onError: function onError(err) {
+      console.log(err);
     }
   });
 };
