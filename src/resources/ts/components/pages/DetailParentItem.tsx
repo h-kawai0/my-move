@@ -1,4 +1,11 @@
-import React, { VFC, memo, useEffect, useState, useCallback } from "react";
+import React, {
+    VFC,
+    memo,
+    useEffect,
+    useState,
+    useCallback,
+    useRef,
+} from "react";
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import axios from "../../libs/axios";
@@ -17,6 +24,7 @@ import { Category, Clear, ParentItem, User } from "../../types/api/item";
 import { Spinner } from "../atoms/spinner/Spinner";
 import { Oval } from "react-loader-spinner";
 import {
+    useAddFavorite,
     useClearChallenge,
     useDetailParentItem,
     useDoChallenge,
@@ -57,6 +65,10 @@ export const DetailParentItem: VFC = memo(() => {
     // チャレンジクリア処理
     const clearChallenge = useClearChallenge();
 
+    // お気に入り登録処理
+    const addFavorite = useAddFavorite();
+
+    // 画面遷移用
     const navigate = useNavigate();
 
     // MyMoveデータ管理用state
@@ -181,50 +193,45 @@ export const DetailParentItem: VFC = memo(() => {
     const toggleClear = async (e: number) => {
         console.log(e);
 
-        // axios
-        //     .post("/items/clear", {
-        //         userId: data.user,
-        //         parentItemId: data.parentItem.id,
-        //         childItemId: e,
-        //     })
-        //     .then((res) => {
-        //         console.log(res);
-
-        //         refetch();
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
-
         await axios.get("/sanctum/csrf-cookie").then(() => {
-            clearChallenge.mutate({
-                userId: itemData.user,
-                parentItemId: itemData.parentItem.id,
-                childItemId: e,
-            },{
-                onSuccess: () => {
-                    console.log('再取得');
-                    refetch();
+            clearChallenge.mutate(
+                {
+                    userId: itemData.user,
+                    parentItemId: itemData.parentItem.id,
+                    childItemId: e,
+                },
+                {
+                    onSuccess: () => {
+                        refetch();
+                    },
                 }
-            });
+            );
         });
     };
 
-    // お気に入り処理
-    const postFavorite = () => {
-        axios
-            .post("/items/favorite", {
-                userId: data.user,
-                parentItemId: data.parentItem.id,
-            })
-            .then((res) => {
-                console.log(res);
+    const processing = useRef(false);
 
-                setIsFavorite((prev) => !prev);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    // お気に入り処理
+    const postFavorite = async () => {
+        if (processing.current) return;
+
+        processing.current = true;
+
+        console.log("おきにいり");
+        await axios.get("/sanctum/csrf-cookie").then(() => {
+            addFavorite.mutate(
+                {
+                    userId: itemData.user,
+                    parentItemId: itemData.parentItem.id,
+                },
+                {
+                    onSuccess: () => {
+                        setIsFavorite((prev) => !prev);
+                        processing.current = false;
+                    },
+                }
+            );
+        });
     };
 
     // MyMoveを全て達成しているか判定
@@ -259,26 +266,31 @@ export const DetailParentItem: VFC = memo(() => {
                     />
                 </Spinner>
             ) : (
-                <SParentDetail className="p-parentDetail">
-                    <SParentDetailContainer className="p-parentDetail__container">
-                        <SParentDetailWrapper className="p-parentDetail__info--wrapper">
-                            <SParentDetailInfo className="p-parentDetail__info">
-                                <SParentDetailImg className="p-parentDetail__img">
+                <SParentDetail>
+                    <SParentDetailContainer>
+                        <SParentDetailWrapper>
+                            <SParentDetailInfo>
+                                <SParentDetailImg>
                                     <img
                                         src={
                                             itemData?.parentItem.pic
-                                                ? `/storage/img/items/original/${itemData?.parentItem.pic}`
+                                                ? `/storage/img/items/resize/${itemData?.parentItem.pic}`
                                                 : `/images/item/item_no_image.png`
+                                        }
+                                        srcSet={
+                                            itemData?.parentItem.pic
+                                                ? `/storage/img/items/resize/${itemData?.parentItem.pic} 1x,/storage/img/items/original/${itemData?.parentItem.pic} 2x`
+                                                : `/images/item/item_no_image.png 1x,/images/item/item_no_image@2x.png 2x`
                                         }
                                         alt={itemData?.parentItem.name}
                                     />
                                 </SParentDetailImg>
 
-                                <SParentDetailTitle className="p-parentDetail__title">
+                                <SParentDetailTitle>
                                     {itemData?.parentItem.name}
                                 </SParentDetailTitle>
-                                <SParentDetailMeta className="p-parentDetail__meta">
-                                    <SParentDetailCategory className="p-parentDetail__category">
+                                <SParentDetailMeta>
+                                    <SParentDetailCategory>
                                         {itemData?.parentItem.category.name}
                                     </SParentDetailCategory>
                                     <TwitterShare
@@ -286,19 +298,34 @@ export const DetailParentItem: VFC = memo(() => {
                                     />
                                 </SParentDetailMeta>
 
-                                <SParentDetailFooterContainer className="p-parentDetail__footerContainer">
-                                    <SParentDetailAuthor className="p-parentDetail__author">
-                                        <SParentDetailAvatar className="p-parentDetail__avatar">
+                                <SParentDetailFooterContainer>
+                                    <SParentDetailAuthor>
+                                        <SParentDetailAvatar>
                                             <img
-                                                src={`/storage/img/user/original/${itemData?.parentItem.user.pic}`}
+                                                src={
+                                                    itemData?.parentItem.user
+                                                        .pic
+                                                        ? `/storage/img/user/resize/${itemData?.parentItem.user.pic}`
+                                                        : `/images/user/user_no_image.png`
+                                                }
+                                                srcSet={
+                                                    itemData?.parentItem.user
+                                                        .pic
+                                                        ? `/storage/img/user/resize/${itemData?.parentItem.user.pic} 1x, /storage/img/user/original/${itemData?.parentItem.user.pic} 2x`
+                                                        : `/images/user/user_no_image.png 1x, /images/user/user_no_image@2x.png 2x`
+                                                }
+                                                alt={
+                                                    itemData.parentItem.user
+                                                        .name
+                                                }
                                             />
                                         </SParentDetailAvatar>
 
                                         <div>
-                                            <SParentDetailUsername className="p-parentDetail__username">
+                                            <SParentDetailUsername>
                                                 {itemData?.parentItem.user.name}
                                             </SParentDetailUsername>
-                                            <SParentDetailDate className="p-parentDetail__date">
+                                            <SParentDetailDate>
                                                 {dayjs(
                                                     itemData?.parentItem
                                                         .created_at
@@ -308,7 +335,7 @@ export const DetailParentItem: VFC = memo(() => {
                                     </SParentDetailAuthor>
 
                                     <div>
-                                        <SParentDetailCompTime className="p-parentDetail__compTime">
+                                        <SParentDetailCompTime>
                                             目安達成時間:{" "}
                                             {itemData?.parentItem.cleartime}時間
                                         </SParentDetailCompTime>
@@ -323,18 +350,18 @@ export const DetailParentItem: VFC = memo(() => {
                             </SParentDetailInfo>
                         </SParentDetailWrapper>
 
-                        <SParentDetailDetail className="p-parentDetail__detail">
-                            <SParentDetailComment className="p-parentDetail__comment">
+                        <SParentDetailDetail>
+                            <SParentDetailComment>
                                 <p>{itemData?.parentItem.detail}</p>
                             </SParentDetailComment>
                         </SParentDetailDetail>
 
-                        <SParentDetailMenu className="p-parentDetail__menu">
-                            <SParentDetailTitle className="p-parentDetail__title">
+                        <SParentDetailMenu>
+                            <SParentDetailTitle>
                                 このMyMoveのメニュー
                             </SParentDetailTitle>
 
-                            <SParentDetailList className="p-parentDetail__list">
+                            <SParentDetailList>
                                 {itemData?.parentItem.child_items.map(
                                     (item, index) => (
                                         <ChildItemList

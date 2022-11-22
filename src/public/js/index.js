@@ -6590,6 +6590,7 @@ var resetPassword = function resetPassword(_ref4) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addFavorite": () => (/* binding */ addFavorite),
 /* harmony export */   "clearChallenge": () => (/* binding */ clearChallenge),
 /* harmony export */   "detailParentItem": () => (/* binding */ detailParentItem),
 /* harmony export */   "doChallenge": () => (/* binding */ doChallenge)
@@ -6719,6 +6720,37 @@ var clearChallenge = function clearChallenge(_ref2) {
         }
       }
     }, _callee3);
+  }));
+}; // お気に入り登録
+
+
+var addFavorite = function addFavorite(_ref3) {
+  var userId = _ref3.userId,
+      parentItemId = _ref3.parentItemId;
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+    var _yield$axios$post3, data;
+
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/items/favorite", {
+              userId: userId,
+              parentItemId: parentItemId
+            });
+
+          case 2:
+            _yield$axios$post3 = _context4.sent;
+            data = _yield$axios$post3.data;
+            return _context4.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
   }));
 };
 
@@ -7851,26 +7883,23 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
+ // お気に入り登録処理
 
 var FavoriteItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   var userId = props.userId,
       isFavorite = props.isFavorite,
       postFavorite = props.postFavorite;
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SFavorite, {
-    className: "p-parentDetail__favorite"
-  }, userId && isFavorite ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SRemoveFavorite, {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SFavorite, null, userId && isFavorite ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SRemoveFavorite, {
     as: "button",
-    className: "c-btn c-btn--comped p-parentDetail_submit",
     onClick: postFavorite
   }, "\u304A\u6C17\u306B\u5165\u308A\u89E3\u9664") : userId && !isFavorite ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(SAddFavorite, {
     as: "button",
-    className: "c-btn c-btn--favorite p-parentDetail__submit",
     onClick: postFavorite
   }, "\u3053\u306EMyMove\u304C\u6C17\u306B\u306A\u308B!") : null));
 });
-var SFavorite = styled_components__WEBPACK_IMPORTED_MODULE_6__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  float: right;\n  margin-bottom: ", ";\n  ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    float: initial;\n  "]))));
-var SRemoveFavorite = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n  background: ", ";\n  color: ", ";\n  font-weight: initial;\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.font.fontColorDefault, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"]));
-var SAddFavorite = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n  background: ", ";\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteGambogeOrange, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"]));
+var SFavorite = styled_components__WEBPACK_IMPORTED_MODULE_6__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    float: right;\n    margin-bottom: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    float: initial;\n  "]))));
+var SRemoveFavorite = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    background: ", ";\n    color: ", ";\n    font-weight: initial;\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteDarkGray, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.font.fontColorDefault, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"]));
+var SAddFavorite = (0,styled_components__WEBPACK_IMPORTED_MODULE_6__["default"])(_atoms_button_BaseButton__WEBPACK_IMPORTED_MODULE_5__.BaseButton)(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n    background: ", ";\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteGambogeOrange, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 100%;\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"]));
 
 /***/ }),
 
@@ -8250,17 +8279,17 @@ var Author = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
       name = props.name,
       profile = props.profile;
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SAuthor, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(STitle, null, "\u3053\u306EMyMove\u306E\u6295\u7A3F\u8005"), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SOwner, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: pic ? "/storage/img/user/reseize/".concat(pic) : "/img/user/user_no_image.png",
+    src: pic ? "/storage/img/user/reseize/".concat(pic) : "/images/user/user_no_image.png",
     alt: name,
-    srcSet: pic ? "/storage/img/user/resize/".concat(pic, " 1x,/storage/img/user/original/").concat(pic, " 2x") : "/images/user/user_no_image.png 1x /images/user/user_no_image@2X.png"
+    srcSet: pic ? "/storage/img/user/resize/".concat(pic, " 1x,/storage/img/user/original/").concat(pic, " 2x") : "/images/user/user_no_image.png 1x, /images/user/user_no_image@2x.png 2x"
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SContributor, null, name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SProfile, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SText, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, profile)))));
 });
-var SAuthor = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n  width: 60%;\n  margin: 0 auto;\n  background: ", ";\n  padding-top: ", ";\n  padding-bottom: ", ";\n  box-sizing: border-box;\n  ", ";\n  ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n  width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.md(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
-var STitle = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].h2(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\ntext-align: center;\nfont-size: ", ";\nmargin-bottom: ", ";\nword-wrap: break-word;\n", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size.xl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n  font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size.l));
-var SOwner = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n  width: 200px;\n  height: 200px;\n  margin-left: auto;\n  margin-right: auto;\n  border-radius: 100%;\n  margin-bottom: ", ";\n  overflow: hidden;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl);
-var SContributor = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].h2(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n  text-align: center;\n  display: block;\n  box-sizing: border-box;\n  margin-bottom: ", ";\n  font-size: ", ";\n  ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.l, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size.m));
-var SProfile = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n  padding-left: ", ";\n  padding-right: ", ";\n  box-sizing: border-box;\n  word-wrap: break-word;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl);
-var SText = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n  background: ", ";\n  box-sizing: border-box;\n  padding: ", ";\n  min-height: 100px;\n  border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.l);
+var SAuthor = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    width: 60%;\n    margin: 0 auto;\n    background: ", ";\n    padding-top: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    ", ";\n    ", ";\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n  width: 100%;\n  "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.md(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    width: 100%;\n  "]))));
+var STitle = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].h2(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    text-align: center;\n    font-size: ", ";\n    margin-bottom: ", ";\n    word-wrap: break-word;\n    ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size.xl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n  font-size: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size.l));
+var SOwner = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    width: 200px;\n    height: 200px;\n    margin-left: auto;\n    margin-right: auto;\n    border-radius: 100%;\n    margin-bottom: ", ";\n    overflow: hidden;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl);
+var SContributor = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].h2(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    text-align: center;\n    display: block;\n    box-sizing: border-box;\n    margin-bottom: ", ";\n    font-size: ", ";\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.l, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_1__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    font-size: ", ";\n  "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_3__.fonts.size.m));
+var SProfile = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    padding-left: ", ";\n    padding-right: ", ";\n    box-sizing: border-box;\n    word-wrap: break-word;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xxl);
+var SText = styled_components__WEBPACK_IMPORTED_MODULE_5__["default"].div(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    background: ", ";\n    box-sizing: border-box;\n    padding: ", ";\n    min-height: 100px;\n    border-radius: 3px;\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_2__.colors.base.paletteBrightGray, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.l);
 
 /***/ }),
 
@@ -9596,15 +9625,12 @@ var ChildItemList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props)
   var currentClear = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
     // 最初の配列はクリアボタンを表示する
     if (index === 0) {
-      console.log("最初の配列", index);
       return true; // 配列が最初よりも後の場合のクリアボタン制御
     } else if (index > 0) {
       // 前のMyMoveをクリアしているならクリアボタンを表示
       if (childItems[index - 1].clears.length !== 0) {
-        console.log("前のMyMoveをクリアしています", index);
         return true;
       } else {
-        console.log("前のMyMoveをクリアしていません", index);
         return false;
       }
     } else {
@@ -10791,7 +10817,10 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
   var doChallenge = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__.useDoChallenge)(); // チャレンジクリア処理
 
-  var clearChallenge = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__.useClearChallenge)();
+  var clearChallenge = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__.useClearChallenge)(); // お気に入り登録処理
+
+  var addFavorite = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_14__.useAddFavorite)(); // 画面遷移用
+
   var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_15__.useNavigate)(); // MyMoveデータ管理用state
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
@@ -10930,20 +10959,7 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              console.log(e); // axios
-              //     .post("/items/clear", {
-              //         userId: data.user,
-              //         parentItemId: data.parentItem.id,
-              //         childItemId: e,
-              //     })
-              //     .then((res) => {
-              //         console.log(res);
-              //         refetch();
-              //     })
-              //     .catch((err) => {
-              //         console.log(err);
-              //     });
-
+              console.log(e);
               _context2.next = 3;
               return _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/sanctum/csrf-cookie").then(function () {
                 clearChallenge.mutate({
@@ -10952,7 +10968,6 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
                   childItemId: e
                 }, {
                   onSuccess: function onSuccess() {
-                    console.log('再取得');
                     refetch();
                   }
                 });
@@ -10965,21 +10980,48 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
         }
       }, _callee2);
     }));
-  }; // お気に入り処理
+  };
 
+  var processing = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false); // お気に入り処理
 
   var postFavorite = function postFavorite() {
-    _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].post("/items/favorite", {
-      userId: data.user,
-      parentItemId: data.parentItem.id
-    }).then(function (res) {
-      console.log(res);
-      setIsFavorite(function (prev) {
-        return !prev;
-      });
-    })["catch"](function (err) {
-      console.log(err);
-    });
+    return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              if (!processing.current) {
+                _context3.next = 2;
+                break;
+              }
+
+              return _context3.abrupt("return");
+
+            case 2:
+              processing.current = true;
+              console.log("おきにいり");
+              _context3.next = 6;
+              return _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/sanctum/csrf-cookie").then(function () {
+                addFavorite.mutate({
+                  userId: itemData.user,
+                  parentItemId: itemData.parentItem.id
+                }, {
+                  onSuccess: function onSuccess() {
+                    setIsFavorite(function (prev) {
+                      return !prev;
+                    });
+                    processing.current = false;
+                  }
+                });
+              });
+
+            case 6:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
   }; // MyMoveを全て達成しているか判定
 
 
@@ -11003,56 +11045,21 @@ var DetailParentItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     secondaryColor: "#555",
     strokeWidth: 2,
     strokeWidthSecondary: 2
-  })) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetail, {
-    className: "p-parentDetail"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailContainer, {
-    className: "p-parentDetail__container"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailWrapper, {
-    className: "p-parentDetail__info--wrapper"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailInfo, {
-    className: "p-parentDetail__info"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailImg, {
-    className: "p-parentDetail__img"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: (itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic) ? "/storage/img/items/original/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic) : "/images/item/item_no_image.png",
+  })) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetail, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailContainer, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailWrapper, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailInfo, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailImg, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
+    src: (itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic) ? "/storage/img/items/resize/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic) : "/images/item/item_no_image.png",
+    srcSet: (itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic) ? "/storage/img/items/resize/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic, " 1x,/storage/img/items/original/").concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.pic, " 2x") : "/images/item/item_no_image.png 1x,/images/item/item_no_image@2x.png 2x",
     alt: itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.name
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailTitle, {
-    className: "p-parentDetail__title"
-  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMeta, {
-    className: "p-parentDetail__meta"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCategory, {
-    className: "p-parentDetail__category"
-  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.category.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_twitter_TwitterShare__WEBPACK_IMPORTED_MODULE_9__.TwitterShare, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailTitle, null, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMeta, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCategory, null, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.category.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_twitter_TwitterShare__WEBPACK_IMPORTED_MODULE_9__.TwitterShare, {
     name: "".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.name, "%7C").concat("MyMove")
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailFooterContainer, {
-    className: "p-parentDetail__footerContainer"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailAuthor, {
-    className: "p-parentDetail__author"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailAvatar, {
-    className: "p-parentDetail__avatar"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
-    src: "/storage/img/user/original/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic)
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailUsername, {
-    className: "p-parentDetail__username"
-  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDate, {
-    className: "p-parentDetail__date"
-  }, dayjs__WEBPACK_IMPORTED_MODULE_2__(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.created_at).format("YYYY[年]M[月]D[日]")))), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCompTime, {
-    className: "p-parentDetail__compTime"
-  }, "\u76EE\u5B89\u9054\u6210\u6642\u9593:", " ", itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.cleartime, "\u6642\u9593"))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_item_FavoriteItem__WEBPACK_IMPORTED_MODULE_10__.FavoriteItem, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailFooterContainer, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailAuthor, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailAvatar, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", {
+    src: (itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic) ? "/storage/img/user/resize/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic) : "/images/user/user_no_image.png",
+    srcSet: (itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic) ? "/storage/img/user/resize/".concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic, " 1x, /storage/img/user/original/").concat(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.pic, " 2x") : "/images/user/user_no_image.png 1x, /images/user/user_no_image@2x.png 2x",
+    alt: itemData.parentItem.user.name
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailUsername, null, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.user.name), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDate, null, dayjs__WEBPACK_IMPORTED_MODULE_2__(itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.created_at).format("YYYY[年]M[月]D[日]")))), react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailCompTime, null, "\u76EE\u5B89\u9054\u6210\u6642\u9593:", " ", itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.cleartime, "\u6642\u9593"))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_item_FavoriteItem__WEBPACK_IMPORTED_MODULE_10__.FavoriteItem, {
     userId: itemData === null || itemData === void 0 ? void 0 : itemData.user,
     postFavorite: postFavorite,
     isFavorite: isFavorite
-  }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDetail, {
-    className: "p-parentDetail__detail"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComment, {
-    className: "p-parentDetail__comment"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.detail))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMenu, {
-    className: "p-parentDetail__menu"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailTitle, {
-    className: "p-parentDetail__title"
-  }, "\u3053\u306EMyMove\u306E\u30E1\u30CB\u30E5\u30FC"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailList, {
-    className: "p-parentDetail__list"
-  }, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.child_items.map(function (item, index) {
+  }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailDetail, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailComment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.detail))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailMenu, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailTitle, null, "\u3053\u306EMyMove\u306E\u30E1\u30CB\u30E5\u30FC"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SParentDetailList, null, itemData === null || itemData === void 0 ? void 0 : itemData.parentItem.child_items.map(function (item, index) {
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_parentDetail_ChildItemList__WEBPACK_IMPORTED_MODULE_7__.ChildItemList, {
       key: item.id,
       name: item.name,
@@ -12981,6 +12988,7 @@ var useResetPassword = function useResetPassword() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useAddFavorite": () => (/* binding */ useAddFavorite),
 /* harmony export */   "useClearChallenge": () => (/* binding */ useClearChallenge),
 /* harmony export */   "useDetailParentItem": () => (/* binding */ useDetailParentItem),
 /* harmony export */   "useDoChallenge": () => (/* binding */ useDoChallenge)
@@ -13004,6 +13012,15 @@ var useDoChallenge = function useDoChallenge() {
 
 var useClearChallenge = function useClearChallenge() {
   return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.clearChallenge, {
+    onError: function onError(err) {
+      console.log(err);
+    }
+  });
+}; // お気に入り登録送信処理
+
+
+var useAddFavorite = function useAddFavorite() {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.addFavorite, {
     onError: function onError(err) {
       console.log(err);
     }

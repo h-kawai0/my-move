@@ -20,4 +20,18 @@ const useClearChallenge = () => {
     });
 };
 
-export { useDetailParentItem, useDoChallenge, useClearChallenge };
+// お気に入り登録送信処理
+const useAddFavorite = () => {
+    return useMutation(api.addFavorite, {
+        onError: (err) => {
+            console.log(err);
+        },
+    });
+};
+
+export {
+    useDetailParentItem,
+    useDoChallenge,
+    useClearChallenge,
+    useAddFavorite,
+};

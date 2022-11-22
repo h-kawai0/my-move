@@ -48,17 +48,14 @@ export const ChildItemList: VFC<Props> = memo((props) => {
     const currentClear = useMemo(() => {
         // 最初の配列はクリアボタンを表示する
         if (index === 0) {
-            console.log("最初の配列", index);
             return true;
 
             // 配列が最初よりも後の場合のクリアボタン制御
         } else if (index > 0) {
             // 前のMyMoveをクリアしているならクリアボタンを表示
             if (childItems[index - 1].clears.length !== 0) {
-                console.log("前のMyMoveをクリアしています", index);
                 return true;
             } else {
-                console.log("前のMyMoveをクリアしていません", index);
                 return false;
             }
         } else {

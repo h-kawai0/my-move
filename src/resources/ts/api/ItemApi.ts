@@ -39,4 +39,19 @@ const clearChallenge = async ({
     return data;
 };
 
-export { detailParentItem, doChallenge, clearChallenge };
+// お気に入り登録
+const addFavorite = async ({
+    userId,
+    parentItemId,
+}: {
+    userId: number;
+    parentItemId: number;
+}) => {
+    const { data } = await axios.post(`/items/favorite`, {
+        userId,
+        parentItemId,
+    });
+    return data;
+};
+
+export { detailParentItem, doChallenge, clearChallenge, addFavorite };
