@@ -6,6 +6,13 @@ const useDetailParentItem = (id?: string) => {
     return useQuery(["parentDetail", id], () => api.detailParentItem(id));
 };
 
+// 子MyMove詳細取得処理
+const useChildDetailItem = ({ id, pass }: { id?: string; pass?: string }) => {
+    return useQuery(["childDetail", {id, pass}], () =>
+        api.detailChildItem({ id, pass })
+    );
+};
+
 // チャレンジ送信処理
 const useDoChallenge = () => {
     return useMutation(api.doChallenge);
@@ -31,6 +38,7 @@ const useAddFavorite = () => {
 
 export {
     useDetailParentItem,
+    useChildDetailItem,
     useDoChallenge,
     useClearChallenge,
     useAddFavorite,

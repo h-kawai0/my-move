@@ -1,5 +1,5 @@
-import React, { memo, MouseEvent, useState, VFC } from "react";
-import styled from "styled-components";
+import React, { memo, MouseEvent, useMemo, VFC } from "react";
+import styled, { css } from "styled-components";
 
 import { colors } from "../../../theme/setting/colors";
 import { fonts } from "../../../theme/setting/fonts";
@@ -8,6 +8,7 @@ import { breakPoint } from "../../../theme/setting/breakPoint";
 import { BaseButton } from "../../atoms/button/BaseButton";
 import { Clear } from "../../../types/api/item";
 
+// 型定義
 type Props = {
     toggleChallenge: (e: MouseEvent<HTMLButtonElement>) => void;
     toggleClear: (e: number) => void;
@@ -15,50 +16,66 @@ type Props = {
     isChallenge: boolean;
     user: number | undefined;
     childId: number | undefined;
-    childItems: {
-      id: number;
-      name: string;
-      detail: string;
-      parent_item_id: number;
-      clears: Clear[];
-    }[] | undefined;
+    childItems:
+        | {
+              id: number;
+              name: string;
+              detail: string;
+              parent_item_id: number;
+              clears: Clear[];
+          }[]
+        | undefined;
     getPass?: string;
+    isChallengeRequest: boolean;
+    isClearRequest: boolean;
+    childCurrentNum: number;
 };
 
+// 子MyMove詳細画面
 export const DetailItems: VFC<Props> = memo((props) => {
-    const { toggleChallenge, isChallenge, isSuccess, user, toggleClear, childId, childItems, getPass } =
-        props;
+    const {
+        toggleChallenge,
+        isChallenge,
+        isSuccess,
+        user,
+        toggleClear,
+        childId,
+        childItems,
+        getPass,
+        isChallengeRequest,
+        isClearRequest,
+        childCurrentNum,
+    } = props;
 
     const clearId = childId ? childId : 0;
 
     // 前のMyMoveをクリアしていなければボタンをロック中にする
-    const current =  childItems?.map((el, i) => {
-
+    const current = useMemo(() => {
         // GETパラメータの子MyMoveのIDを数値に変換
-        const childItemNum = getPass ? parseInt(getPass) : '';
+        const childItemNum = getPass ? parseInt(getPass) : "";
 
-        
-        // 数値に変換した子MyMoveの値と展開中の子MyMoveの値が一致するか確認
-        if(childItemNum === childItems[i].id){
+        const clearItems = childItems?.map((el, i) => {
+            // 数値に変換した子MyMoveの値と展開中の子MyMoveの値が一致するか確認
+            if (childItemNum === el.id) {
+                // console.log(childItemNum, childItems[i].id);
 
-          console.log(childItemNum, childItems[i].id);
+                // 最初の子MyMoveの場合ならクリアボタンを表示
+                if (i === 0) {
+                    return true;
 
-          // 最初の子MyMoveの場合ならクリアボタンを表示
-          if(i === 0){
-          console.log(i);
-            return true;
+                    // 前のMyMoveをクリアしていなければクリアボタンを非表示にする
+                } else if (childItems[i - 1].clears.length !== 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        });
 
-            // 前のMyMoveをクリアしていなければクリアボタンを非表示にする
-          } else if(childItems[i - 1].clears.length !== 0) {
-            console.log()
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return true;
-        }
-      })
+        return clearItems ? clearItems[childCurrentNum - 1] : false;
+    }, [childItems]);
 
     return (
         <>
@@ -74,8 +91,9 @@ export const DetailItems: VFC<Props> = memo((props) => {
                     as="button"
                     className="c-btn c-btn--clear p-childDetail__btn"
                     onClick={() => toggleClear(clearId)}
+                    $isClearRequest={isClearRequest}
                 >
-                    クリア
+                    {isClearRequest ? "処理中です..." : "クリア"}
                 </SChildClear>
             ) : user && isChallenge && !isSuccess && !current ? (
                 <SChildComplete
@@ -89,8 +107,9 @@ export const DetailItems: VFC<Props> = memo((props) => {
                     as="button"
                     className="c-btn c-btn--challenge p-childDetail__btn"
                     onClick={toggleChallenge}
+                    $isChallengeRequest={isChallengeRequest}
                 >
-                    チャレンジ
+                    {isChallengeRequest ? "処理中です..." : "チャレンジ"}
                 </SChildChallenge>
             ) : (
                 <SChildRegister
@@ -126,12 +145,28 @@ const SChildComplete = styled(SChildBtn)`
     }
 `;
 
-const SChildClear = styled(SChildBtn)`
+const SChildClear = styled(SChildBtn)<{ $isClearRequest: boolean }>`
     background: ${colors.base.paletteDarkBlue};
+    ${({ $isClearRequest }) =>
+        $isClearRequest &&
+        css`
+            background: ${colors.base.paletteDarkGray};
+            color: ${colors.font.fontColorDefault};
+            font-weight: initial;
+            cursor: not-allowed;
+        `}
 `;
 
-const SChildChallenge = styled(SChildBtn)`
+const SChildChallenge = styled(SChildBtn)<{ $isChallengeRequest: boolean }>`
     background: ${colors.base.paletteTrueBlue};
+    ${({ $isChallengeRequest }) =>
+        $isChallengeRequest &&
+        css`
+            background: ${colors.base.paletteDarkGray};
+            color: ${colors.font.fontColorDefault};
+            font-weight: initial;
+            cursor: not-allowed;
+        `}
 `;
 
 const SChildRegister = styled(SChildBtn)`

@@ -30,7 +30,8 @@ class ShowDetailChildItemController extends Controller
 
         // 何も取得できなければMyMove一覧へリダイレクト
         if(empty($parentItem)) {
-            return response(['message' => '不正な操作が行われました。']);
+            Log::debug('子MyMoveが存在しません');
+            return response(['message' => '不正な操作が行われました。'], 404);
         }
 
         // 遅延ロードで自分がチャレンジ・クリアしているか取得
@@ -62,7 +63,8 @@ class ShowDetailChildItemController extends Controller
 
         // 子MyMoveがない場合はリダイレクト
         if(empty($childItem)){
-            return response(['message' => '不正な操作が行われました。']);
+            Log::debug('そんざいしません');
+            return response(['message' => '不正な操作が行われました。'], 404);
         }
 
         return response(['parentItem' => $parentItem, 'childItem' => $childItem, 'childCurrentNum' => $childCurrentNum, 'user' => $user, 'pass' => $pass, 'challengeItem' => $challengeItem]);

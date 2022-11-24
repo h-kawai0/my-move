@@ -6,13 +6,19 @@ const detailParentItem = async (id?: string) => {
     return data;
 };
 
+// 子MyMove詳細取得
+const detailChildItem = async ({ id, pass }: { id?: string; pass?: string }) => {
+    const { data } = await axios.get(`/items/${id}/${pass}/get`);
+    return data;
+};
+
 // チャレンジ登録
 const doChallenge = async ({
     userId,
     parentItemId,
 }: {
-    userId: number;
-    parentItemId: number;
+    userId?: number;
+    parentItemId?: number;
 }) => {
     const { data } = await axios.post(`/items/challenge`, {
         userId,
@@ -27,8 +33,8 @@ const clearChallenge = async ({
     parentItemId,
     childItemId,
 }: {
-    userId: number;
-    parentItemId: number;
+    userId?: number;
+    parentItemId?: number;
     childItemId: number;
 }) => {
     const { data } = await axios.post(`/items/clear`, {
@@ -54,4 +60,10 @@ const addFavorite = async ({
     return data;
 };
 
-export { detailParentItem, doChallenge, clearChallenge, addFavorite };
+export {
+    detailParentItem,
+    detailChildItem,
+    doChallenge,
+    clearChallenge,
+    addFavorite,
+};

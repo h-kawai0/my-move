@@ -71,6 +71,9 @@ export const DetailParentItem: VFC = memo(() => {
     // 画面遷移用
     const navigate = useNavigate();
 
+    // ボタン送信制御用
+    const processing = useRef(false);
+
     // MyMoveデータ管理用state
     const [itemData, setItemData] = useState<ItemData>({
         parentItem: {
@@ -170,6 +173,11 @@ export const DetailParentItem: VFC = memo(() => {
 
     // チャレンジボタン押下処理
     const toggleChallenge = async () => {
+        if (processing.current) return;
+
+        processing.current = true;
+        console.log("ちゃれんじ");
+
         // チャレンジ処理
         await axios.get("/sanctum/csrf-cookie").then(() => {
             doChallenge.mutate(
@@ -179,9 +187,11 @@ export const DetailParentItem: VFC = memo(() => {
                 },
                 {
                     onSuccess: () => {
+                        processing.current = false;
                         setIsChallenge(true);
                     },
                     onError: (err) => {
+                        processing.current = false;
                         console.log(err);
                     },
                 }
@@ -191,7 +201,9 @@ export const DetailParentItem: VFC = memo(() => {
 
     // クリアボタン処理
     const toggleClear = async (e: number) => {
-        console.log(e);
+        if (processing.current) return;
+
+        processing.current = true;
 
         await axios.get("/sanctum/csrf-cookie").then(() => {
             clearChallenge.mutate(
@@ -202,22 +214,24 @@ export const DetailParentItem: VFC = memo(() => {
                 },
                 {
                     onSuccess: () => {
+                        processing.current = false;
                         refetch();
+                    },
+                    onError: () => {
+                        processing.current = false;
                     },
                 }
             );
         });
     };
 
-    const processing = useRef(false);
-
     // お気に入り処理
     const postFavorite = async () => {
         if (processing.current) return;
 
         processing.current = true;
-
         console.log("おきにいり");
+
         await axios.get("/sanctum/csrf-cookie").then(() => {
             addFavorite.mutate(
                 {
@@ -227,6 +241,9 @@ export const DetailParentItem: VFC = memo(() => {
                 {
                     onSuccess: () => {
                         setIsFavorite((prev) => !prev);
+                        processing.current = false;
+                    },
+                    onError: () => {
                         processing.current = false;
                     },
                 }
