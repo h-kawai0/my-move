@@ -18,9 +18,6 @@ export const Register: VFC = memo(() => {
     // 会員登録用hook
     const register = useRegister();
 
-    // ボタン送信時に連打がされないよう状態を管理
-    const [isLoading, setIsLoading] = useState(false);
-
     // フォーム入力データの状態管理
     const [formData, setFormData] = useState({
         name: "",
@@ -54,8 +51,6 @@ export const Register: VFC = memo(() => {
             password: formData.password,
             password_confirmation: formData.passwordConfirmation,
         };
-        // ボタン連打防止のためtrue
-        setIsLoading(true);
 
         await axios.get("/sanctum/csrf-cookie").then(() => {
             register.mutate(data, {
@@ -67,15 +62,15 @@ export const Register: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
-                        setIsLoading(false);
                     } else {
-                        toast.error("会員登録に失敗しました。しばらくたってからやり直してください。", {
-                            position: toast.POSITION.TOP_CENTER,
-                            autoClose: 3000,
-                        });
-                        setIsLoading(false);
+                        toast.error(
+                            "会員登録に失敗しました。しばらくたってからやり直してください。",
+                            {
+                                position: toast.POSITION.TOP_CENTER,
+                                autoClose: 3000,
+                            }
+                        );
                     }
-
                 },
             });
         });
@@ -156,7 +151,7 @@ export const Register: VFC = memo(() => {
                 </LinkButton>
             </ContainerLink>
 
-            <Button value="登録" isLoading={isLoading} />
+            <Button value="登録" isLoading={register.isLoading} />
         </Form>
     );
 });

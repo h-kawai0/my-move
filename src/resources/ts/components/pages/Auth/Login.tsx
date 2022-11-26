@@ -17,10 +17,6 @@ import { Form } from "../../organisms/inputForm/Form";
 
 // ログイン画面
 export const Login: VFC = memo(() => {
-
-    // 送信ボタンのログイン処理用
-    const [isLoading, setIsLoading] = useState(false);
-
     // フォーム入力データ
     const [formData, setFormData] = useState({
         email: "",
@@ -63,9 +59,6 @@ export const Login: VFC = memo(() => {
             remember: isChecked,
         };
 
-        // ボタンを連打させないようにする
-        setIsLoading(true);
-
         // ログイン処理を行う
         await axios.get("/sanctum/csrf-cookie").then(() => {
             login.mutate(data, {
@@ -77,15 +70,15 @@ export const Login: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
-                        setIsLoading(false);
                     } else {
-                        toast.error("ログインに失敗しました。しばらくたってからやり直してください。", {
-                            position: toast.POSITION.TOP_CENTER,
-                            autoClose: 3000,
-                        });
-                        setIsLoading(false);
+                        toast.error(
+                            "ログインに失敗しました。しばらくたってからやり直してください。",
+                            {
+                                position: toast.POSITION.TOP_CENTER,
+                                autoClose: 3000,
+                            }
+                        );
                     }
-
                 },
             });
         });
@@ -146,7 +139,7 @@ export const Login: VFC = memo(() => {
                 </LinkButton>
             </ContainerLink>
 
-            <Button value="ログイン" isLoading={isLoading} />
+            <Button value="ログイン" isLoading={login.isLoading} />
         </Form>
     );
 });

@@ -16,12 +16,10 @@ import { Oval } from "react-loader-spinner";
 export const Header: VFC = memo(() => {
     const logOut = useLogOut();
     const { isAuth, isLoading, setIsLoading } = useAuth();
-    
 
     const [isActive, setIsActive] = useState(false);
 
     const handleLogOut = () => {
-        
         setIsLoading(true);
         logOut.mutate();
     };
@@ -71,12 +69,18 @@ export const Header: VFC = memo(() => {
             </Link>
 
             <SHamburger onClick={naviOpen}>
-                <SHamburgerLine></SHamburgerLine>
-                <SHamburgerLine></SHamburgerLine>
-                <SHamburgerLine></SHamburgerLine>
+                <SHamburgerLine
+                    className={isActive ? "active" : ""}
+                ></SHamburgerLine>
+                <SHamburgerLine
+                    className={isActive ? "active" : ""}
+                ></SHamburgerLine>
+                <SHamburgerLine
+                    className={isActive ? "active" : ""}
+                ></SHamburgerLine>
             </SHamburger>
 
-            <SNav $isActive={isActive}>
+            <SNav className={isActive ? "active" : ""}>
                 <SList>
                     {isLoading ? (
                         <Spinner>
@@ -161,7 +165,7 @@ const SHamburgerLine = styled.span`
     &:nth-of-type(3) {
         bottom: 0;
     }
-    &--active {
+    &.active {
         &:nth-of-type(1) {
             transform: translateY(15px) rotate(-45deg);
         }
@@ -174,7 +178,7 @@ const SHamburgerLine = styled.span`
     }
 `;
 
-const SNav = styled.nav<{ $isActive: boolean }>`
+const SNav = styled.nav`
     ${breakPoint.sm`
     display: flex;
     justify-content: center;
@@ -189,14 +193,11 @@ const SNav = styled.nav<{ $isActive: boolean }>`
     background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
     transition: 0.5s;
     z-index:3;
-
-    ${(props) =>
-        props.$isActive &&
-        `
-            transform: translateX(-100%);
-            z-index: 2;
-        `};
     `}
+    &.active {
+        transform: translateX(-100%);
+        z-index: 2;
+    }
 `;
 
 const SList = styled.ul`

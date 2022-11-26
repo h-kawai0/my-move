@@ -9,6 +9,7 @@ type Props = {
     isLoading: boolean;
 };
 
+// ボタンコンポーネント
 export const Button: VFC<Props> = memo((props) => {
     const { value, isLoading } = props;
 

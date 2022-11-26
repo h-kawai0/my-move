@@ -6871,6 +6871,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
+ // ボタンコンポーネント
 
 var Button = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   var value = props.value,
@@ -9504,8 +9505,14 @@ var Header = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     to: "/"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(STitle, null, "MyMove")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHamburger, {
     onClick: naviOpen
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHamburgerLine, null), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHamburgerLine, null), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHamburgerLine, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SNav, {
-    "$isActive": isActive
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHamburgerLine, {
+    className: isActive ? "active" : ""
+  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHamburgerLine, {
+    className: isActive ? "active" : ""
+  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHamburgerLine, {
+    className: isActive ? "active" : ""
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SNav, {
+    className: isActive ? "active" : ""
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SList, null, isLoading ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_7__.Spinner, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_8__.Oval, {
     height: 50,
     width: 50,
@@ -9520,10 +9527,8 @@ var Header = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 var SHeader = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].header(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 80px;\n    position: fixed;\n    box-sizing: border-box;\n    padding-left: ", ";\n    padding-right: ", ";\n    ", "\n\n    box-sizing: border-box;\n    background: ", ";\n    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);\n    z-index: 3;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n        padding-left: ", ";\n        padding-right: ", ";\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l, _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.l), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteSunnyGray);
 var STitle = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].h1(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    font-size: ", ";\n    font-family: ", ";\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxxl, _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.family.logo);
 var SHamburger = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].div(_templateObject4 || (_templateObject4 = _taggedTemplateLiteral(["\n    transition: all 0.4s;\n    box-sizing: border-box;\n    position: relative;\n    width: 40px;\n    height: 32px;\n    z-index: 3;\n    display: none;\n\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject5 || (_templateObject5 = _taggedTemplateLiteral(["\n        display: inline-block;\n    "]))));
-var SHamburgerLine = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].span(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    display: inline-block;\n    transition: all 0.4s;\n    box-sizing: border-box;\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 4px;\n    background-color: ", ";\n    border-radius: 4px;\n    &:nth-of-type(1) {\n        top: 0;\n    }\n    &:nth-of-type(2) {\n        top: 14px;\n    }\n    &:nth-of-type(3) {\n        bottom: 0;\n    }\n    &--active {\n        &:nth-of-type(1) {\n            transform: translateY(15px) rotate(-45deg);\n        }\n        &:nth-of-type(2) {\n            opacity: 0;\n        }\n        &:nth-of-type(3) {\n            transform: translateY(-13px) rotate(45deg);\n        }\n    }\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteDimGray);
-var SNav = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].nav(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    ", "\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    top: 0;\n    width: 100%;\n    height: 100vh;\n    right: -100%;\n    background: ", ";\n    box-sizing: border-box;\n    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);\n    transition: 0.5s;\n    z-index:3;\n\n    ", ";\n    "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteDimGray, function (props) {
-  return props.$isActive && "\n            transform: translateX(-100%);\n            z-index: 2;\n        ";
-}));
+var SHamburgerLine = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].span(_templateObject6 || (_templateObject6 = _taggedTemplateLiteral(["\n    display: inline-block;\n    transition: all 0.4s;\n    box-sizing: border-box;\n    position: absolute;\n    left: 0;\n    width: 100%;\n    height: 4px;\n    background-color: ", ";\n    border-radius: 4px;\n    &:nth-of-type(1) {\n        top: 0;\n    }\n    &:nth-of-type(2) {\n        top: 14px;\n    }\n    &:nth-of-type(3) {\n        bottom: 0;\n    }\n    &.active {\n        &:nth-of-type(1) {\n            transform: translateY(15px) rotate(-45deg);\n        }\n        &:nth-of-type(2) {\n            opacity: 0;\n        }\n        &:nth-of-type(3) {\n            transform: translateY(-13px) rotate(45deg);\n        }\n    }\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteDimGray);
+var SNav = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].nav(_templateObject7 || (_templateObject7 = _taggedTemplateLiteral(["\n    ", "\n    &.active {\n        transform: translateX(-100%);\n        z-index: 2;\n    }\n"])), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject8 || (_templateObject8 = _taggedTemplateLiteral(["\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    position: fixed;\n    top: 0;\n    width: 100%;\n    height: 100vh;\n    right: -100%;\n    background: ", ";\n    box-sizing: border-box;\n    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);\n    transition: 0.5s;\n    z-index:3;\n    "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteDimGray));
 var SList = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].ul(_templateObject9 || (_templateObject9 = _taggedTemplateLiteral(["\n    display: flex;\n    align-items: center;\n    font-size: ", ";\n\n    ", "\n\n    ", "\n"])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size["default"], _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject10 || (_templateObject10 = _taggedTemplateLiteral(["\n    display: block;\n    font-size: ", ";\n    text-align: center;\n    "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.xxl), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject11 || (_templateObject11 = _taggedTemplateLiteral(["\n    font-size: ", ";\n    "])), _theme_setting_fonts__WEBPACK_IMPORTED_MODULE_5__.fonts.size.m));
 var SItem = styled_components__WEBPACK_IMPORTED_MODULE_10__["default"].li(_templateObject12 || (_templateObject12 = _taggedTemplateLiteral(["\n    margin-right: ", ";\n    &:last-child {\n        margin-right: initial;\n    }\n    ", "\n    ", ";\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject13 || (_templateObject13 = _taggedTemplateLiteral(["\n        margin-right: initial;\n        margin-bottom: ", ";\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.xl), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject14 || (_templateObject14 = _taggedTemplateLiteral(["\n    margin-right: ", ";\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.s));
 var SLink = (0,styled_components__WEBPACK_IMPORTED_MODULE_10__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link)(_templateObject15 || (_templateObject15 = _taggedTemplateLiteral(["\n    font-weight: bold;\n    display: block;\n    padding: ", ";\n    transition: 0.4s;\n    cursor: pointer;\n\n    ", ";\n\n    &:hover {\n        color: ", ";\n        transition: 0.4s;\n    }\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_6__.space.m, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject16 || (_templateObject16 = _taggedTemplateLiteral(["\n        color: ", "\n    "])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.font.fontColorSub()), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_4__.colors.base.paletteGambogeOrange);
@@ -9836,13 +9841,7 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }),
       _useState2 = _slicedToArray(_useState, 2),
       formData = _useState2[0],
-      setFormData = _useState2[1]; // ボタン連打防止用state
-
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      isLoading = _useState4[0],
-      setIsLoading = _useState4[1]; // フォーム入力情報をstateに詰める
+      setFormData = _useState2[1]; // フォーム入力情報をstateに詰める
 
 
   var handleChange = function handleChange(e) {
@@ -9854,9 +9853,7 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
   var handleSubmit = function handleSubmit(e) {
     // 画面遷移防止
-    e.preventDefault(); // ボタン連打防止
-
-    setIsLoading(true); // 入力情報を変数に詰める
+    e.preventDefault(); // 入力情報を変数に詰める
 
     var data = {
       email: formData.email
@@ -9865,9 +9862,7 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     _libs_axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/sanctum/csrf-cookie").then(function (res) {
       forgotPassword.mutate(data, {
         // 成功時処理
-        onSuccess: function onSuccess() {
-          setIsLoading(false);
-        },
+        onSuccess: function onSuccess() {},
         // エラー時処理
         onError: function onError(err) {
           if (err.response.status === 422) {
@@ -9875,13 +9870,11 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
               error_list: err.response.data.errors
             });
             setFormData(newFormData);
-            setIsLoading(false);
           } else {
             react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error("エラーが発生しました。しばらくたってからやり直してください。", {
               position: react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.POSITION.TOP_CENTER,
               autoClose: 3000
             });
-            setIsLoading(false);
           }
         }
       });
@@ -9901,7 +9894,7 @@ var Forgot = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     autoFocus: true
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_4__.Alert, null, formData.error_list.email)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Text__WEBPACK_IMPORTED_MODULE_8__.Text, null, "\u3054\u767B\u9332\u3055\u308C\u305F\u30E1\u30FC\u30EB\u30A2\u30C9\u30EC\u30B9\u3078\u30D1\u30B9\u30EF\u30FC\u30C9\u518D\u8A2D\u5B9A\u306E\u3054\u6848\u5185\u3092\u9001\u4FE1\u3057\u307E\u3059\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__.Button, {
     value: "\u9001\u4FE1\u3059\u308B",
-    isLoading: isLoading
+    isLoading: forgotPassword.isLoading
   }));
 });
 
@@ -10002,14 +9995,8 @@ var __awaiter = undefined && undefined.__awaiter || function (thisArg, _argument
  // ログイン画面
 
 var Login = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  // 送信ボタンのログイン処理用
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isLoading = _useState2[0],
-      setIsLoading = _useState2[1]; // フォーム入力データ
-
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  // フォーム入力データ
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     email: "",
     password: "",
     remember: false,
@@ -10018,15 +10005,15 @@ var Login = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       password: ""
     }
   }),
+      _useState2 = _slicedToArray(_useState, 2),
+      formData = _useState2[0],
+      setFormData = _useState2[1]; // 「ログインしたままにする」の状態管理
+
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      formData = _useState4[0],
-      setFormData = _useState4[1]; // 「ログインしたままにする」の状態管理
-
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      isChecked = _useState6[0],
-      setIsChecked = _useState6[1]; // ログイン用hook
+      isChecked = _useState4[0],
+      setIsChecked = _useState4[1]; // ログイン用hook
 
 
   var login = (0,_queries_AuthQuery__WEBPACK_IMPORTED_MODULE_3__.useLogin)(); // フォームへ入力した内容をstateに詰める
@@ -10059,11 +10046,9 @@ var Login = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
                 email: formData.email,
                 password: formData.password,
                 remember: isChecked
-              }; // ボタンを連打させないようにする
+              }; // ログイン処理を行う
 
-              setIsLoading(true); // ログイン処理を行う
-
-              _context.next = 5;
+              _context.next = 4;
               return _libs_axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/sanctum/csrf-cookie").then(function () {
                 login.mutate(data, {
                   onError: function onError(err) {
@@ -10072,19 +10057,17 @@ var Login = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
                         error_list: err.response.data.errors
                       });
                       setFormData(newFormData);
-                      setIsLoading(false);
                     } else {
                       react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error("ログインに失敗しました。しばらくたってからやり直してください。", {
                         position: react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.POSITION.TOP_CENTER,
                         autoClose: 3000
                       });
-                      setIsLoading(false);
                     }
                   }
                 });
               });
 
-            case 5:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -10122,7 +10105,7 @@ var Login = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     path: "/register"
   }, "\u521D\u3081\u3066\u306E\u304B\u305F(\u65B0\u898F\u4F1A\u54E1\u767B\u9332)\u306F\u3053\u3061\u3089")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__.Button, {
     value: "\u30ED\u30B0\u30A4\u30F3",
-    isLoading: isLoading
+    isLoading: login.isLoading
   }));
 });
 var SCheck = styled_components__WEBPACK_IMPORTED_MODULE_13__["default"].input(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    display: inline-block;\n    vertical-align: top;\n"])));
@@ -10219,15 +10202,9 @@ var __awaiter = undefined && undefined.__awaiter || function (thisArg, _argument
 
 var Register = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   // 会員登録用hook
-  var register = (0,_queries_AuthQuery__WEBPACK_IMPORTED_MODULE_11__.useRegister)(); // ボタン送信時に連打がされないよう状態を管理
+  var register = (0,_queries_AuthQuery__WEBPACK_IMPORTED_MODULE_11__.useRegister)(); // フォーム入力データの状態管理
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isLoading = _useState2[0],
-      setIsLoading = _useState2[1]; // フォーム入力データの状態管理
-
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     name: "",
     email: "",
     password: "",
@@ -10239,9 +10216,9 @@ var Register = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       password_confirmation: ""
     }
   }),
-      _useState4 = _slicedToArray(_useState3, 2),
-      formData = _useState4[0],
-      setFormData = _useState4[1]; // フォームへデータが入力された時にstateへ詰める
+      _useState2 = _slicedToArray(_useState, 2),
+      formData = _useState2[0],
+      setFormData = _useState2[1]; // フォームへデータが入力された時にstateへ詰める
 
 
   var handleChange = function handleChange(e) {
@@ -10267,10 +10244,8 @@ var Register = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
                 email: formData.email,
                 password: formData.password,
                 password_confirmation: formData.passwordConfirmation
-              }; // ボタン連打防止のためtrue
-
-              setIsLoading(true);
-              _context.next = 5;
+              };
+              _context.next = 4;
               return _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/sanctum/csrf-cookie").then(function () {
                 register.mutate(data, {
                   onError: function onError(err) {
@@ -10279,19 +10254,17 @@ var Register = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
                         error_list: err.response.data.errors
                       });
                       setFormData(newFormData);
-                      setIsLoading(false);
                     } else {
                       react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast.error("会員登録に失敗しました。しばらくたってからやり直してください。", {
                         position: react_toastify__WEBPACK_IMPORTED_MODULE_12__.toast.POSITION.TOP_CENTER,
                         autoClose: 3000
                       });
-                      setIsLoading(false);
                     }
                   }
                 });
               });
 
-            case 5:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -10339,7 +10312,7 @@ var Register = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     path: "/login"
   }, "\u30ED\u30B0\u30A4\u30F3\u306E\u304B\u305F(\u4F1A\u54E1\u767B\u9332\u6E08)\u306F\u3053\u3061\u3089")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_4__.Button, {
     value: "\u767B\u9332",
-    isLoading: isLoading
+    isLoading: register.isLoading
   }));
 });
 

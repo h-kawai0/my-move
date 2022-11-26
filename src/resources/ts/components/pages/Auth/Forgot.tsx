@@ -25,9 +25,6 @@ export const Forgot: VFC = memo(() => {
         },
     });
 
-    // ボタン連打防止用state
-    const [isLoading, setIsLoading] = useState(false);
-
     // フォーム入力情報をstateに詰める
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -39,9 +36,6 @@ export const Forgot: VFC = memo(() => {
         // 画面遷移防止
         e.preventDefault();
 
-        // ボタン連打防止
-        setIsLoading(true);
-
         // 入力情報を変数に詰める
         const data = {
             email: formData.email,
@@ -52,7 +46,6 @@ export const Forgot: VFC = memo(() => {
             forgotPassword.mutate(data, {
                 // 成功時処理
                 onSuccess: () => {
-                    setIsLoading(false);
                 },
                 // エラー時処理
                 onError: (err: any) => {
@@ -63,7 +56,6 @@ export const Forgot: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
-                        setIsLoading(false);
                     } else {
                         toast.error(
                             "エラーが発生しました。しばらくたってからやり直してください。",
@@ -72,7 +64,6 @@ export const Forgot: VFC = memo(() => {
                                 autoClose: 3000,
                             }
                         );
-                        setIsLoading(false);
                     }
                 },
             });
@@ -101,7 +92,7 @@ export const Forgot: VFC = memo(() => {
             <Text>
                 ご登録されたメールアドレスへパスワード再設定のご案内を送信します。
             </Text>
-            <Button value="送信する" isLoading={isLoading} />
+            <Button value="送信する" isLoading={forgotPassword.isLoading} />
         </Form>
     );
 });
