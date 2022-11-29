@@ -1,5 +1,31 @@
 import axios from "../libs/axios";
 
+// MyMove一覧取得
+const getItems = async ({
+    page = 1,
+    sort,
+    category,
+}: {
+    page: number;
+    sort: number;
+    category: number;
+}) => {
+    const { data } = await axios.get(`/items/get`, {
+        params: {
+            page,
+            sort,
+            category,
+        },
+    });
+    return data;
+};
+
+// カテゴリー一覧を取得
+const getCategories = async () => {
+    const { data } = await axios.get(`/items/categories`);
+    return data;
+};
+
 // 親MyMove詳細取得
 const detailParentItem = async (id?: string) => {
     const { data } = await axios.get(`/items/${id}/get`);
@@ -7,7 +33,13 @@ const detailParentItem = async (id?: string) => {
 };
 
 // 子MyMove詳細取得
-const detailChildItem = async ({ id, pass }: { id?: string; pass?: string }) => {
+const detailChildItem = async ({
+    id,
+    pass,
+}: {
+    id?: string;
+    pass?: string;
+}) => {
     const { data } = await axios.get(`/items/${id}/${pass}/get`);
     return data;
 };
@@ -61,6 +93,8 @@ const addFavorite = async ({
 };
 
 export {
+    getItems,
+    getCategories,
     detailParentItem,
     detailChildItem,
     doChallenge,

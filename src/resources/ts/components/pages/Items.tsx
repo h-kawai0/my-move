@@ -21,7 +21,10 @@ import { space } from "../../theme/setting/space";
 import { Panel } from "../organisms/item/Panel";
 import { Link } from "react-router-dom";
 import { Spinner } from "../atoms/spinner/Spinner";
+import { useGetCategories, useGetItems } from "../../queries/ItemsQuery";
+import { useQueryClient } from "react-query";
 
+// 型定義
 type Item = {
     category: {
         id: number;
@@ -46,6 +49,7 @@ type Item = {
     };
 };
 
+// 受け取りデータ定義
 type Data = {
     current_page: number;
     data: Item[];
@@ -66,7 +70,9 @@ type Data = {
     total: number;
 };
 
+// MyMove一覧
 export const Items: VFC = memo(() => {
+    // MyMove一覧管理
     const [items, setItems] = useState<Data>({
         current_page: 1,
         data: [
@@ -115,6 +121,7 @@ export const Items: VFC = memo(() => {
         total: 0,
     });
 
+    // カテゴリーリスト管理
     const [categoryList, setCategoryList] = useState([
         {
             id: 0,
@@ -124,115 +131,109 @@ export const Items: VFC = memo(() => {
         },
     ]);
 
+    // 現在のページ管理
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // ページング管理
     const [pages, setPages] = useState<number | number[]>([]);
 
+    // ソートデータ管理
     const [formData, setFormData] = useState({
         sort: 0,
         category: 0,
     });
 
-    const [isLoading, setIsLoading] = useState(false);
+    // MyMove一覧を取得
+    const {
+        data: getItemsData,
+        isLoading: getItemsIsLoading,
+        refetch: getItemsRefetch,
+    } = useGetItems({
+        page: currentPage,
+        sort: formData.sort,
+        category: formData.category,
+    });
 
+    // カテゴリー一覧を取得
+    const { data: getCategoriesData, isLoading: getCategoriesIsLoading } =
+        useGetCategories();
+
+    // 前のページがあるか判定
     const hasPrev = items.prev_page_url !== null;
 
+    // 次のページがあるか判定
     const hasNext = items.next_page_url !== null;
 
+    // Laravelから取得したページデータをもとにページ番号を生成
     const hasPages = useMemo(() => {
+        // 現在のページ番号を基準に4ページ目以降なら前のページ2つ分を表示
         let start = _.max([items.current_page - 2, 1]);
 
+        // 現在のページ番号を基準に、現在が最終ページよりも2つ前なら次のページ2つ分を表示。(最大5ページまでを表示)
         let end = start ? _.min([start + 5, items.last_page + 1]) : 0;
 
+        // ページ番号をどこから生成するか求める
         start = end ? _.max([end - 5, 1]) : 0;
 
+        // ページ番号を生成
         let page = start && end ? _.range(start, end) : 0;
 
         setPages(page);
     }, [items.current_page, items.last_page]);
 
-    const getItems = useCallback(
-        (page: number = 1) => {
-            console.log(formData);
+    // MyMove一覧を取得
+    const getIndex = useCallback(() => {
+        if (getItemsData) {
+            setItems(getItemsData);
+        }
+    }, [getItemsData]);
 
-            setIsLoading(true);
-
-            axios
-                .get<Data>("/items/get", {
-                    params: {
-                        page: page,
-                        sort: formData.sort,
-                        category: formData.category,
-                    },
-                })
-                .then((res) => {
-                    console.log(res);
-
-                    let result = res.data;
-
-                    if (result) setItems(result);
-                    setIsLoading(false);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setIsLoading(false);
-                });
-        },
-        [formData.category, formData.sort]
-    );
-
+    // 現在のページとクリックしたページボタンの数字が同じでない場合、親コンポーネントにリクエストしたページ番号を渡す
     const move = useCallback(
         (e: number) => {
-            console.log(items.current_page, e);
             if (!isCurrentPage(e)) {
-                getItems(e);
+                setCurrentPage(e);
             }
         },
         [items.current_page]
     );
 
+    // 現在のページとページボタンの番号が同じか確認
     const isCurrentPage = useCallback(
         (page: number) => items.current_page === page,
         [items.current_page]
     );
 
+    // カテゴリー・ソート選択処理
     const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
 
+        // 選択内容をstateに詰める
         setFormData((prevState) => ({
             ...prevState,
             [name]: value,
         }));
     };
 
-    const searchItem = (e: MouseEvent<HTMLElement>) => {
-        e.preventDefault();
-        console.log("search");
-        getItems();
-    };
-
+    // 最初にMyMove一覧を取得
     useEffect(() => {
-        axios
-            .get("/items/categories")
-            .then((res) => {
-                setCategoryList(res.data.categories);
-            })
-            .catch((err) => {
-                console.log(err.response.data.errors);
-            });
+        if (getCategoriesData) {
+            setCategoryList(getCategoriesData.categories);
+        }
 
-        getItems();
-    }, []);
+        getIndex();
+    }, [getItemsData]);
 
     return (
-        <SIndex className="p-index">
-            <SContainer className="p-index__container">
-                <SSearch className="c-search p-index__search">
+        <SIndex>
+            <SContainer>
+                <SSearch>
                     <form>
-                        <STitle className="c-search__title">表示順</STitle>
+                        <STitle>表示順</STitle>
 
-                        <SSelectBox className="c-search__selectBox c-search__sl">
+                        <SSelectBox>
                             <SSelect
                                 name="sort"
-                                className="c-search__select"
                                 value={formData.sort}
                                 onChange={handleChange}
                             >
@@ -243,14 +244,11 @@ export const Items: VFC = memo(() => {
                         </SSelectBox>
 
                         <>
-                            <STitle className="c-search__title">
-                                カテゴリー
-                            </STitle>
+                            <STitle>カテゴリー</STitle>
 
-                            <SSelectBox className="c-search__selectBox c-search__sl">
+                            <SSelectBox>
                                 <SSelect
                                     name="category"
-                                    className="c-search__select"
                                     value={formData.category}
                                     onChange={handleChange}
                                 >
@@ -262,23 +260,14 @@ export const Items: VFC = memo(() => {
                                     ))}
                                 </SSelect>
                             </SSelectBox>
-
-                            <SSearchBtn
-                                className="c-search__btn p-index__btn"
-                                onClick={searchItem}
-                            >
-                                検索
-                            </SSearchBtn>
                         </>
                     </form>
                 </SSearch>
 
-                <SIndexList className="p-index__list">
-                    <SIndexTitle className="p-index__title">
-                        MyMove一覧
-                    </SIndexTitle>
+                <SIndexList>
+                    <SIndexTitle>MyMove一覧</SIndexTitle>
 
-                    {isLoading ? (
+                    {getItemsIsLoading ? (
                         <Spinner>
                             <Oval
                                 height={80}
@@ -292,12 +281,12 @@ export const Items: VFC = memo(() => {
                             />
                         </Spinner>
                     ) : items.data.length === 0 || items.data[0].id === 0 ? (
-                        <SIndexEmpty className="p-index__empty">
+                        <SIndexEmpty>
                             <p>MyMoveはまだありません。</p>
                         </SIndexEmpty>
                     ) : (
-                        <SPanel className="c-panel">
-                            <SPanelBody className="c-panel__body">
+                        <SPanel>
+                            <SPanelBody>
                                 {items?.data.map((el) => (
                                     <Panel
                                         itemLength={el.child_items.length}
@@ -314,16 +303,12 @@ export const Items: VFC = memo(() => {
                                 ))}
                             </SPanelBody>
 
-                            <SPagination className="c-pagination">
-                                <SPaginationWrap
-                                    className="c-pagination--wrap"
-                                    role="navigation"
-                                >
+                            <SPagination>
+                                <SPaginationWrap role="navigation">
                                     {hasPrev && (
-                                        <SPaginationItem className="c-pagination__item">
+                                        <SPaginationItem>
                                             <SPaginationLink
                                                 to="#"
-                                                className="c-pagination__link"
                                                 onClick={() =>
                                                     move(items.current_page - 1)
                                                 }
@@ -336,7 +321,6 @@ export const Items: VFC = memo(() => {
                                     {pages instanceof Array &&
                                         pages.map((el) => (
                                             <SPaginationItem
-                                                className="c-pagination__item"
                                                 key={el}
                                                 page={el}
                                                 currentPage={items.current_page}
@@ -344,7 +328,6 @@ export const Items: VFC = memo(() => {
                                             >
                                                 <SPaginationLink
                                                     to="#"
-                                                    className="c-pagination__link"
                                                     onClick={() => move(el)}
                                                 >
                                                     {el}
@@ -353,10 +336,9 @@ export const Items: VFC = memo(() => {
                                         ))}
 
                                     {hasNext && (
-                                        <SPaginationItem className="c-pagination__item">
+                                        <SPaginationItem>
                                             <SPaginationLink
                                                 to="#"
-                                                className="c-pagination__link"
                                                 onClick={() =>
                                                     move(items.current_page + 1)
                                                 }
@@ -495,25 +477,6 @@ const SIndexEmpty = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-`;
-
-const SSearchBtn = styled.button`
-    width: 100%;
-    padding: ${space.m} ${space.l};
-    border: none;
-    background: ${colors.base.paletteVeryDarkBlack};
-    color: ${colors.font.fontColorSub};
-    font-size: ${fonts.size.default};
-    ${breakPoint.sm`
-        font-size: ${fonts.size.l};
-    `}
-    ${breakPoint.md`
-    font-size: ${fonts.size.l};
-    `}
-    &:hover {
-        cursor: pointer;
-        opacity: 0.9;
-    }
 `;
 
 const SPanel = styled.div`

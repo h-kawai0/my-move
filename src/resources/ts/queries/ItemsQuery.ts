@@ -1,6 +1,26 @@
 import { useMutation, useQuery } from "react-query";
 import * as api from "../api/ItemApi";
 
+// MyMove一覧取得
+const useGetItems = ({
+    page,
+    sort,
+    category,
+}: {
+    page: number;
+    sort: number;
+    category: number;
+}) => {
+    return useQuery(["getItems", { page, sort, category }], () =>
+        api.getItems({ page, sort, category })
+    );
+};
+
+// カテゴリー一覧を取得
+const useGetCategories = () => {
+    return useQuery("getCategories", api.getCategories);
+};
+
 // 親MyMove詳細取得処理
 const useDetailParentItem = (id?: string) => {
     return useQuery(["parentDetail", id], () => api.detailParentItem(id));
@@ -8,7 +28,7 @@ const useDetailParentItem = (id?: string) => {
 
 // 子MyMove詳細取得処理
 const useChildDetailItem = ({ id, pass }: { id?: string; pass?: string }) => {
-    return useQuery(["childDetail", {id, pass}], () =>
+    return useQuery(["childDetail", { id, pass }], () =>
         api.detailChildItem({ id, pass })
     );
 };
@@ -37,6 +57,8 @@ const useAddFavorite = () => {
 };
 
 export {
+    useGetItems,
+    useGetCategories,
     useDetailParentItem,
     useChildDetailItem,
     useDoChallenge,

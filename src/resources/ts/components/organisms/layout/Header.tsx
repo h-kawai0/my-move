@@ -1,6 +1,6 @@
 import React, { memo, useState, VFC } from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { useLogOut } from "../../../queries/AuthQuery";
 
@@ -13,17 +13,24 @@ import { space } from "../../../theme/setting/space";
 import { Spinner } from "../../atoms/spinner/Spinner";
 import { Oval } from "react-loader-spinner";
 
+// ヘッダー画面
 export const Header: VFC = memo(() => {
+    // ログアウト処理
     const logOut = useLogOut();
+
+    // 認証処理
     const { isAuth, isLoading, setIsLoading } = useAuth();
 
+    // ハンバーガーメニュー状態管理
     const [isActive, setIsActive] = useState(false);
 
+    // ログアウト処理
     const handleLogOut = () => {
         setIsLoading(true);
         logOut.mutate();
     };
 
+    // ハンバーガーメニュー開閉
     const naviOpen = () => {
         setIsActive((prevState) => !prevState);
     };
