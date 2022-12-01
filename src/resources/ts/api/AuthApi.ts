@@ -2,7 +2,7 @@ import React from "react";
 import axios from "../libs/axios";
 import { User } from "../types/api/user";
 
-type GetUser = Pick<User, "id" | "name" | "email">;
+type GetUser = Pick<User, "id" | "name" | "email" | "profile" | "pic">;
 
 // ログイン情報
 const getUser = async () => {
@@ -83,4 +83,37 @@ const resetPassword = async ({
     return data;
 };
 
-export { getUser, register, login, logout, forgotPassword, resetPassword };
+// プロフィール情報更新
+const updateProfile = async ({
+    name,
+    email,
+    profile,
+    pic,
+}: {
+    name: string;
+    email: string;
+    profile: string;
+    pic: string | File;
+}) => {
+
+    // 画像情報を送るためフォームデータオブジェクトを作成
+    const body = new FormData();
+
+    body.append("name", name);
+    body.append("email", email);
+    body.append("profile", profile);
+    body.append("pic", pic);
+
+    const { data } = await axios.post(`/mypage/update-profile`, body);
+    return data;
+};
+
+export {
+    getUser,
+    register,
+    login,
+    logout,
+    forgotPassword,
+    resetPassword,
+    updateProfile,
+};

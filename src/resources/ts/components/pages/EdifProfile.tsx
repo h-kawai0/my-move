@@ -7,9 +7,9 @@ import React, {
     VFC,
 } from "react";
 import { Oval } from "react-loader-spinner";
-import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "../../libs/axios";
+import { useUpdateProfile, useUser } from "../../queries/AuthQuery";
 
 import { Alert } from "../atoms/inputForm/Alert";
 import { Button } from "../atoms/inputForm/Button";
@@ -23,6 +23,7 @@ import { Spinner } from "../atoms/spinner/Spinner";
 import { UserComponent } from "../molecules/inputForm/UserComponent";
 import { Form } from "../organisms/inputForm/Form";
 
+// 型定義
 type Form = {
     name: string;
     email: string;
@@ -36,12 +37,9 @@ type Form = {
     };
 };
 
+// プロフィール編集画面
 export const EdifProfile: VFC = memo(() => {
-    const navigate = useNavigate();
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [isSending, setIsSending] = useState(false);
-
+    // 入力フォーム管理用
     const [formData, setFormData] = useState<Form>({
         name: "",
         email: "",
@@ -55,41 +53,40 @@ export const EdifProfile: VFC = memo(() => {
         },
     });
 
+    // DB画像管理用
     const [dbPic, setDbPic] = useState("");
 
+    // ログインユーザー情報取得
+    const { data, isLoading } = useUser();
+
+    // プロフィール情報更新用
+    const updateProfile = useUpdateProfile();
+
+    // 最初にプロフィール情報を取得
     useEffect(() => {
-        setIsLoading(true);
-        axios
-            .get("/api/user")
-            .then((res) => {
-                console.log("useEffect", res.data);
-                setFormData({
-                    ...formData,
-                    // null合体演算子
-                    name: res.data.name ?? "",
-                    email: res.data.email ?? "",
-                    profile: res.data.profile ?? "",
-                });
-
-                setDbPic(res.data.pic ?? "");
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                setIsLoading(false);
+        if (data) {
+            setFormData({
+                ...formData,
+                // null合体演算子
+                name: data.name ?? "",
+                email: data.email ?? "",
+                profile: data.profile ?? "",
             });
-    }, []);
 
+            setDbPic(data.pic ?? "");
+        }
+    }, [data]);
+
+    // 入力内容処理
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
         const { name, value } = e.target;
 
-        console.log(name, value);
-
         setFormData({ ...formData, [name]: value });
     };
 
+    // 画像データ選択処理
     const handlePicChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files === null) {
             return;
@@ -103,37 +100,25 @@ export const EdifProfile: VFC = memo(() => {
             ...formData,
             pic: e.target.files[0],
         });
-
-        console.log(formData);
     };
 
-    const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
-        setIsSending(true);
+    // プロフィール情報更新処理
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        // 画面を遷移させないよう停止
         e.preventDefault();
 
-        const data = new FormData();
+        // フォームへの入力データを変数に詰める
+        const data = {
+            name: formData.name,
+            email: formData.email,
+            profile: formData.profile,
+            pic: formData.pic,
+        };
 
-        data.append("name", formData.name);
-        data.append("email", formData.email);
-        data.append("profile", formData.profile);
-        data.append("pic", formData.pic);
-
-        console.log(formData.pic);
-
+        // APIへアクセス
         axios.get("/sanctum/csrf-cookie").then((res) => {
-            axios
-                .post("/mypage/update-profile", data)
-                .then((res) => {
-                    console.log(res.data);
-                    navigate("/mypage");
-                    toast.success("プロフィールを更新しました!", {
-                        position: toast.POSITION.TOP_CENTER,
-                        autoClose: 3000,
-                    });
-                })
-                .catch((err) => {
-                    console.log(err);
-
+            updateProfile.mutate(data, {
+                onError: (err: any) => {
                     if (err.response.status === 422) {
                         const newFormData = {
                             ...formData,
@@ -141,19 +126,17 @@ export const EdifProfile: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
-
-                        console.log("Send Error", err.response.data.errors);
-                        setIsSending(false);
                     } else {
-                        console.log("Send Error", err.response.data.errors);
-                        setIsSending(false);
-                        toast.error("プロフィールの更新に失敗しました。", {
-                            position: toast.POSITION.TOP_CENTER,
-                            autoClose: 3000,
-                        });
-    
+                        toast.error(
+                            "エラーが発生しました。しばらくたってからやり直してください。",
+                            {
+                                position: toast.POSITION.TOP_CENTER,
+                                autoClose: 3000,
+                            }
+                        );
                     }
-                });
+                },
+            });
         });
     };
 
@@ -173,7 +156,7 @@ export const EdifProfile: VFC = memo(() => {
                     />
                 </Spinner>
             ) : (
-                <Form onSubmit={registerSubmit}>
+                <Form onSubmit={handleSubmit}>
                     <Title>プロフィール登録・編集</Title>
 
                     <UserComponent>
@@ -238,7 +221,10 @@ export const EdifProfile: VFC = memo(() => {
                         <Alert>{formData.error_list.pic}</Alert>
                     </UserComponent>
 
-                    <Button value="登録する" isLoading={isSending} />
+                    <Button
+                        value="登録する"
+                        isLoading={updateProfile.isLoading}
+                    />
                 </Form>
             )}
         </>

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../hooks/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 
+// ユーザー情報取得
 const useUser = () => {
     return useQuery("users", api.getUser);
 };
@@ -106,6 +107,22 @@ const useResetPassword = () => {
     });
 };
 
+// プロフィール情報更新処理
+const useUpdateProfile = () => {
+    const navigate = useNavigate();
+    return useMutation(api.updateProfile, {
+        onSuccess: (data) => {
+            toast.success(data.message, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
+
+            // パスワードがリセットできたらログイン画面に遷移させる
+            navigate("/mypage");
+        },
+    });
+};
+
 export {
     useUser,
     useRegister,
@@ -113,4 +130,5 @@ export {
     useLogOut,
     useForgotPassword,
     useResetPassword,
+    useUpdateProfile,
 };

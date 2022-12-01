@@ -197,9 +197,9 @@ export const DetailChildItem: VFC = memo(() => {
                     />
                 </Spinner>
             ) : (
-                <SChildDetail className="p-childDetail">
-                    <SChildContainer className="p-childDetail__container">
-                        <SChildHead className="p-childDetail__head">
+                <SChildDetail>
+                    <SChildContainer>
+                        <SChildHead>
                             <DetailTitle>
                                 MyMove{itemData?.childCurrentNum}
                             </DetailTitle>
@@ -208,13 +208,13 @@ export const DetailChildItem: VFC = memo(() => {
                             </DetailTitle>
                         </SChildHead>
 
-                        <SChildBody className="p-childDetail__body">
-                            <SChildComment className="p-childDetail__comment">
+                        <SChildBody>
+                            <SChildComment>
                                 <p>{itemData?.childItem?.detail}</p>
                             </SChildComment>
 
-                            <SChildMeta className="p-childDetail__meta">
-                                <SChildCompTime className="p-childDetail__compTime">
+                            <SChildMeta>
+                                <SChildCompTime>
                                     目安達成時間:
                                     {itemData?.childItem?.cleartime}
                                     時間
@@ -340,38 +340,4 @@ const SChildMeta = styled.div`
 
 const SChildCompTime = styled.div`
     font-size: ${fonts.size.m};
-`;
-
-const SChildBtn = styled(BaseButton)`
-    display: block;
-    width: 40%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: ${space.l} ${space.xl};
-    font-size: ${fonts.size.default};
-    ${breakPoint.sm`
-    width: 100%;
-  `};
-`;
-
-const SChildComplete = styled(SChildBtn)`
-    background: ${colors.base.paletteDarkGray};
-    color: ${colors.font.fontColorDefault};
-    font-weight: initial;
-    &:hover {
-        cursor: initial;
-        opacity: 1;
-    }
-`;
-
-const SChildClear = styled(SChildBtn)`
-    background: ${colors.base.paletteDarkBlue};
-`;
-
-const SChildChallenge = styled(SChildBtn)`
-    background: ${colors.base.paletteTrueBlue};
-`;
-
-const SChildRegister = styled(SChildBtn)`
-    background: ${colors.base.paletteCyanBlue};
 `;

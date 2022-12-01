@@ -2,16 +2,22 @@ import React, { ChangeEvent, memo, useState, VFC } from "react";
 import styled from "styled-components";
 import { space } from "../../../theme/setting/space";
 
+// 型定義
 type Props = {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     dbPic: string;
     role: string;
 };
 
+// 画像データ入力フォーム
 export const InputPic: VFC<Props> = memo((props) => {
+    // プロップス
     const { onChange, dbPic, role } = props;
+
+    // 画像データ
     const [imageData, setImageData] = useState("");
 
+    // 画像データ入力時処理
     const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files === null) {
             return;

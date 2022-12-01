@@ -9,20 +9,18 @@ import React, {
     useState,
     VFC,
 } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import _ from "lodash";
 import { Oval } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 import { breakPoint } from "../../theme/setting/breakPoint";
 import { colors } from "../../theme/setting/colors";
 import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
 import { Panel } from "../organisms/item/Panel";
-import { Link } from "react-router-dom";
 import { Spinner } from "../atoms/spinner/Spinner";
 import { useGetCategories, useGetItems } from "../../queries/ItemsQuery";
-import { useQueryClient } from "react-query";
 
 // 型定義
 type Item = {
