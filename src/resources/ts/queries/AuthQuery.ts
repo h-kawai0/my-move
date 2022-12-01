@@ -117,8 +117,22 @@ const useUpdateProfile = () => {
                 autoClose: 3000,
             });
 
-            // パスワードがリセットできたらログイン画面に遷移させる
-            navigate("/mypage");
+            navigate(`/mypage`);
+        },
+    });
+};
+
+// パスワード更新処理
+const useUpdatePassword = () => {
+    const navigate = useNavigate();
+    return useMutation(api.updatePassword, {
+        onSuccess: (data) => {
+            toast.success(data.message, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
+
+            navigate(`/mypage`);
         },
     });
 };
@@ -131,4 +145,5 @@ export {
     useForgotPassword,
     useResetPassword,
     useUpdateProfile,
+    useUpdatePassword,
 };

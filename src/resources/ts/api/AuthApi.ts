@@ -95,7 +95,6 @@ const updateProfile = async ({
     profile: string;
     pic: string | File;
 }) => {
-
     // 画像情報を送るためフォームデータオブジェクトを作成
     const body = new FormData();
 
@@ -108,6 +107,24 @@ const updateProfile = async ({
     return data;
 };
 
+// パスワード更新
+const updatePassword = async ({
+    pass_old,
+    pass_new,
+    pass_new_confirmation,
+}: {
+    pass_old: string;
+    pass_new: string;
+    pass_new_confirmation: string;
+}) => {
+    const { data } = await axios.post(`/mypage/update-password`, {
+        pass_old,
+        pass_new,
+        pass_new_confirmation,
+    });
+    return data;
+};
+
 export {
     getUser,
     register,
@@ -116,4 +133,5 @@ export {
     forgotPassword,
     resetPassword,
     updateProfile,
+    updatePassword,
 };

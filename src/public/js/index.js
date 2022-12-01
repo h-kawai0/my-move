@@ -6354,6 +6354,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "logout": () => (/* binding */ logout),
 /* harmony export */   "register": () => (/* binding */ register),
 /* harmony export */   "resetPassword": () => (/* binding */ resetPassword),
+/* harmony export */   "updatePassword": () => (/* binding */ updatePassword),
 /* harmony export */   "updateProfile": () => (/* binding */ updateProfile)
 /* harmony export */ });
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/axios */ "./resources/ts/libs/axios.tsx");
@@ -6611,6 +6612,39 @@ var updateProfile = function updateProfile(_ref5) {
         }
       }
     }, _callee7);
+  }));
+}; // パスワード更新
+
+
+var updatePassword = function updatePassword(_ref6) {
+  var pass_old = _ref6.pass_old,
+      pass_new = _ref6.pass_new,
+      pass_new_confirmation = _ref6.pass_new_confirmation;
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+    var _yield$axios$post7, data;
+
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/mypage/update-password", {
+              pass_old: pass_old,
+              pass_new: pass_new,
+              pass_new_confirmation: pass_new_confirmation
+            });
+
+          case 2:
+            _yield$axios$post7 = _context8.sent;
+            data = _yield$axios$post7.data;
+            return _context8.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8);
   }));
 };
 
@@ -11600,10 +11634,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "EditPassword": () => (/* binding */ EditPassword)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.mjs");
-/* harmony import */ var _hooks_useFlash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../hooks/useFlash */ "./resources/ts/hooks/useFlash.ts");
-/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../libs/axios */ "./resources/ts/libs/axios.tsx");
+/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../libs/axios */ "./resources/ts/libs/axios.tsx");
+/* harmony import */ var _queries_AuthQuery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../queries/AuthQuery */ "./resources/ts/queries/AuthQuery.ts");
 /* harmony import */ var _atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../atoms/inputForm/Alert */ "./resources/ts/components/atoms/inputForm/Alert.tsx");
 /* harmony import */ var _atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../atoms/inputForm/Button */ "./resources/ts/components/atoms/inputForm/Button.tsx");
 /* harmony import */ var _atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../atoms/inputForm/Input */ "./resources/ts/components/atoms/inputForm/Input.tsx");
@@ -11635,20 +11668,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
+ // パスワード更新画面
 
 var EditPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isLoading = _useState2[0],
-      setIsLoading = _useState2[1];
-
-  var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_11__.useNavigate)();
-
-  var _useFlash = (0,_hooks_useFlash__WEBPACK_IMPORTED_MODULE_2__.useFlash)(),
-      handleFlashMessage = _useFlash.handleFlashMessage;
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  // 入力フォームデータ管理用
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     pass_old: "",
     pass_new: "",
     pass_new_confirmation: "",
@@ -11658,53 +11682,51 @@ var EditPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       pass_new_confirmation: ""
     }
   }),
-      _useState4 = _slicedToArray(_useState3, 2),
-      formData = _useState4[0],
-      setFormData = _useState4[1];
+      _useState2 = _slicedToArray(_useState, 2),
+      formData = _useState2[0],
+      setFormData = _useState2[1]; // パスワード更新処理用
+
+
+  var updatePassword = (0,_queries_AuthQuery__WEBPACK_IMPORTED_MODULE_3__.useUpdatePassword)(); // フォーム入力時処理
 
   var handleChange = function handleChange(e) {
     var _e$target = e.target,
         name = _e$target.name,
         value = _e$target.value;
     setFormData(Object.assign(Object.assign({}, formData), _defineProperty({}, name, value)));
-  };
+  }; // パスワード変更処理
 
-  var registerSubmit = function registerSubmit(e) {
-    setIsLoading(true);
-    e.preventDefault();
+
+  var handleSubmit = function handleSubmit(e) {
+    // 画面遷移防止
+    e.preventDefault(); // 入力データを変数に詰める
+
     var data = {
       pass_old: formData.pass_old,
       pass_new: formData.pass_new,
       pass_new_confirmation: formData.pass_new_confirmation
     };
-    _libs_axios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/sanctum/csrf-cookie").then(function (res) {
-      _libs_axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/mypage/update-password", data).then(function (res) {
-        console.log(res.data);
-        navigate("/mypage");
-        react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success(res.data.message, {
-          position: react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.POSITION.TOP_CENTER,
-          autoClose: 3000
-        });
-      })["catch"](function (err) {
-        console.log(err);
-
-        if (err.response.status === 422) {
-          var newFormData = Object.assign(Object.assign({}, formData), {
-            error_list: err.response.data.errors
-          });
-          setFormData(newFormData);
-          console.log("SendError", err.response.data.errors);
-          setIsLoading(false);
-        } else {
-          console.log("Send Error", err.response.data.errors);
-          setIsLoading(false);
+    _libs_axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("/sanctum/csrf-cookie").then(function () {
+      updatePassword.mutate(data, {
+        onError: function onError(err) {
+          if (err.response.status === 422) {
+            var newFormData = Object.assign(Object.assign({}, formData), {
+              error_list: err.response.data.errors
+            });
+            setFormData(newFormData);
+          } else {
+            react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.error("エラーが発生しました。しばらくたってからやり直してください。", {
+              position: react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.POSITION.TOP_CENTER,
+              autoClose: 3000
+            });
+          }
         }
       });
     });
   };
 
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_10__.Form, {
-    onSubmit: registerSubmit
+    onSubmit: handleSubmit
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_8__.Title, null, "\u30D1\u30B9\u30EF\u30FC\u30C9\u5909\u66F4"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_9__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "\u73FE\u5728\u306E\u30D1\u30B9\u30EF\u30FC\u30C9", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_6__.Input, {
     type: "password",
     name: "pass_old",
@@ -11732,7 +11754,7 @@ var EditPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     autoComplete: "new-password"
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_4__.Alert, null, formData.error_list.pass_new_confirmation)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__.Button, {
     value: "\u5909\u66F4\u3059\u308B",
-    isLoading: isLoading
+    isLoading: updatePassword.isLoading
   }));
 });
 
@@ -12914,61 +12936,6 @@ var useAuth = function useAuth() {
 
 /***/ }),
 
-/***/ "./resources/ts/hooks/useFlash.ts":
-/*!****************************************!*\
-  !*** ./resources/ts/hooks/useFlash.ts ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "useFlash": () => (/* binding */ useFlash)
-/* harmony export */ });
-/* harmony import */ var _useFlashMessage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./useFlashMessage */ "./resources/ts/hooks/useFlashMessage.ts");
-
-var useFlash = function useFlash() {
-  var _useFlashMessage = (0,_useFlashMessage__WEBPACK_IMPORTED_MODULE_0__.useFlashMessage)(),
-      flashMessage = _useFlashMessage.flashMessage,
-      setFlashMessage = _useFlashMessage.setFlashMessage;
-
-  var handleFlashMessage = function handleFlashMessage(message) {
-    var newMessage = message ? message : "";
-    console.log(flashMessage);
-    setFlashMessage(newMessage);
-    setTimeout(function () {
-      return setFlashMessage("");
-    }, 2000);
-  };
-
-  return {
-    handleFlashMessage: handleFlashMessage
-  };
-};
-
-/***/ }),
-
-/***/ "./resources/ts/hooks/useFlashMessage.ts":
-/*!***********************************************!*\
-  !*** ./resources/ts/hooks/useFlashMessage.ts ***!
-  \***********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "useFlashMessage": () => (/* binding */ useFlashMessage)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _providers_FlashMessageProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../providers/FlashMessageProvider */ "./resources/ts/providers/FlashMessageProvider.tsx");
-
-
-var useFlashMessage = function useFlashMessage() {
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_providers_FlashMessageProvider__WEBPACK_IMPORTED_MODULE_1__.FlashMessageContext);
-};
-
-/***/ }),
-
 /***/ "./resources/ts/libs/axios.tsx":
 /*!*************************************!*\
   !*** ./resources/ts/libs/axios.tsx ***!
@@ -12994,51 +12961,6 @@ var axios = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
 
 /***/ }),
 
-/***/ "./resources/ts/providers/FlashMessageProvider.tsx":
-/*!*********************************************************!*\
-  !*** ./resources/ts/providers/FlashMessageProvider.tsx ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FlashMessageContext": () => (/* binding */ FlashMessageContext),
-/* harmony export */   "FlashMessageProvider": () => (/* binding */ FlashMessageProvider)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-var FlashMessageContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)({});
-var FlashMessageProvider = function FlashMessageProvider(props) {
-  var children = props.children;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      flashMessage = _useState2[0],
-      setFlashMessage = _useState2[1];
-
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(FlashMessageContext.Provider, {
-    value: {
-      flashMessage: flashMessage,
-      setFlashMessage: setFlashMessage
-    }
-  }, children);
-};
-
-/***/ }),
-
 /***/ "./resources/ts/queries/AuthQuery.ts":
 /*!*******************************************!*\
   !*** ./resources/ts/queries/AuthQuery.ts ***!
@@ -13053,6 +12975,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "useLogin": () => (/* binding */ useLogin),
 /* harmony export */   "useRegister": () => (/* binding */ useRegister),
 /* harmony export */   "useResetPassword": () => (/* binding */ useResetPassword),
+/* harmony export */   "useUpdatePassword": () => (/* binding */ useUpdatePassword),
 /* harmony export */   "useUpdateProfile": () => (/* binding */ useUpdateProfile),
 /* harmony export */   "useUser": () => (/* binding */ useUser)
 /* harmony export */ });
@@ -13184,8 +13107,21 @@ var useUpdateProfile = function useUpdateProfile() {
       react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.success(data.message, {
         position: react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.POSITION.TOP_CENTER,
         autoClose: 3000
-      }); // パスワードがリセットできたらログイン画面に遷移させる
+      });
+      navigate("/mypage");
+    }
+  });
+}; // パスワード更新処理
 
+
+var useUpdatePassword = function useUpdatePassword() {
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_1__.useMutation)(_api_AuthApi__WEBPACK_IMPORTED_MODULE_0__.updatePassword, {
+    onSuccess: function onSuccess(data) {
+      react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.success(data.message, {
+        position: react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.POSITION.TOP_CENTER,
+        autoClose: 3000
+      });
       navigate("/mypage");
     }
   });
