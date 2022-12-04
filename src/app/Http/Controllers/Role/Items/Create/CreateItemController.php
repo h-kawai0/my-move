@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Image;
 
+// STEPの新規登録
 class CreateItemController extends Controller
 {
     /**
@@ -19,41 +20,36 @@ class CreateItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     // STEPを新規登録する
     public function __invoke(ItemRequest $request)
     {
-        //
-
-        // Log::debug($request->child_item[0]);
-        // Log::debug($request);
-
-        // $new_arr = [];
-
-        // foreach ($request->child_item as $key => $val) {
-
-        //     $new_arr[] = json_decode($request->child_item[$key], true);
-        // }
-
-        Log::debug('げんざいのはいれつ');
-        Log::debug($request);
-
+        // リクエストされた画像ファイル用変数を初期化
         $requestPic = '';
 
+        // 画像がフォームからリクエストされていた場合
         if (!empty($request->pic)) {
 
+            // リクエストされた画像情報を変数に詰める
             $file = $request->pic;
 
+            // 元のサイズの画像をストレージへ保存
             $file->store('public/img/items/original');
 
+            // 画像の情報を取得
             $img = Image::make(file_get_contents($file->getRealPath()));
 
+            // width, heightを元の画像の70%に設定
             $width = $img->width() * .7;
             $height = $img->width() * .7;
 
+            // 画像のアスペクト比を維持したままリサイズする
             $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });
             $img->save($file->getRealPath());
 
+            // リサイズした画像をストレージへ保存
             $requestPic = $file->store('public/img/items/resize');
         }
 
@@ -65,14 +61,17 @@ class CreateItemController extends Controller
         $parentItem->detail = $request->parent_detail;
         $parentItem->user_id = Auth::id();
 
+        // 画像がリクエストされているならDBへパスを保存
         if (!empty($requestPic)) {
             $parentItem->pic = basename($requestPic);
         }
 
         $parentItem->save();
 
+        // リクエストされた子MyMoveを展開
         foreach ($request->child_item as $key => $val) {
 
+            // 情報を全て入力しているなら保存
             if (!empty($val['name']) && !empty($val['cleartime']) && !empty($val['detail'])) {
                 $childItem = new ChildItem;
                 $childItem->parent_item_id = $parentItem->id;

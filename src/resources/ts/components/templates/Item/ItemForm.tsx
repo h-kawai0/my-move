@@ -5,7 +5,9 @@ import React, {
     useEffect,
     ChangeEvent,
     FormEvent,
+    useMemo,
 } from "react";
+import { Oval } from "react-loader-spinner";
 
 import { Alert } from "../../atoms/inputForm/Alert";
 import { Button } from "../../atoms/inputForm/Button";
@@ -22,12 +24,14 @@ import { Form } from "../../organisms/inputForm/Form";
 import axios from "../../../libs/axios";
 import { SelectBox } from "../../molecules/inputForm/SelectBox";
 import { CategoryList } from "../../atoms/inputForm/CategoryList";
-import { useNavigate } from "react-router";
-import { Item } from "../../../types/api/item";
-import { toast } from "react-toastify";
 import { Spinner } from "../../atoms/spinner/Spinner";
-import { Oval } from "react-loader-spinner";
+import {
+    useGetCategories,
+    useGetEditItem,
+    useUpdateItem,
+} from "../../../queries/ItemsQuery";
 
+// 型定義
 type Form = {
     parent_name: string;
     category_id: string;
@@ -56,21 +60,29 @@ type Form = {
     };
 };
 
+// 型定義
 type Props = {
     title: string;
     method: string;
     pId?: string;
 };
 
+// MyMove登録・変更共通画面
 export const ItemForm: VFC<Props> = memo((props) => {
+    // 新規登録か更新を識別するためのプロップス
     const { title, method, pId } = props;
 
-    const navigate = useNavigate();
+    // カテゴリーデータ取得処理
+    const { data: getCategoriesData } = useGetCategories();
 
-    const [isSending, setIsSending] = useState(false);
+    // MyMove更新用データを取得
+    const { data: getEditItemData, isLoading: getEditItemIsLoading } =
+        useGetEditItem(pId);
 
-    const [isLoading, setIsLoading] = useState(false);
+    // MyMove更新処理
+    const updateItem = useUpdateItem();
 
+    // 入力データ
     const [formData, setFormData] = useState<Form>({
         parent_name: "",
         category_id: "",
@@ -101,8 +113,10 @@ export const ItemForm: VFC<Props> = memo((props) => {
         },
     });
 
+    //  DB保存済み管理フラグstate
     const [dbPic, setDbPic] = useState("");
 
+    // カテゴリーリスト管理state
     const [categoryList, setCategoryList] = useState([
         {
             id: 0,
@@ -113,74 +127,8 @@ export const ItemForm: VFC<Props> = memo((props) => {
     ]);
 
     useEffect(() => {
-        if (pId) {
-            setIsLoading(true);
-            axios
-                .get<Item>(`${method}/edit`)
-                .then((res) => {
-                    console.log(res.data.parentItem);
-
-                    let result = res.data.parentItem;
-
-                    if (result.child_items.length < 5) {
-                        [...Array(5 - result.child_items.length)].map(
-                            (val, i) => {
-                                let nextData = {
-                                    index: i,
-                                    id: i,
-                                    name: "",
-                                    cleartime: "",
-                                    detail: "",
-                                    parent_item_id: "",
-                                    error_list: {
-                                        name: "",
-                                        cleartime: "",
-                                        detail: "",
-                                    },
-                                };
-
-                                console.log(nextData);
-
-                                result = {
-                                    ...result,
-                                    child_items: [
-                                        ...result.child_items,
-                                        nextData,
-                                    ],
-                                };
-                            }
-                        );
-                    }
-
-                    setFormData((prevState) => ({
-                        ...prevState,
-
-                        parent_name: result.name ?? "",
-                        category_id: result.category_id ?? "",
-                        parent_cleartime: result.cleartime ?? "",
-                        parent_detail: result.detail ?? "",
-                        child_item: result.child_items.map((el, i) => ({
-                            index: i,
-                            id: el.id,
-                            name: el.name,
-                            cleartime: el.cleartime,
-                            detail: el.detail,
-                            parent_item_id: el.parent_item_id,
-                            error_list: {
-                                name: "",
-                                cleartime: "",
-                                detail: "",
-                            },
-                        })),
-                    }));
-                    setDbPic(result.pic ?? "");
-                    setIsLoading(false);
-                })
-                .catch((err) => {
-                    console.log(err.response.data.errors);
-                    setIsLoading(false);
-                });
-        } else {
+        // 新規登録なら子MyMoveの入力フォームを5個にする
+        if (!pId) {
             [...Array(4)].map((val, i) => {
                 let nextData = {
                     index: i + 1,
@@ -200,28 +148,83 @@ export const ItemForm: VFC<Props> = memo((props) => {
                     child_item: [...prevstate.child_item, nextData],
                 }));
             });
-            setIsLoading(false);
         }
-
-        axios
-            .get("/items/categories")
-            .then((res) => {
-                console.log(res.data);
-
-                setCategoryList(res.data.categories);
-            })
-            .catch((err) => {
-                console.log(err.response.data.errors);
-            });
     }, []);
 
+    // MyMove更新用データを取得
+    const resultItem = useMemo(() => {
+        // 更新用データが存在する場合
+        if (pId && getEditItemData) {
+            // 取得データを変数に入れる
+            let result = getEditItemData.parentItem;
+
+            // 登録した子MyMoveが5未満なら不足分のフォームを生成
+            if (result.child_items.length < 5) {
+                [...Array(5 - result.child_items.length)].map((val, i) => {
+                    let nextData = {
+                        index: i,
+                        id: i,
+                        name: "",
+                        cleartime: "",
+                        detail: "",
+                        parent_item_id: "",
+                        error_list: {
+                            name: "",
+                            cleartime: "",
+                            detail: "",
+                        },
+                    };
+
+                    result = {
+                        ...result,
+                        child_items: [...result.child_items, nextData],
+                    };
+                });
+            }
+
+            setFormData((prevState) => ({
+                ...prevState,
+
+                parent_name: result.name ?? "",
+                category_id: result.category_id ?? "",
+                parent_cleartime: result.cleartime ?? "",
+                parent_detail: result.detail ?? "",
+                child_item: result.child_items.map((el: any, i: number) => ({
+                    index: i,
+                    id: el.id,
+                    name: el.name,
+                    cleartime: el.cleartime,
+                    detail: el.detail,
+                    parent_item_id: el.parent_item_id,
+                    error_list: {
+                        name: "",
+                        cleartime: "",
+                        detail: "",
+                    },
+                })),
+            }));
+            setDbPic(result.pic ?? "");
+        }
+    }, [getEditItemData]);
+
+    // カテゴリー一覧を取得
+    const resultCategories = useMemo(() => {
+        if (getCategoriesData) {
+            setCategoryList(getCategoriesData.categories);
+        }
+    }, [getCategoriesData]);
+
+    // フォーム入力内容をstateに詰める
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
         index?: number
     ) => {
+        // フォーム入力内容を変数に代入
         const { name, value } = e.target;
 
+        // 入力項目が子MyMoveの場合
         if (index !== undefined) {
+            // 入力項目を変数に詰める
             let data = formData.child_item.map((val) => {
                 if (val.index === index) {
                     return Object.assign({}, val, {
@@ -231,15 +234,18 @@ export const ItemForm: VFC<Props> = memo((props) => {
                 return val;
             });
 
+            // 子MyMoveの内容をstateに詰める
             setFormData((prevstate) => ({
                 ...prevstate,
                 child_item: data,
             }));
         } else {
+            // 子MyMove以外の項目
             setFormData({ ...formData, [name]: value });
         }
     };
 
+    // 画像データ入力処理
     const handlePicChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files === null) {
             return;
@@ -255,6 +261,7 @@ export const ItemForm: VFC<Props> = memo((props) => {
         });
     };
 
+    // カテゴリー内容選択処理
     const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
         setFormData({
             ...formData,
@@ -262,47 +269,31 @@ export const ItemForm: VFC<Props> = memo((props) => {
         });
     };
 
-    const registerSubmit = (e: FormEvent<HTMLFormElement>) => {
+    // 新規登録・編集処理
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        // 画面遷移防止
         e.preventDefault();
 
-        setIsSending(true);
+        // 入力内容を変数に詰める
+        const data = {
+            parent_name: formData.parent_name,
+            category_id: formData.category_id,
+            parent_cleartime: formData.parent_cleartime,
+            parent_detail: formData.parent_detail,
+            pic: formData.pic,
+            method: method,
+            child_item: formData.child_item,
+        };
 
-        console.log(formData);
-
-        const data = new FormData();
-
-        data.append("parent_name", formData.parent_name);
-        data.append("category_id", formData.category_id);
-        data.append("parent_cleartime", formData.parent_cleartime);
-        data.append("parent_detail", formData.parent_detail);
-        data.append("pic", formData.pic);
-
-        formData.child_item.forEach((item) => {
-            data.append("child_item[]", JSON.stringify(item));
-        });
-
-        console.log(data.getAll("child_item[]"));
-
-        pId ? pId : "";
-
-        axios.get("/sanctum/csrf-cookie").then((res) => {
-            axios
-                .post(method, data)
-                .then((res) => {
-                    console.log(res.data);
-                    navigate("/mypage");
-                    toast.success(res.data.message, {
-                        position: toast.POSITION.TOP_CENTER,
-                        autoClose: 3000,
-                    });
-
-                    setIsSending(false);
-                })
-                .catch((err) => {
-                    console.log(err);
-
+        axios.get("/sanctum/csrf-cookie").then(() => {
+            updateItem.mutate(data, {
+                onError: (err: any) => {
+                    // 入力内容に不備がある場合
                     if (err.response.status === 422) {
+                        // エラー内容を変数に詰める
                         let errData = err.response.data.errors;
+
+                        // エラー箇所のプロパティを配列にする
                         let keyArray = Object.keys(err.response.data.errors);
 
                         const errorList = {
@@ -311,10 +302,15 @@ export const ItemForm: VFC<Props> = memo((props) => {
                             detail: "",
                         };
 
+                        // エラー箇所を展開
                         keyArray.map((val) => {
+                            // エラー箇所のオブジェクト名を取り出す
                             let key = parseInt(val.substring(11, 12));
+
+                            // プロパティ名を取り出す
                             let str = val.substring(13);
 
+                            // 該当する子MyMoveのエラー箇所をstateに詰める
                             if (val.includes("child_item")) {
                                 setFormData((prevState) => ({
                                     ...prevState,
@@ -330,8 +326,6 @@ export const ItemForm: VFC<Props> = memo((props) => {
                                             : el
                                     ),
                                 }));
-
-                                setIsSending(false);
                             } else {
                                 setFormData((prevState) => ({
                                     ...prevState,
@@ -353,23 +347,18 @@ export const ItemForm: VFC<Props> = memo((props) => {
                             error_list: err.response.data.errors,
                         }));
 
-                        console.log(formData);
-
                         console.log("Send Error", err.response.data.errors);
-
-                        setIsSending(false);
                     } else {
                         console.log("Send Error", err.response.data.errors);
-
-                        setIsSending(false);
                     }
-                });
+                },
+            });
         });
     };
 
     return (
         <>
-            {isLoading ? (
+            {getEditItemIsLoading ? (
                 <Spinner>
                     <Oval
                         height={80}
@@ -383,7 +372,7 @@ export const ItemForm: VFC<Props> = memo((props) => {
                     />
                 </Spinner>
             ) : (
-                <Form onSubmit={registerSubmit}>
+                <Form onSubmit={handleSubmit}>
                     <Title>{title}</Title>
 
                     <UserComponent>
@@ -530,7 +519,7 @@ export const ItemForm: VFC<Props> = memo((props) => {
                             </UserComponent>
                         </div>
                     ))}
-                    <Button value="登録する" isLoading={isSending} />
+                    <Button value="登録する" isLoading={updateItem.isLoading} />
                 </Form>
             )}
         </>

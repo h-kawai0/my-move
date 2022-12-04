@@ -6667,7 +6667,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "detailParentItem": () => (/* binding */ detailParentItem),
 /* harmony export */   "doChallenge": () => (/* binding */ doChallenge),
 /* harmony export */   "getCategories": () => (/* binding */ getCategories),
-/* harmony export */   "getItems": () => (/* binding */ getItems)
+/* harmony export */   "getEditItem": () => (/* binding */ getEditItem),
+/* harmony export */   "getItems": () => (/* binding */ getItems),
+/* harmony export */   "updateItem": () => (/* binding */ updateItem)
 /* harmony export */ });
 /* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/axios */ "./resources/ts/libs/axios.tsx");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -6915,6 +6917,75 @@ var addFavorite = function addFavorite(_ref5) {
         }
       }
     }, _callee7);
+  }));
+}; // MyMove更新用データ取得
+
+
+var getEditItem = function getEditItem(id) {
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+    var _yield$axios$get5, data;
+
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/items/".concat(id, "/edit"));
+
+          case 2:
+            _yield$axios$get5 = _context8.sent;
+            data = _yield$axios$get5.data;
+            return _context8.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8);
+  }));
+}; // MyMove新規登録・編集
+
+
+var updateItem = function updateItem(_ref6) {
+  var parent_name = _ref6.parent_name,
+      category_id = _ref6.category_id,
+      parent_cleartime = _ref6.parent_cleartime,
+      parent_detail = _ref6.parent_detail,
+      pic = _ref6.pic,
+      method = _ref6.method,
+      child_item = _ref6.child_item;
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
+    var body, _yield$axios$post4, data;
+
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) {
+        switch (_context9.prev = _context9.next) {
+          case 0:
+            // 画像情報を送るためフォームデータオブジェクトを作成
+            body = new FormData();
+            body.append("parent_name", parent_name);
+            body.append("category_id", category_id);
+            body.append("parent_cleartime", parent_cleartime);
+            body.append("parent_detail", parent_detail);
+            body.append("pic", pic);
+            child_item.forEach(function (item) {
+              body.append("child_item[]", JSON.stringify(item));
+            });
+            _context9.next = 9;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].post(method, body);
+
+          case 9:
+            _yield$axios$post4 = _context9.sent;
+            data = _yield$axios$post4.data;
+            return _context9.abrupt("return", data);
+
+          case 12:
+          case "end":
+            return _context9.stop();
+        }
+      }
+    }, _callee9);
   }));
 };
 
@@ -9470,7 +9541,7 @@ var RegistPanel = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPanelItem, {
     className: "c-panel__item"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPanelEdit, {
-    to: "items/".concat(itemId, "/editing"),
+    to: "/items/".concat(itemId, "/editing"),
     className: "c-panel__link c-panel__link--edit"
   }, "\u7DE8\u96C6")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPanelItem, {
     className: "c-panel__item"
@@ -11609,10 +11680,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates/Item/ItemForm */ "./resources/ts/components/templates/Item/ItemForm.tsx");
 
 
+ // MyMove編集画面
 
 var EditItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+  // GETパラメータを取得
   var params = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useParams)();
-  var id = params.id;
+  var id = params.id; // 更新用のルートとMyMoveのidを渡す
+
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__.ItemForm, {
     title: "MyMove\u7DE8\u96C6\u753B\u9762",
     method: "/items/".concat(id),
@@ -12245,8 +12319,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates/Item/ItemForm */ "./resources/ts/components/templates/Item/ItemForm.tsx");
 
+ // MyMove新規登録画面
 
 var NewItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+  // 新規登録用ルートを渡す
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_templates_Item_ItemForm__WEBPACK_IMPORTED_MODULE_1__.ItemForm, {
     title: "MyMove\u65B0\u898F\u767B\u9332",
     method: "/items"
@@ -12335,25 +12411,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ItemForm": () => (/* binding */ ItemForm)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../atoms/inputForm/Alert */ "./resources/ts/components/atoms/inputForm/Alert.tsx");
-/* harmony import */ var _atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../atoms/inputForm/Button */ "./resources/ts/components/atoms/inputForm/Button.tsx");
-/* harmony import */ var _atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../atoms/inputForm/Input */ "./resources/ts/components/atoms/inputForm/Input.tsx");
-/* harmony import */ var _atoms_inputForm_InputPic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../atoms/inputForm/InputPic */ "./resources/ts/components/atoms/inputForm/InputPic.tsx");
-/* harmony import */ var _atoms_inputForm_InputTextArea__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../atoms/inputForm/InputTextArea */ "./resources/ts/components/atoms/inputForm/InputTextArea.tsx");
-/* harmony import */ var _atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../atoms/inputForm/Label */ "./resources/ts/components/atoms/inputForm/Label.tsx");
-/* harmony import */ var _atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../atoms/inputForm/Notes */ "./resources/ts/components/atoms/inputForm/Notes.tsx");
-/* harmony import */ var _atoms_inputForm_Number__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../atoms/inputForm/Number */ "./resources/ts/components/atoms/inputForm/Number.tsx");
-/* harmony import */ var _atoms_inputForm_Sup__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../atoms/inputForm/Sup */ "./resources/ts/components/atoms/inputForm/Sup.tsx");
-/* harmony import */ var _atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../atoms/inputForm/Title */ "./resources/ts/components/atoms/inputForm/Title.tsx");
-/* harmony import */ var _molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../molecules/inputForm/UserComponent */ "./resources/ts/components/molecules/inputForm/UserComponent.tsx");
-/* harmony import */ var _organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../organisms/inputForm/Form */ "./resources/ts/components/organisms/inputForm/Form.tsx");
-/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
-/* harmony import */ var _molecules_inputForm_SelectBox__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../molecules/inputForm/SelectBox */ "./resources/ts/components/molecules/inputForm/SelectBox.tsx");
-/* harmony import */ var _atoms_inputForm_CategoryList__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../atoms/inputForm/CategoryList */ "./resources/ts/components/atoms/inputForm/CategoryList.tsx");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.mjs");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/esm/index.js");
+/* harmony import */ var _atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../atoms/inputForm/Alert */ "./resources/ts/components/atoms/inputForm/Alert.tsx");
+/* harmony import */ var _atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../atoms/inputForm/Button */ "./resources/ts/components/atoms/inputForm/Button.tsx");
+/* harmony import */ var _atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../atoms/inputForm/Input */ "./resources/ts/components/atoms/inputForm/Input.tsx");
+/* harmony import */ var _atoms_inputForm_InputPic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../atoms/inputForm/InputPic */ "./resources/ts/components/atoms/inputForm/InputPic.tsx");
+/* harmony import */ var _atoms_inputForm_InputTextArea__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../atoms/inputForm/InputTextArea */ "./resources/ts/components/atoms/inputForm/InputTextArea.tsx");
+/* harmony import */ var _atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../atoms/inputForm/Label */ "./resources/ts/components/atoms/inputForm/Label.tsx");
+/* harmony import */ var _atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../atoms/inputForm/Notes */ "./resources/ts/components/atoms/inputForm/Notes.tsx");
+/* harmony import */ var _atoms_inputForm_Number__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../atoms/inputForm/Number */ "./resources/ts/components/atoms/inputForm/Number.tsx");
+/* harmony import */ var _atoms_inputForm_Sup__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../atoms/inputForm/Sup */ "./resources/ts/components/atoms/inputForm/Sup.tsx");
+/* harmony import */ var _atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../atoms/inputForm/Title */ "./resources/ts/components/atoms/inputForm/Title.tsx");
+/* harmony import */ var _molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../molecules/inputForm/UserComponent */ "./resources/ts/components/molecules/inputForm/UserComponent.tsx");
+/* harmony import */ var _organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../organisms/inputForm/Form */ "./resources/ts/components/organisms/inputForm/Form.tsx");
+/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
+/* harmony import */ var _molecules_inputForm_SelectBox__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../molecules/inputForm/SelectBox */ "./resources/ts/components/molecules/inputForm/SelectBox.tsx");
+/* harmony import */ var _atoms_inputForm_CategoryList__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../atoms/inputForm/CategoryList */ "./resources/ts/components/atoms/inputForm/CategoryList.tsx");
 /* harmony import */ var _atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../atoms/spinner/Spinner */ "./resources/ts/components/atoms/spinner/Spinner.tsx");
-/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/esm/index.js");
+/* harmony import */ var _queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../../queries/ItemsQuery */ "./resources/ts/queries/ItemsQuery.ts");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -12394,25 +12469,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
+ // MyMove登録・変更共通画面
 
 var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
+  // 新規登録か更新を識別するためのプロップス
   var title = props.title,
       method = props.method,
-      pId = props.pId;
-  var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_19__.useNavigate)();
+      pId = props.pId; // カテゴリーデータ取得処理
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isSending = _useState2[0],
-      setIsSending = _useState2[1];
+  var _useGetCategories = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_18__.useGetCategories)(),
+      getCategoriesData = _useGetCategories.data; // MyMove更新用データを取得
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      isLoading = _useState4[0],
-      setIsLoading = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useGetEditItem = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_18__.useGetEditItem)(pId),
+      getEditItemData = _useGetEditItem.data,
+      getEditItemIsLoading = _useGetEditItem.isLoading; // MyMove更新処理
+
+
+  var updateItem = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_18__.useUpdateItem)(); // 入力データ
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     parent_name: "",
     category_id: "",
     parent_cleartime: "",
@@ -12439,88 +12515,30 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
       pic: ""
     }
   }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      formData = _useState6[0],
-      setFormData = _useState6[1];
+      _useState2 = _slicedToArray(_useState, 2),
+      formData = _useState2[0],
+      setFormData = _useState2[1]; //  DB保存済み管理フラグstate
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
-      _useState8 = _slicedToArray(_useState7, 2),
-      dbPic = _useState8[0],
-      setDbPic = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      dbPic = _useState4[0],
+      setDbPic = _useState4[1]; // カテゴリーリスト管理state
+
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     id: 0,
     name: "",
     created_at: "",
     updated_at: ""
   }]),
-      _useState10 = _slicedToArray(_useState9, 2),
-      categoryList = _useState10[0],
-      setCategoryList = _useState10[1];
+      _useState6 = _slicedToArray(_useState5, 2),
+      categoryList = _useState6[0],
+      setCategoryList = _useState6[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (pId) {
-      setIsLoading(true);
-      _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("".concat(method, "/edit")).then(function (res) {
-        var _a;
-
-        console.log(res.data.parentItem);
-        var result = res.data.parentItem;
-
-        if (result.child_items.length < 5) {
-          _toConsumableArray(Array(5 - result.child_items.length)).map(function (val, i) {
-            var nextData = {
-              index: i,
-              id: i,
-              name: "",
-              cleartime: "",
-              detail: "",
-              parent_item_id: "",
-              error_list: {
-                name: "",
-                cleartime: "",
-                detail: ""
-              }
-            };
-            console.log(nextData);
-            result = Object.assign(Object.assign({}, result), {
-              child_items: [].concat(_toConsumableArray(result.child_items), [nextData])
-            });
-          });
-        }
-
-        setFormData(function (prevState) {
-          var _a, _b, _c, _d;
-
-          return Object.assign(Object.assign({}, prevState), {
-            parent_name: (_a = result.name) !== null && _a !== void 0 ? _a : "",
-            category_id: (_b = result.category_id) !== null && _b !== void 0 ? _b : "",
-            parent_cleartime: (_c = result.cleartime) !== null && _c !== void 0 ? _c : "",
-            parent_detail: (_d = result.detail) !== null && _d !== void 0 ? _d : "",
-            child_item: result.child_items.map(function (el, i) {
-              return {
-                index: i,
-                id: el.id,
-                name: el.name,
-                cleartime: el.cleartime,
-                detail: el.detail,
-                parent_item_id: el.parent_item_id,
-                error_list: {
-                  name: "",
-                  cleartime: "",
-                  detail: ""
-                }
-              };
-            })
-          });
-        });
-        setDbPic((_a = result.pic) !== null && _a !== void 0 ? _a : "");
-        setIsLoading(false);
-      })["catch"](function (err) {
-        console.log(err.response.data.errors);
-        setIsLoading(false);
-      });
-    } else {
+    // 新規登録なら子MyMoveの入力フォームを5個にする
+    if (!pId) {
       _toConsumableArray(Array(4)).map(function (val, i) {
         var nextData = {
           index: i + 1,
@@ -12540,40 +12558,100 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
           });
         });
       });
-
-      setIsLoading(false);
     }
+  }, []); // MyMove更新用データを取得
 
-    _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("/items/categories").then(function (res) {
-      console.log(res.data);
-      setCategoryList(res.data.categories);
-    })["catch"](function (err) {
-      console.log(err.response.data.errors);
-    });
-  }, []);
+  var resultItem = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    var _a; // 更新用データが存在する場合
+
+
+    if (pId && getEditItemData) {
+      // 取得データを変数に入れる
+      var result = getEditItemData.parentItem; // 登録した子MyMoveが5未満なら不足分のフォームを生成
+
+      if (result.child_items.length < 5) {
+        _toConsumableArray(Array(5 - result.child_items.length)).map(function (val, i) {
+          var nextData = {
+            index: i,
+            id: i,
+            name: "",
+            cleartime: "",
+            detail: "",
+            parent_item_id: "",
+            error_list: {
+              name: "",
+              cleartime: "",
+              detail: ""
+            }
+          };
+          result = Object.assign(Object.assign({}, result), {
+            child_items: [].concat(_toConsumableArray(result.child_items), [nextData])
+          });
+        });
+      }
+
+      setFormData(function (prevState) {
+        var _a, _b, _c, _d;
+
+        return Object.assign(Object.assign({}, prevState), {
+          parent_name: (_a = result.name) !== null && _a !== void 0 ? _a : "",
+          category_id: (_b = result.category_id) !== null && _b !== void 0 ? _b : "",
+          parent_cleartime: (_c = result.cleartime) !== null && _c !== void 0 ? _c : "",
+          parent_detail: (_d = result.detail) !== null && _d !== void 0 ? _d : "",
+          child_item: result.child_items.map(function (el, i) {
+            return {
+              index: i,
+              id: el.id,
+              name: el.name,
+              cleartime: el.cleartime,
+              detail: el.detail,
+              parent_item_id: el.parent_item_id,
+              error_list: {
+                name: "",
+                cleartime: "",
+                detail: ""
+              }
+            };
+          })
+        });
+      });
+      setDbPic((_a = result.pic) !== null && _a !== void 0 ? _a : "");
+    }
+  }, [getEditItemData]); // カテゴリー一覧を取得
+
+  var resultCategories = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+    if (getCategoriesData) {
+      setCategoryList(getCategoriesData.categories);
+    }
+  }, [getCategoriesData]); // フォーム入力内容をstateに詰める
 
   var handleChange = function handleChange(e, index) {
+    // フォーム入力内容を変数に代入
     var _e$target = e.target,
         name = _e$target.name,
-        value = _e$target.value;
+        value = _e$target.value; // 入力項目が子MyMoveの場合
 
     if (index !== undefined) {
+      // 入力項目を変数に詰める
       var data = formData.child_item.map(function (val) {
         if (val.index === index) {
           return Object.assign({}, val, _defineProperty({}, name, value));
         }
 
         return val;
-      });
+      }); // 子MyMoveの内容をstateに詰める
+
       setFormData(function (prevstate) {
         return Object.assign(Object.assign({}, prevstate), {
           child_item: data
         });
       });
     } else {
+      // 子MyMove以外の項目
       setFormData(Object.assign(Object.assign({}, formData), _defineProperty({}, name, value)));
     }
-  };
+  }; // 画像データ入力処理
+
 
   var handlePicChange = function handlePicChange(e) {
     if (e.target.files === null) {
@@ -12589,93 +12667,87 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
     setFormData(Object.assign(Object.assign({}, formData), {
       pic: e.target.files[0]
     }));
-  };
+  }; // カテゴリー内容選択処理
+
 
   var handleSelect = function handleSelect(e) {
     setFormData(Object.assign(Object.assign({}, formData), {
       category_id: e.target.value
     }));
-  };
+  }; // 新規登録・編集処理
 
-  var registerSubmit = function registerSubmit(e) {
-    e.preventDefault();
-    setIsSending(true);
-    console.log(formData);
-    var data = new FormData();
-    data.append("parent_name", formData.parent_name);
-    data.append("category_id", formData.category_id);
-    data.append("parent_cleartime", formData.parent_cleartime);
-    data.append("parent_detail", formData.parent_detail);
-    data.append("pic", formData.pic);
-    formData.child_item.forEach(function (item) {
-      data.append("child_item[]", JSON.stringify(item));
-    });
-    console.log(data.getAll("child_item[]"));
-    pId ? pId : "";
-    _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].get("/sanctum/csrf-cookie").then(function (res) {
-      _libs_axios__WEBPACK_IMPORTED_MODULE_13__["default"].post(method, data).then(function (res) {
-        console.log(res.data);
-        navigate("/mypage");
-        react_toastify__WEBPACK_IMPORTED_MODULE_16__.toast.success(res.data.message, {
-          position: react_toastify__WEBPACK_IMPORTED_MODULE_16__.toast.POSITION.TOP_CENTER,
-          autoClose: 3000
-        });
-        setIsSending(false);
-      })["catch"](function (err) {
-        console.log(err);
 
-        if (err.response.status === 422) {
-          var errData = err.response.data.errors;
-          var keyArray = Object.keys(err.response.data.errors);
-          var errorList = {
-            name: "",
-            cleartime: "",
-            detail: ""
-          };
-          keyArray.map(function (val) {
-            var key = parseInt(val.substring(11, 12));
-            var str = val.substring(13);
+  var handleSubmit = function handleSubmit(e) {
+    // 画面遷移防止
+    e.preventDefault(); // 入力内容を変数に詰める
 
-            if (val.includes("child_item")) {
-              setFormData(function (prevState) {
-                return Object.assign(Object.assign({}, prevState), {
-                  child_item: prevState.child_item.map(function (el) {
-                    return el.index === key ? Object.assign(Object.assign({}, el), {
-                      error_list: Object.assign(Object.assign({}, el.error_list), _defineProperty({}, str, errData[val]))
-                    }) : el;
-                  })
+    var data = {
+      parent_name: formData.parent_name,
+      category_id: formData.category_id,
+      parent_cleartime: formData.parent_cleartime,
+      parent_detail: formData.parent_detail,
+      pic: formData.pic,
+      method: method,
+      child_item: formData.child_item
+    };
+    _libs_axios__WEBPACK_IMPORTED_MODULE_14__["default"].get("/sanctum/csrf-cookie").then(function () {
+      updateItem.mutate(data, {
+        onError: function onError(err) {
+          // 入力内容に不備がある場合
+          if (err.response.status === 422) {
+            // エラー内容を変数に詰める
+            var errData = err.response.data.errors; // エラー箇所のプロパティを配列にする
+
+            var keyArray = Object.keys(err.response.data.errors);
+            var errorList = {
+              name: "",
+              cleartime: "",
+              detail: ""
+            }; // エラー箇所を展開
+
+            keyArray.map(function (val) {
+              // エラー箇所のオブジェクト名を取り出す
+              var key = parseInt(val.substring(11, 12)); // プロパティ名を取り出す
+
+              var str = val.substring(13); // 該当する子MyMoveのエラー箇所をstateに詰める
+
+              if (val.includes("child_item")) {
+                setFormData(function (prevState) {
+                  return Object.assign(Object.assign({}, prevState), {
+                    child_item: prevState.child_item.map(function (el) {
+                      return el.index === key ? Object.assign(Object.assign({}, el), {
+                        error_list: Object.assign(Object.assign({}, el.error_list), _defineProperty({}, str, errData[val]))
+                      }) : el;
+                    })
+                  });
                 });
-              });
-              setIsSending(false);
-            } else {
-              setFormData(function (prevState) {
-                return Object.assign(Object.assign({}, prevState), {
-                  child_item: prevState.child_item.map(function (el, i) {
-                    return el.id === i ? Object.assign(Object.assign({}, el), {
-                      error_list: errorList
-                    }) : el;
-                  })
+              } else {
+                setFormData(function (prevState) {
+                  return Object.assign(Object.assign({}, prevState), {
+                    child_item: prevState.child_item.map(function (el, i) {
+                      return el.id === i ? Object.assign(Object.assign({}, el), {
+                        error_list: errorList
+                      }) : el;
+                    })
+                  });
                 });
-              });
-            }
-          });
-          setFormData(function (prevState) {
-            return Object.assign(Object.assign({}, prevState), {
-              error_list: err.response.data.errors
+              }
             });
-          });
-          console.log(formData);
-          console.log("Send Error", err.response.data.errors);
-          setIsSending(false);
-        } else {
-          console.log("Send Error", err.response.data.errors);
-          setIsSending(false);
+            setFormData(function (prevState) {
+              return Object.assign(Object.assign({}, prevState), {
+                error_list: err.response.data.errors
+              });
+            });
+            console.log("Send Error", err.response.data.errors);
+          } else {
+            console.log("Send Error", err.response.data.errors);
+          }
         }
       });
     });
   };
 
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, isLoading ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_17__.Spinner, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_18__.Oval, {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, getEditItemIsLoading ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_17__.Spinner, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__.Oval, {
     height: 80,
     width: 80,
     color: "#555",
@@ -12684,9 +12756,9 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
     secondaryColor: "#555",
     strokeWidth: 2,
     strokeWidthSecondary: 2
-  })) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_12__.Form, {
-    onSubmit: registerSubmit
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_10__.Title, null, title), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u30BF\u30A4\u30C8\u30EB", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_3__.Input, {
+  })) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_inputForm_Form__WEBPACK_IMPORTED_MODULE_13__.Form, {
+    onSubmit: handleSubmit
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Title__WEBPACK_IMPORTED_MODULE_11__.Title, null, title), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "\u30BF\u30A4\u30C8\u30EB", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_4__.Input, {
     type: "text",
     name: "parent_name",
     placeholder: "\u30BF\u30A4\u30C8\u30EB",
@@ -12694,30 +12766,30 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
     onChange: handleChange,
     isValid: formData.error_list.parent_name,
     autoFocus: true
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, formData.error_list.parent_name)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u30AB\u30C6\u30B4\u30EA\u30FC", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_SelectBox__WEBPACK_IMPORTED_MODULE_14__.SelectBox, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_CategoryList__WEBPACK_IMPORTED_MODULE_15__.CategoryList, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, formData.error_list.parent_name)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "\u30AB\u30C6\u30B4\u30EA\u30FC", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_SelectBox__WEBPACK_IMPORTED_MODULE_15__.SelectBox, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_CategoryList__WEBPACK_IMPORTED_MODULE_16__.CategoryList, {
     name: "category_id",
     category_id: formData.category_id,
     onChange: handleSelect,
     categoryList: categoryList,
     isValid: formData.error_list.category_id
-  }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, formData.error_list.category_id)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u76EE\u5B89\u9054\u6210\u6642\u9593", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Number__WEBPACK_IMPORTED_MODULE_8__.Number, {
+  }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, formData.error_list.category_id)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "\u76EE\u5B89\u9054\u6210\u6642\u9593", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Number__WEBPACK_IMPORTED_MODULE_9__.Number, {
     name: "parent_cleartime",
     value: formData.parent_cleartime,
     isValid: formData.error_list.parent_cleartime,
     onChange: handleChange
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Sup__WEBPACK_IMPORTED_MODULE_9__.Sup, null, "\u203B3\u6841\u307E\u3067(\u5C0F\u6570\u70B9\u7B2C\u4E00\u4F4D\u307E\u3067)\u5165\u529B\u53EF\u80FD\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, formData.error_list.parent_cleartime)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u30BF\u30A4\u30C8\u30EB\u306E\u8AAC\u660E", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputTextArea__WEBPACK_IMPORTED_MODULE_5__.InputTextArea, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Sup__WEBPACK_IMPORTED_MODULE_10__.Sup, null, "\u203B3\u6841\u307E\u3067(\u5C0F\u6570\u70B9\u7B2C\u4E00\u4F4D\u307E\u3067)\u5165\u529B\u53EF\u80FD\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, formData.error_list.parent_cleartime)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "\u30BF\u30A4\u30C8\u30EB\u306E\u8AAC\u660E", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B\u5FC5\u9808"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputTextArea__WEBPACK_IMPORTED_MODULE_6__.InputTextArea, {
     value: formData.parent_detail,
     name: "parent_detail",
     isValid: formData.error_list.parent_detail,
     onChange: handleChange
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, formData.error_list.parent_detail)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "\u753B\u50CF", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B\u4EFB\u610F"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputPic__WEBPACK_IMPORTED_MODULE_4__.InputPic, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, formData.error_list.parent_detail)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "\u753B\u50CF", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B\u4EFB\u610F"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputPic__WEBPACK_IMPORTED_MODULE_5__.InputPic, {
     onChange: handlePicChange,
     dbPic: dbPic,
     role: "items"
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, formData.error_list.pic)), formData.child_item.map(function (val, i) {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, formData.error_list.pic)), formData.child_item.map(function (val, i) {
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       key: val.index
-    }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "MyMove", i + 1, "\u306E\u30BF\u30A4\u30C8\u30EB", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_3__.Input, {
+    }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "MyMove", i + 1, "\u306E\u30BF\u30A4\u30C8\u30EB", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Input__WEBPACK_IMPORTED_MODULE_4__.Input, {
       type: "text",
       name: "name",
       placeholder: "MyMove".concat(i + 1, "\u306E\u30BF\u30A4\u30C8\u30EB"),
@@ -12726,24 +12798,24 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
         return handleChange(e, val.index);
       },
       isValid: val.error_list.name
-    })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, val.error_list.name)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "MyMove", i + 1, "\u306E\u76EE\u5B89\u9054\u6210\u6642\u9593", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Number__WEBPACK_IMPORTED_MODULE_8__.Number, {
+    })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, val.error_list.name)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "MyMove", i + 1, "\u306E\u76EE\u5B89\u9054\u6210\u6642\u9593", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Number__WEBPACK_IMPORTED_MODULE_9__.Number, {
       name: "cleartime",
       value: val.cleartime,
       isValid: val.error_list.cleartime,
       onChange: function onChange(e) {
         return handleChange(e, val.index);
       }
-    })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Sup__WEBPACK_IMPORTED_MODULE_9__.Sup, null, "\u203B3\u6841\u307E\u3067(\u5C0F\u6570\u70B9\u7B2C\u4E00\u4F4D\u307E\u3067)\u5165\u529B\u53EF\u80FD\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, val.error_list.cleartime)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_11__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_6__.Label, null, "MyMove", i + 1, "\u306E\u8AAC\u660E", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_7__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputTextArea__WEBPACK_IMPORTED_MODULE_5__.InputTextArea, {
+    })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Sup__WEBPACK_IMPORTED_MODULE_10__.Sup, null, "\u203B3\u6841\u307E\u3067(\u5C0F\u6570\u70B9\u7B2C\u4E00\u4F4D\u307E\u3067)\u5165\u529B\u53EF\u80FD\u3002"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, val.error_list.cleartime)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_UserComponent__WEBPACK_IMPORTED_MODULE_12__.UserComponent, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Label__WEBPACK_IMPORTED_MODULE_7__.Label, null, "MyMove", i + 1, "\u306E\u8AAC\u660E", react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Notes__WEBPACK_IMPORTED_MODULE_8__.Notes, null, "\u203B", i === 0 ? "必須" : "任意"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_InputTextArea__WEBPACK_IMPORTED_MODULE_6__.InputTextArea, {
       value: val.detail,
       name: "detail",
       isValid: val.error_list.detail,
       onChange: function onChange(e) {
         return handleChange(e, val.index);
       }
-    })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_1__.Alert, null, val.error_list.detail)));
-  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Alert__WEBPACK_IMPORTED_MODULE_2__.Alert, null, val.error_list.detail)));
+  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_3__.Button, {
     value: "\u767B\u9332\u3059\u308B",
-    isLoading: isSending
+    isLoading: updateItem.isLoading
   })));
 });
 
@@ -13146,10 +13218,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "useDetailParentItem": () => (/* binding */ useDetailParentItem),
 /* harmony export */   "useDoChallenge": () => (/* binding */ useDoChallenge),
 /* harmony export */   "useGetCategories": () => (/* binding */ useGetCategories),
-/* harmony export */   "useGetItems": () => (/* binding */ useGetItems)
+/* harmony export */   "useGetEditItem": () => (/* binding */ useGetEditItem),
+/* harmony export */   "useGetItems": () => (/* binding */ useGetItems),
+/* harmony export */   "useUpdateItem": () => (/* binding */ useUpdateItem)
 /* harmony export */ });
 /* harmony import */ var react_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-query */ "./node_modules/react-query/es/index.js");
-/* harmony import */ var _api_ItemApi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api/ItemApi */ "./resources/ts/api/ItemApi.ts");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.mjs");
+/* harmony import */ var _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api/ItemApi */ "./resources/ts/api/ItemApi.ts");
+
+
 
  // MyMove一覧取得
 
@@ -13162,7 +13240,7 @@ var useGetItems = function useGetItems(_ref) {
     sort: sort,
     category: category
   }], function () {
-    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.getItems({
+    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.getItems({
       page: page,
       sort: sort,
       category: category
@@ -13172,13 +13250,13 @@ var useGetItems = function useGetItems(_ref) {
 
 
 var useGetCategories = function useGetCategories() {
-  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)("getCategories", _api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.getCategories);
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)("getCategories", _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.getCategories);
 }; // 親MyMove詳細取得処理
 
 
 var useDetailParentItem = function useDetailParentItem(id) {
   return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)(["parentDetail", id], function () {
-    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.detailParentItem(id);
+    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.detailParentItem(id);
   });
 }; // 子MyMove詳細取得処理
 
@@ -13190,7 +13268,7 @@ var useChildDetailItem = function useChildDetailItem(_ref2) {
     id: id,
     pass: pass
   }], function () {
-    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.detailChildItem({
+    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.detailChildItem({
       id: id,
       pass: pass
     });
@@ -13199,12 +13277,12 @@ var useChildDetailItem = function useChildDetailItem(_ref2) {
 
 
 var useDoChallenge = function useDoChallenge() {
-  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.doChallenge);
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.doChallenge);
 }; // チャレンジクリア送信処理
 
 
 var useClearChallenge = function useClearChallenge() {
-  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.clearChallenge, {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.clearChallenge, {
     onError: function onError(err) {
       console.log(err);
     }
@@ -13213,9 +13291,33 @@ var useClearChallenge = function useClearChallenge() {
 
 
 var useAddFavorite = function useAddFavorite() {
-  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_1__.addFavorite, {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.addFavorite, {
     onError: function onError(err) {
       console.log(err);
+    }
+  });
+}; // MyMove更新用データ取得処理
+
+
+var useGetEditItem = function useGetEditItem(id) {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)(["getEditItem", id], function () {
+    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.getEditItem(id);
+  });
+}; // MyMove更新・作成処理
+
+
+var useUpdateItem = function useUpdateItem() {
+  var navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_3__.useNavigate)();
+  var queryClient = (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQueryClient)();
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useMutation)(_api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.updateItem, {
+    onSuccess: function onSuccess(data) {
+      // キャッシュを更新
+      queryClient.invalidateQueries('getEditItem');
+      react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.success(data.message, {
+        position: react_toastify__WEBPACK_IMPORTED_MODULE_1__.toast.POSITION.TOP_CENTER,
+        autoClose: 3000
+      });
+      navigate("/mypage");
     }
   });
 };

@@ -1,4 +1,6 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import * as api from "../api/ItemApi";
 
 // MyMove一覧取得
@@ -56,6 +58,32 @@ const useAddFavorite = () => {
     });
 };
 
+// MyMove更新用データ取得処理
+const useGetEditItem = (id?: string) => {
+    return useQuery(["getEditItem", id], () => api.getEditItem(id));
+};
+
+// MyMove更新・作成処理
+const useUpdateItem = () => {
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    return useMutation(api.updateItem, {
+        onSuccess: (data) => {
+
+          // キャッシュを更新
+          queryClient.invalidateQueries('getEditItem');
+
+            toast.success(data.message, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
+
+            navigate(`/mypage`);
+        },
+    });
+};
+
 export {
     useGetItems,
     useGetCategories,
@@ -64,4 +92,6 @@ export {
     useDoChallenge,
     useClearChallenge,
     useAddFavorite,
+    useGetEditItem,
+    useUpdateItem,
 };

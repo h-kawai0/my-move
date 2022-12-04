@@ -92,6 +92,59 @@ const addFavorite = async ({
     return data;
 };
 
+// MyMove更新用データ取得
+const getEditItem = async (id?: string) => {
+    const { data } = await axios.get(`/items/${id}/edit`);
+    return data;
+};
+
+// MyMove新規登録・編集
+const updateItem = async ({
+    parent_name,
+    category_id,
+    parent_cleartime,
+    parent_detail,
+    pic,
+    method,
+    child_item,
+}: {
+    parent_name: string;
+    category_id: string;
+    parent_cleartime: string;
+    parent_detail: string;
+    pic: string | File;
+    child_item: {
+        index: number;
+        id?: number;
+        name: string;
+        cleartime: string;
+        detail: string;
+        parent_item_id: string;
+        error_list: {
+            name: string;
+            cleartime: string;
+            detail: string;
+        };
+    }[];
+    method: string;
+}) => {
+    // 画像情報を送るためフォームデータオブジェクトを作成
+    const body = new FormData();
+
+    body.append("parent_name", parent_name);
+    body.append("category_id", category_id);
+    body.append("parent_cleartime", parent_cleartime);
+    body.append("parent_detail", parent_detail);
+    body.append("pic", pic);
+
+    child_item.forEach((item) => {
+        body.append("child_item[]", JSON.stringify(item));
+    });
+
+    const { data } = await axios.post(method, body);
+    return data;
+};
+
 export {
     getItems,
     getCategories,
@@ -100,4 +153,6 @@ export {
     doChallenge,
     clearChallenge,
     addFavorite,
+    getEditItem,
+    updateItem,
 };

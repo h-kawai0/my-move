@@ -10,7 +10,7 @@ class ChildItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'detail', 'cleartime', 'parent_step_id'
+        'name', 'detail', 'cleartime', 'parent_item_id'
     ];
 
     // parent_stepsテーブルとのリレーション
