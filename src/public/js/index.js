@@ -6667,6 +6667,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "detailParentItem": () => (/* binding */ detailParentItem),
 /* harmony export */   "doChallenge": () => (/* binding */ doChallenge),
 /* harmony export */   "getCategories": () => (/* binding */ getCategories),
+/* harmony export */   "getChallengeItems": () => (/* binding */ getChallengeItems),
 /* harmony export */   "getEditItem": () => (/* binding */ getEditItem),
 /* harmony export */   "getItems": () => (/* binding */ getItems),
 /* harmony export */   "getRegistsItems": () => (/* binding */ getRegistsItems),
@@ -7017,6 +7018,36 @@ var getRegistsItems = function getRegistsItems(page) {
         }
       }
     }, _callee10);
+  }));
+}; // MyPageチャレンジリスト取得
+
+
+var getChallengeItems = function getChallengeItems(page) {
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
+    var _yield$axios$get7, data;
+
+    return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            _context11.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/mypage/challenges", {
+              params: {
+                page: page
+              }
+            });
+
+          case 2:
+            _yield$axios$get7 = _context11.sent;
+            data = _yield$axios$get7.data;
+            return _context11.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11);
   }));
 };
 
@@ -8588,14 +8619,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ChallengeList": () => (/* binding */ ChallengeList)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
-/* harmony import */ var _atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../atoms/item/MypageTitle */ "./resources/ts/components/atoms/item/MypageTitle.tsx");
-/* harmony import */ var _molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../molecules/mypage/Empty */ "./resources/ts/components/molecules/mypage/Empty.tsx");
-/* harmony import */ var _mypage_Index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mypage/Index */ "./resources/ts/components/organisms/mypage/Index.tsx");
-/* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Pagination */ "./resources/ts/components/organisms/item/Pagination.tsx");
-/* harmony import */ var _panel_Body__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./panel/Body */ "./resources/ts/components/organisms/item/panel/Body.tsx");
-/* harmony import */ var _panel_ChallengePanel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./panel/ChallengePanel */ "./resources/ts/components/organisms/item/panel/ChallengePanel.tsx");
-/* harmony import */ var _panel_PanelMaster__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panel/PanelMaster */ "./resources/ts/components/organisms/item/panel/PanelMaster.tsx");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/esm/index.js");
+/* harmony import */ var _queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../queries/ItemsQuery */ "./resources/ts/queries/ItemsQuery.ts");
+/* harmony import */ var _atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../atoms/item/MypageTitle */ "./resources/ts/components/atoms/item/MypageTitle.tsx");
+/* harmony import */ var _atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../atoms/spinner/Spinner */ "./resources/ts/components/atoms/spinner/Spinner.tsx");
+/* harmony import */ var _molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../molecules/mypage/Empty */ "./resources/ts/components/molecules/mypage/Empty.tsx");
+/* harmony import */ var _mypage_Index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../mypage/Index */ "./resources/ts/components/organisms/mypage/Index.tsx");
+/* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Pagination */ "./resources/ts/components/organisms/item/Pagination.tsx");
+/* harmony import */ var _panel_Body__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panel/Body */ "./resources/ts/components/organisms/item/panel/Body.tsx");
+/* harmony import */ var _panel_ChallengePanel__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./panel/ChallengePanel */ "./resources/ts/components/organisms/item/panel/ChallengePanel.tsx");
+/* harmony import */ var _panel_PanelMaster__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./panel/PanelMaster */ "./resources/ts/components/organisms/item/panel/PanelMaster.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -8617,7 +8650,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+ // チャレンジリスト
+
 var ChallengeList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+  // チャレンジリスト管理state
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     current_page: 1,
     data: [{
@@ -8683,32 +8720,47 @@ var ChallengeList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }),
       _useState2 = _slicedToArray(_useState, 2),
       challengeItems = _useState2[0],
-      setChallengeItems = _useState2[1]; // チャレンジ中のMyMoveを取得
+      setChallengeItems = _useState2[1]; // 現在のページ管理
 
 
-  var getChallengeItems = function getChallengeItems() {
-    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/mypage/challenges", {
-      params: {
-        page: page
-      }
-    }).then(function (res) {
-      console.log("ChallengeList_UseEffect", res);
-      setChallengeItems(res.data);
-    })["catch"](function (err) {
-      console.log(err);
-    });
-  };
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currentPage = _useState4[0],
+      setCurrentPage = _useState4[1]; // チャレンジ中のMyMove一覧を取得
+
+
+  var _useGetChallengeItems = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_2__.useGetChallengeItems)(currentPage),
+      data = _useGetChallengeItems.data,
+      isLoading = _useGetChallengeItems.isLoading; // 登録済みのMyMoveがあればstateに詰める
+
+
+  var getChallengeItems = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (data) {
+      setChallengeItems(data);
+    }
+  }, [data]); // 現在のページとクリックしたページボタンの数字が同じでない場合、親コンポーネントにリクエストしたページ番号を渡す
 
   var movePage = function movePage(page) {
-    getChallengeItems(page);
-  };
+    setCurrentPage(page);
+  }; // 最初にチャレンジ中のMyMoveを取得
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    getChallengeItems();
-  }, []);
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mypage_Index__WEBPACK_IMPORTED_MODULE_4__.Index, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_2__.MypageTitle, null, "\u30C1\u30E3\u30EC\u30F3\u30B8\u4E2D\u306EMyMove"), (challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.data.length) === 0 || (challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.data[0].id) === 0 ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_3__.Empty, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u30C1\u30E3\u30EC\u30F3\u30B8\u4E2D\u306EMyMove\u306F\u307E\u3060\u3042\u308A\u307E\u305B\u3093\u3002")) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_PanelMaster__WEBPACK_IMPORTED_MODULE_8__.PanelMaster, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_Body__WEBPACK_IMPORTED_MODULE_6__.Body, null, challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.data.map(function (el, i) {
-    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_ChallengePanel__WEBPACK_IMPORTED_MODULE_7__.ChallengePanel, {
+    if (data) {
+      getChallengeItems();
+    }
+  }, [data]);
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mypage_Index__WEBPACK_IMPORTED_MODULE_6__.Index, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_3__.MypageTitle, null, "\u30C1\u30E3\u30EC\u30F3\u30B8\u4E2D\u306EMyMove"), isLoading ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_4__.Spinner, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__.Oval, {
+    height: 80,
+    width: 80,
+    color: "#555",
+    visible: true,
+    ariaLabel: "oval-loading",
+    secondaryColor: "#555",
+    strokeWidth: 2,
+    strokeWidthSecondary: 2
+  })) : (challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.data.length) === 0 || (challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.data[0].id) === 0 ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_5__.Empty, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u30C1\u30E3\u30EC\u30F3\u30B8\u4E2D\u306EMyMove\u306F\u307E\u3060\u3042\u308A\u307E\u305B\u3093\u3002")) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_PanelMaster__WEBPACK_IMPORTED_MODULE_10__.PanelMaster, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_Body__WEBPACK_IMPORTED_MODULE_8__.Body, null, challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.data.map(function (el, i) {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_ChallengePanel__WEBPACK_IMPORTED_MODULE_9__.ChallengePanel, {
       key: el.id,
       itemId: el.id,
       itemLength: el.child_items.length,
@@ -8721,7 +8773,7 @@ var ChallengeList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       itemClearTime: el.cleartime,
       childItems: el.child_items
     });
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_5__.Pagination, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_7__.Pagination, {
     prev_page_url: challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.prev_page_url,
     next_page_url: challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.next_page_url,
     current_page: challengeItems === null || challengeItems === void 0 ? void 0 : challengeItems.current_page,
@@ -13270,6 +13322,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "useDetailParentItem": () => (/* binding */ useDetailParentItem),
 /* harmony export */   "useDoChallenge": () => (/* binding */ useDoChallenge),
 /* harmony export */   "useGetCategories": () => (/* binding */ useGetCategories),
+/* harmony export */   "useGetChallengeItems": () => (/* binding */ useGetChallengeItems),
 /* harmony export */   "useGetEditItem": () => (/* binding */ useGetEditItem),
 /* harmony export */   "useGetItems": () => (/* binding */ useGetItems),
 /* harmony export */   "useGetRegistItems": () => (/* binding */ useGetRegistItems),
@@ -13379,6 +13432,13 @@ var useUpdateItem = function useUpdateItem() {
 var useGetRegistItems = function useGetRegistItems(page) {
   return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)(["getRegistItems", page], function () {
     return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.getRegistsItems(page);
+  });
+}; // MyPageチャレンジリスト取得処理
+
+
+var useGetChallengeItems = function useGetChallengeItems(page) {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)(["getChallengeItems", page], function () {
+    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.getChallengeItems(page);
   });
 };
 

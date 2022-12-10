@@ -88,6 +88,13 @@ const useGetRegistItems = (page?: number) => {
     return useQuery(["getRegistItems", page], () => api.getRegistsItems(page));
 };
 
+// MyPageチャレンジリスト取得処理
+const useGetChallengeItems = (page?: number) => {
+    return useQuery(["getChallengeItems", page], () =>
+        api.getChallengeItems(page)
+    );
+};
+
 export {
     useGetItems,
     useGetCategories,
@@ -99,4 +106,5 @@ export {
     useGetEditItem,
     useUpdateItem,
     useGetRegistItems,
+    useGetChallengeItems,
 };

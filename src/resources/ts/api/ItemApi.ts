@@ -155,6 +155,16 @@ const getRegistsItems = async (page?: number) => {
     return data;
 };
 
+// MyPageチャレンジリスト取得
+const getChallengeItems = async (page?: number) => {
+    const { data } = await axios.get(`/mypage/challenges`, {
+        params: {
+            page: page,
+        },
+    });
+    return data;
+};
+
 export {
     getItems,
     getCategories,
@@ -166,4 +176,5 @@ export {
     getEditItem,
     updateItem,
     getRegistsItems,
+    getChallengeItems,
 };

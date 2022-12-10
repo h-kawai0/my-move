@@ -1,7 +1,6 @@
 import React, {
     memo,
     MouseEvent,
-    useEffect,
     useMemo,
     useState,
     VFC,
