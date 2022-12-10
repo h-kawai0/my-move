@@ -1,5 +1,6 @@
-import React, { memo, useEffect, useState, VFC } from "react";
-import axios from "../../../libs/axios";
+import React, { memo, useCallback, useEffect, useState, VFC } from "react";
+import { Oval } from "react-loader-spinner";
+import { useGetFavoriteItems } from "../../../queries/ItemsQuery";
 import {
     Category,
     ChildItem,
@@ -9,6 +10,7 @@ import {
     User,
 } from "../../../types/api/item";
 import { MypageTitle } from "../../atoms/item/MypageTitle";
+import { Spinner } from "../../atoms/spinner/Spinner";
 import { FavoriteItem } from "../../molecules/item/FavoriteItem";
 import { Empty } from "../../molecules/mypage/Empty";
 import { Index } from "../mypage/Index";
@@ -17,6 +19,7 @@ import { Panel } from "./Panel";
 import { Body } from "./panel/Body";
 import { PanelMaster } from "./panel/PanelMaster";
 
+// 型定義
 type IParentItem = ParentItem & {
     category: Category;
     favorite: Favorite;
@@ -24,11 +27,14 @@ type IParentItem = ParentItem & {
     user: Omit<User, "profile">;
 };
 
+// 型定義
 type FavoriteItem = Paginate & {
     data: IParentItem[];
 };
 
+// マイページお気に入り取得
 export const FavoriteList: VFC = memo(() => {
+    // 登録済みのお気に入りMyMove一覧
     const [favoriteItems, setFavoriteItems] = useState<FavoriteItem>({
         current_page: 1,
         data: [
@@ -85,35 +91,48 @@ export const FavoriteList: VFC = memo(() => {
         total: 0,
     });
 
-    const getFavoriteItems = (page: number = 1) => {
-        axios
-            .get("/mypage/favorites", {
-                params: {
-                    page,
-                },
-            })
-            .then((res) => {
-                console.log("favoriteItems", res);
-                setFavoriteItems(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    // 現在のページ管理
+    const [currentPage, setCurrentPage] = useState(1);
 
+    // 登録済みのMyMove一覧を取得
+    const { data, isLoading } = useGetFavoriteItems(currentPage);
+
+    // お気に入り登録済みのMyMove一覧を取得
+    const getFavoriteItems = useCallback(() => {
+        if (data) {
+            setFavoriteItems(data);
+        }
+    }, [data]);
+
+    // 現在のページとクリックしたページボタンの数字が同じでない場合、親コンポーネントにリクエストしたページ番号を渡す
     const movePage = (page: number) => {
-        getFavoriteItems(page);
+        setCurrentPage(page);
     };
 
     useEffect(() => {
-        getFavoriteItems();
-    }, []);
+        if (data) {
+            getFavoriteItems();
+        }
+    }, [data]);
     return (
         <Index>
             <MypageTitle>お気に入りのMyMove</MypageTitle>
 
-            {favoriteItems?.data.length === 0 ||
-            favoriteItems?.data[0].id === 0 ? (
+            {isLoading ? (
+                <Spinner>
+                    <Oval
+                        height={80}
+                        width={80}
+                        color="#555"
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#555"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                    />
+                </Spinner>
+            ) : favoriteItems?.data.length === 0 ||
+              favoriteItems?.data[0].id === 0 ? (
                 <Empty>
                     <p>チャレンジ中のMyMoveはまだありません</p>
                 </Empty>

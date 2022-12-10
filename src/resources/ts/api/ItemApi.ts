@@ -165,6 +165,16 @@ const getChallengeItems = async (page?: number) => {
     return data;
 };
 
+// MyPageお気に入り一覧取得
+const getFavoriteItems = async (page?: number) => {
+    const { data } = await axios.get(`/mypage/favorites`, {
+        params: {
+            page: page,
+        },
+    });
+    return data;
+};
+
 export {
     getItems,
     getCategories,
@@ -177,4 +187,5 @@ export {
     updateItem,
     getRegistsItems,
     getChallengeItems,
+    getFavoriteItems,
 };

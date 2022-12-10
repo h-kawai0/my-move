@@ -95,6 +95,13 @@ const useGetChallengeItems = (page?: number) => {
     );
 };
 
+// MyPageお気に入り一覧取得処理
+const useGetFavoriteItems = (page?: number) => {
+    return useQuery(["getFavoriteItems", page], () =>
+        api.getFavoriteItems(page)
+    );
+};
+
 export {
     useGetItems,
     useGetCategories,
@@ -107,4 +114,5 @@ export {
     useUpdateItem,
     useGetRegistItems,
     useGetChallengeItems,
+    useGetFavoriteItems,
 };

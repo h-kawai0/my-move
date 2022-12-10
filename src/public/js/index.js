@@ -6669,6 +6669,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getCategories": () => (/* binding */ getCategories),
 /* harmony export */   "getChallengeItems": () => (/* binding */ getChallengeItems),
 /* harmony export */   "getEditItem": () => (/* binding */ getEditItem),
+/* harmony export */   "getFavoriteItems": () => (/* binding */ getFavoriteItems),
 /* harmony export */   "getItems": () => (/* binding */ getItems),
 /* harmony export */   "getRegistsItems": () => (/* binding */ getRegistsItems),
 /* harmony export */   "updateItem": () => (/* binding */ updateItem)
@@ -7048,6 +7049,36 @@ var getChallengeItems = function getChallengeItems(page) {
         }
       }
     }, _callee11);
+  }));
+}; // MyPageお気に入り一覧取得
+
+
+var getFavoriteItems = function getFavoriteItems(page) {
+  return __awaiter(void 0, void 0, void 0, /*#__PURE__*/_regeneratorRuntime().mark(function _callee12() {
+    var _yield$axios$get8, data;
+
+    return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            _context12.next = 2;
+            return _libs_axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/mypage/favorites", {
+              params: {
+                page: page
+              }
+            });
+
+          case 2:
+            _yield$axios$get8 = _context12.sent;
+            data = _yield$axios$get8.data;
+            return _context12.abrupt("return", data);
+
+          case 5:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, _callee12);
   }));
 };
 
@@ -8796,14 +8827,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FavoriteList": () => (/* binding */ FavoriteList)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _libs_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../libs/axios */ "./resources/ts/libs/axios.tsx");
-/* harmony import */ var _atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../atoms/item/MypageTitle */ "./resources/ts/components/atoms/item/MypageTitle.tsx");
-/* harmony import */ var _molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../molecules/mypage/Empty */ "./resources/ts/components/molecules/mypage/Empty.tsx");
-/* harmony import */ var _mypage_Index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../mypage/Index */ "./resources/ts/components/organisms/mypage/Index.tsx");
-/* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Pagination */ "./resources/ts/components/organisms/item/Pagination.tsx");
-/* harmony import */ var _Panel__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Panel */ "./resources/ts/components/organisms/item/Panel.tsx");
-/* harmony import */ var _panel_Body__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./panel/Body */ "./resources/ts/components/organisms/item/panel/Body.tsx");
-/* harmony import */ var _panel_PanelMaster__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./panel/PanelMaster */ "./resources/ts/components/organisms/item/panel/PanelMaster.tsx");
+/* harmony import */ var react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-loader-spinner */ "./node_modules/react-loader-spinner/dist/esm/index.js");
+/* harmony import */ var _queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../queries/ItemsQuery */ "./resources/ts/queries/ItemsQuery.ts");
+/* harmony import */ var _atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../atoms/item/MypageTitle */ "./resources/ts/components/atoms/item/MypageTitle.tsx");
+/* harmony import */ var _atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../atoms/spinner/Spinner */ "./resources/ts/components/atoms/spinner/Spinner.tsx");
+/* harmony import */ var _molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../molecules/mypage/Empty */ "./resources/ts/components/molecules/mypage/Empty.tsx");
+/* harmony import */ var _mypage_Index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../mypage/Index */ "./resources/ts/components/organisms/mypage/Index.tsx");
+/* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Pagination */ "./resources/ts/components/organisms/item/Pagination.tsx");
+/* harmony import */ var _Panel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Panel */ "./resources/ts/components/organisms/item/Panel.tsx");
+/* harmony import */ var _panel_Body__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./panel/Body */ "./resources/ts/components/organisms/item/panel/Body.tsx");
+/* harmony import */ var _panel_PanelMaster__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./panel/PanelMaster */ "./resources/ts/components/organisms/item/panel/PanelMaster.tsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -8825,7 +8858,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+ // マイページお気に入り取得
+
 var FavoriteList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
+  // 登録済みのお気に入りMyMove一覧
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     current_page: 1,
     data: [{
@@ -8877,31 +8914,46 @@ var FavoriteList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }),
       _useState2 = _slicedToArray(_useState, 2),
       favoriteItems = _useState2[0],
-      setFavoriteItems = _useState2[1];
+      setFavoriteItems = _useState2[1]; // 現在のページ管理
 
-  var getFavoriteItems = function getFavoriteItems() {
-    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-    _libs_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("/mypage/favorites", {
-      params: {
-        page: page
-      }
-    }).then(function (res) {
-      console.log("favoriteItems", res);
-      setFavoriteItems(res.data);
-    })["catch"](function (err) {
-      console.log(err);
-    });
-  };
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currentPage = _useState4[0],
+      setCurrentPage = _useState4[1]; // 登録済みのMyMove一覧を取得
+
+
+  var _useGetFavoriteItems = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_2__.useGetFavoriteItems)(currentPage),
+      data = _useGetFavoriteItems.data,
+      isLoading = _useGetFavoriteItems.isLoading; // お気に入り登録済みのMyMove一覧を取得
+
+
+  var getFavoriteItems = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function () {
+    if (data) {
+      setFavoriteItems(data);
+    }
+  }, [data]); // 現在のページとクリックしたページボタンの数字が同じでない場合、親コンポーネントにリクエストしたページ番号を渡す
 
   var movePage = function movePage(page) {
-    getFavoriteItems(page);
+    setCurrentPage(page);
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    getFavoriteItems();
-  }, []);
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mypage_Index__WEBPACK_IMPORTED_MODULE_4__.Index, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_2__.MypageTitle, null, "\u304A\u6C17\u306B\u5165\u308A\u306EMyMove"), (favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.data.length) === 0 || (favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.data[0].id) === 0 ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_3__.Empty, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u30C1\u30E3\u30EC\u30F3\u30B8\u4E2D\u306EMyMove\u306F\u307E\u3060\u3042\u308A\u307E\u305B\u3093")) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_PanelMaster__WEBPACK_IMPORTED_MODULE_8__.PanelMaster, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_Body__WEBPACK_IMPORTED_MODULE_7__.Body, null, favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.data.map(function (el) {
-    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Panel__WEBPACK_IMPORTED_MODULE_6__.Panel, {
+    if (data) {
+      getFavoriteItems();
+    }
+  }, [data]);
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mypage_Index__WEBPACK_IMPORTED_MODULE_6__.Index, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_item_MypageTitle__WEBPACK_IMPORTED_MODULE_3__.MypageTitle, null, "\u304A\u6C17\u306B\u5165\u308A\u306EMyMove"), isLoading ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_spinner_Spinner__WEBPACK_IMPORTED_MODULE_4__.Spinner, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_loader_spinner__WEBPACK_IMPORTED_MODULE_1__.Oval, {
+    height: 80,
+    width: 80,
+    color: "#555",
+    visible: true,
+    ariaLabel: "oval-loading",
+    secondaryColor: "#555",
+    strokeWidth: 2,
+    strokeWidthSecondary: 2
+  })) : (favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.data.length) === 0 || (favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.data[0].id) === 0 ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_mypage_Empty__WEBPACK_IMPORTED_MODULE_5__.Empty, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "\u30C1\u30E3\u30EC\u30F3\u30B8\u4E2D\u306EMyMove\u306F\u307E\u3060\u3042\u308A\u307E\u305B\u3093")) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_PanelMaster__WEBPACK_IMPORTED_MODULE_10__.PanelMaster, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_panel_Body__WEBPACK_IMPORTED_MODULE_9__.Body, null, favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.data.map(function (el) {
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Panel__WEBPACK_IMPORTED_MODULE_8__.Panel, {
       key: el.id,
       itemId: el.id,
       itemLength: el.child_items.length,
@@ -8913,7 +8965,7 @@ var FavoriteList = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
       itemDate: el.created_at,
       itemClearTime: el.cleartime
     });
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_5__.Pagination, {
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_7__.Pagination, {
     prev_page_url: favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.prev_page_url,
     next_page_url: favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.next_page_url,
     current_page: favoriteItems === null || favoriteItems === void 0 ? void 0 : favoriteItems.current_page,
@@ -13324,6 +13376,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "useGetCategories": () => (/* binding */ useGetCategories),
 /* harmony export */   "useGetChallengeItems": () => (/* binding */ useGetChallengeItems),
 /* harmony export */   "useGetEditItem": () => (/* binding */ useGetEditItem),
+/* harmony export */   "useGetFavoriteItems": () => (/* binding */ useGetFavoriteItems),
 /* harmony export */   "useGetItems": () => (/* binding */ useGetItems),
 /* harmony export */   "useGetRegistItems": () => (/* binding */ useGetRegistItems),
 /* harmony export */   "useUpdateItem": () => (/* binding */ useUpdateItem)
@@ -13439,6 +13492,13 @@ var useGetRegistItems = function useGetRegistItems(page) {
 var useGetChallengeItems = function useGetChallengeItems(page) {
   return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)(["getChallengeItems", page], function () {
     return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.getChallengeItems(page);
+  });
+}; // MyPageお気に入り一覧取得処理
+
+
+var useGetFavoriteItems = function useGetFavoriteItems(page) {
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_0__.useQuery)(["getFavoriteItems", page], function () {
+    return _api_ItemApi__WEBPACK_IMPORTED_MODULE_2__.getFavoriteItems(page);
   });
 };
 
