@@ -1,10 +1,7 @@
-import React, { memo, useEffect, useState, VFC } from "react";
-import styled from "styled-components";
+import React, { memo, useCallback, useEffect, useState, VFC } from "react";
+import { Oval } from "react-loader-spinner";
 import axios from "../../../libs/axios";
-import { breakPoint } from "../../../theme/setting/breakPoint";
-import { colors } from "../../../theme/setting/colors";
-import { fonts } from "../../../theme/setting/fonts";
-import { space } from "../../../theme/setting/space";
+import { useGetRegistItems } from "../../../queries/ItemsQuery";
 import {
     Category,
     ChildItem,
@@ -12,7 +9,9 @@ import {
     ParentItem,
     User,
 } from "../../../types/api/item";
+
 import { MypageTitle } from "../../atoms/item/MypageTitle";
+import { Spinner } from "../../atoms/spinner/Spinner";
 import { Empty } from "../../molecules/mypage/Empty";
 import { Index } from "../mypage/Index";
 import { Pagination } from "./Pagination";
@@ -20,17 +19,21 @@ import { Body } from "./panel/Body";
 import { PanelMaster } from "./panel/PanelMaster";
 import { RegistPanel } from "./panel/RegistPanel";
 
+// 型定義
 type IParentItem = ParentItem & {
     category: Category;
     child_items: ChildItem[];
     user: Omit<User, "profile">;
 };
 
+// 型定義
 type RegistItem = Paginate & {
     data: IParentItem[];
 };
 
+// 登録済みMyMove一覧
 export const RegistList: VFC = memo(() => {
+    // 登録MyMove一覧管理用
     const [RegistItems, setRegistItems] = useState<RegistItem>({
         current_page: 1,
         data: [
@@ -79,22 +82,18 @@ export const RegistList: VFC = memo(() => {
         total: 0,
     });
 
-    const getRegistItems = (page: number = 1) => {
-        axios
-            .get("/mypage/regists", {
-                params: {
-                    page: page,
-                },
-            })
-            .then((res) => {
-                console.log(res);
+    // 現在のページ管理
+    const [currentPage, setCurrentPage] = useState(1);
 
-                setRegistItems(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    // 登録済みのMyMove一覧を取得
+    const { data, isLoading } = useGetRegistItems(currentPage);
+
+    // 登録済みのMyMoveがあればstateに詰める
+    const getRegistItems = useCallback(() => {
+        if (data) {
+            setRegistItems(data);
+        }
+    }, [data]);
 
     // 削除ボタンをクリックした時に警告文を表示
     const deleteItem = (id: number) => {
@@ -123,18 +122,36 @@ export const RegistList: VFC = memo(() => {
         }
     };
 
+    // 現在のページとクリックしたページボタンの数字が同じでない場合、親コンポーネントにリクエストしたページ番号を渡す
     const movePage = (page: number) => {
-        getRegistItems(page);
+        setCurrentPage(page);
     };
 
+    // 最初にMyMoveを取得
     useEffect(() => {
-        getRegistItems();
-    }, []);
+        if (data) {
+            getRegistItems();
+        }
+    }, [data]);
     return (
         <Index>
             <MypageTitle>登録したMyMove</MypageTitle>
 
-            {RegistItems?.data.length === 0 || RegistItems?.data[0].id === 0 ? (
+            {isLoading ? (
+                <Spinner>
+                    <Oval
+                        height={80}
+                        width={80}
+                        color="#555"
+                        visible={true}
+                        ariaLabel="oval-loading"
+                        secondaryColor="#555"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                    />
+                </Spinner>
+            ) : RegistItems?.data.length === 0 ||
+              RegistItems?.data[0].id === 0 ? (
                 <Empty>
                     <p>登録したMyMoveはまだありません。</p>
                 </Empty>

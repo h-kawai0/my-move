@@ -70,9 +70,8 @@ const useUpdateItem = () => {
 
     return useMutation(api.updateItem, {
         onSuccess: (data) => {
-
-          // キャッシュを更新
-          queryClient.invalidateQueries('getEditItem');
+            // キャッシュを更新
+            queryClient.invalidateQueries("getEditItem");
 
             toast.success(data.message, {
                 position: toast.POSITION.TOP_CENTER,
@@ -82,6 +81,11 @@ const useUpdateItem = () => {
             navigate(`/mypage`);
         },
     });
+};
+
+// MyPage登録MyMove取得処理
+const useGetRegistItems = (page?: number) => {
+    return useQuery(["getRegistItems", page], () => api.getRegistsItems(page));
 };
 
 export {
@@ -94,4 +98,5 @@ export {
     useAddFavorite,
     useGetEditItem,
     useUpdateItem,
+    useGetRegistItems,
 };

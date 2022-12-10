@@ -47,7 +47,7 @@ class GetFavoriteItemController extends Controller
                 $query->where('user_id', $user);
             })->whereHas('user', function ($query) {
                 $query->whereNull('deleted_at');
-            })->paginate(1);
+            })->paginate(6);
 
             // 遅延ロードで自分がお気に入りのもののみを読み込む。
             $items->load(['favorite' => function ($query) use ($user) {

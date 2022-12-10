@@ -1,43 +1,50 @@
-import React, { memo, MouseEvent, useEffect, useState, VFC } from "react";
+import React, {
+    memo,
+    MouseEvent,
+    useEffect,
+    useMemo,
+    useState,
+    VFC,
+} from "react";
 import { Oval } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import axios from "../../libs/axios";
+import { useUser } from "../../queries/AuthQuery";
 
 import { breakPoint } from "../../theme/setting/breakPoint";
 import { colors } from "../../theme/setting/colors";
 import { fonts } from "../../theme/setting/fonts";
 import { space } from "../../theme/setting/space";
-import { User } from "../../types/api/user";
 import { Spinner } from "../atoms/spinner/Spinner";
 import { ChallengeList } from "../organisms/item/ChallengeList";
 import { FavoriteList } from "../organisms/item/FavoriteList";
 import { RegistList } from "../organisms/item/RegistList";
 
+// マイページ画面
 export const Mypage: VFC = memo(() => {
-    const [user, setUser] = useState<User>();
+    // ユーザー情報管理用state
+    const [user, setUser] = useState({
+        id: 0,
+        name: "",
+        profile: "",
+        pic: "",
+    });
 
-    const [isLoading, setIsLoading] = useState(false);
+    // ユーザー情報取得処理
+    const { data: useUserData, isLoading: useUserLoading } = useUser();
 
     const navigate = useNavigate();
 
-    const getUser = () => {
-        setIsLoading(true);
-        axios
-            .get("/api/user")
-            .then((res) => {
-                console.log(res);
-                const result = res.data;
-                setUser(result);
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                setIsLoading(false);
-            });
-    };
+    // ログイン情報を取得
+    const getUser = useMemo(() => {
+        if (useUserData) {
+            setUser(useUserData);
+        }
+    }, [useUserData]);
 
+    // 退会処理
     const withDraw = (e: MouseEvent) => {
         e.preventDefault();
 
@@ -74,13 +81,9 @@ export const Mypage: VFC = memo(() => {
         }
     };
 
-    useEffect(() => {
-        getUser();
-    }, []);
-
     return (
         <>
-            {isLoading ? (
+            {useUserLoading ? (
                 <Spinner>
                     <Oval
                         height={80}

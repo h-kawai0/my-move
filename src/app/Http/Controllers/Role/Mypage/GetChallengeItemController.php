@@ -43,7 +43,7 @@ class GetChallengeItemController extends Controller
                 $query->where('user_id', $user);
             })->whereHas('user', function($query){
                 $query->whereNull('deleted_at');
-            })->paginate(1);
+            })->paginate(6);
 
             // ログインユーザーがチャレンジしているMyMoveの情報を取得
             // 上の条件だと他のユーザーがチャレンジしているMyMoveも取得してしまうため遅延ロードで読み込む

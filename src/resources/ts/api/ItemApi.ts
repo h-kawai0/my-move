@@ -145,6 +145,16 @@ const updateItem = async ({
     return data;
 };
 
+// MyPage登録MyMove取得
+const getRegistsItems = async (page?: number) => {
+    const { data } = await axios.get(`mypage/regists`, {
+        params: {
+            page: page,
+        },
+    });
+    return data;
+};
+
 export {
     getItems,
     getCategories,
@@ -155,4 +165,5 @@ export {
     addFavorite,
     getEditItem,
     updateItem,
+    getRegistsItems,
 };

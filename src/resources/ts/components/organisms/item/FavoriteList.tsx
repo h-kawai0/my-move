@@ -110,7 +110,7 @@ export const FavoriteList: VFC = memo(() => {
     }, []);
     return (
         <Index>
-            <MypageTitle>チャレンジ中のMyMove</MypageTitle>
+            <MypageTitle>お気に入りのMyMove</MypageTitle>
 
             {favoriteItems?.data.length === 0 ||
             favoriteItems?.data[0].id === 0 ? (

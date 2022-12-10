@@ -38,7 +38,6 @@ export const Pagination: VFC<Props> = memo((props) => {
 
     const move = useCallback(
         (e: number) => {
-            console.log(current_page, e);
             if (!isCurrentPage(e)) {
                 movePage(e);
             }

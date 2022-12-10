@@ -1,4 +1,4 @@
-import React, { memo, ReactElement, ReactNode, VFC } from "react";
+import React, { memo, ReactNode, VFC } from "react";
 import {
     Navigate,
     Outlet,
@@ -21,7 +21,6 @@ import { NewItem } from "../components/pages/NewItem";
 import { DetailParentItem } from "../components/pages/DetailParentItem";
 import { DetailChildItem } from "../components/pages/DetailChildItem";
 import { useAuth } from "../hooks/AuthContext";
-import { useUser } from "../queries/AuthQuery";
 import { Layout } from "../components/templates/Layout";
 import { Page404 } from "../components/pages/404";
 

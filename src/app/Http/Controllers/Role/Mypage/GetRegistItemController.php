@@ -32,7 +32,7 @@ class GetRegistItemController extends Controller
         // ログインユーザーが登録済みのMyMoveがあれば情報を取得
         if(!$isRegist->isEmpty()){
    
-            $items = ParentItem::with('user:id,name,pic', 'childItems:id,name,parent_item_id', 'category:id,name')->select('id','name', 'pic', 'user_id', 'cleartime', 'category_id', 'created_at')->where('user_id', '=', $user)->paginate(1);            
+            $items = ParentItem::with('user:id,name,pic', 'childItems:id,name,parent_item_id', 'category:id,name')->select('id','name', 'pic', 'user_id', 'cleartime', 'category_id', 'created_at')->where('user_id', '=', $user)->paginate(6);            
         }
 
         return response($items, 200);
