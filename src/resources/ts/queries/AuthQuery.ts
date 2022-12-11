@@ -6,7 +6,23 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 // ユーザー情報取得
 const useUser = () => {
-    return useQuery("users", api.getUser);
+    const navigate = useNavigate();
+    const { setIsAuth } = useAuth();
+    return useQuery({
+        queryKey: ["users"],
+        queryFn: api.getUser,
+        onError: (e) => {
+            console.log(e);
+            toast.error("エラーが発生しました。ログインし直してください。", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 3000,
+            });
+
+            setIsAuth(false);
+            navigate("/login");
+        },
+        retry: false,
+    });
 };
 
 // 会員登録処理

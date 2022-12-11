@@ -13219,15 +13219,33 @@ __webpack_require__.r(__webpack_exports__);
  // ユーザー情報取得
 
 var useUser = function useUser() {
-  return (0,react_query__WEBPACK_IMPORTED_MODULE_1__.useQuery)("users", _api_AuthApi__WEBPACK_IMPORTED_MODULE_0__.getUser);
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
+
+  var _useAuth = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_3__.useAuth)(),
+      setIsAuth = _useAuth.setIsAuth;
+
+  return (0,react_query__WEBPACK_IMPORTED_MODULE_1__.useQuery)({
+    queryKey: ["users"],
+    queryFn: _api_AuthApi__WEBPACK_IMPORTED_MODULE_0__.getUser,
+    onError: function onError(e) {
+      console.log(e);
+      react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.error("エラーが発生しました。ログインし直してください。", {
+        position: react_toastify__WEBPACK_IMPORTED_MODULE_2__.toast.POSITION.TOP_CENTER,
+        autoClose: 3000
+      });
+      setIsAuth(false);
+      navigate("/login");
+    },
+    retry: false
+  });
 }; // 会員登録処理
 
 
 var useRegister = function useRegister() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
 
-  var _useAuth = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_3__.useAuth)(),
-      setIsAuth = _useAuth.setIsAuth;
+  var _useAuth2 = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_3__.useAuth)(),
+      setIsAuth = _useAuth2.setIsAuth;
 
   return (0,react_query__WEBPACK_IMPORTED_MODULE_1__.useMutation)(_api_AuthApi__WEBPACK_IMPORTED_MODULE_0__.register, {
     onSuccess: function onSuccess(data) {
@@ -13247,8 +13265,8 @@ var useLogin = function useLogin() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
   var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useLocation)();
 
-  var _useAuth2 = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_3__.useAuth)(),
-      setIsAuth = _useAuth2.setIsAuth;
+  var _useAuth3 = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_3__.useAuth)(),
+      setIsAuth = _useAuth3.setIsAuth;
 
   var _ref = location.state || {
     from: {
@@ -13276,9 +13294,9 @@ var useLogin = function useLogin() {
 var useLogOut = function useLogOut() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useNavigate)();
 
-  var _useAuth3 = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_3__.useAuth)(),
-      setIsAuth = _useAuth3.setIsAuth,
-      setIsLoading = _useAuth3.setIsLoading;
+  var _useAuth4 = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_3__.useAuth)(),
+      setIsAuth = _useAuth4.setIsAuth,
+      setIsLoading = _useAuth4.setIsLoading;
 
   return (0,react_query__WEBPACK_IMPORTED_MODULE_1__.useMutation)(_api_AuthApi__WEBPACK_IMPORTED_MODULE_0__.logout, {
     onSuccess: function onSuccess() {
