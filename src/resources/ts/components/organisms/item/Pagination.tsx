@@ -7,23 +7,31 @@ import { colors } from "../../../theme/setting/colors";
 import { fonts } from "../../../theme/setting/fonts";
 import { space } from "../../../theme/setting/space";
 
+// 型定義
 type Props = {
     prev_page_url: null | number;
     next_page_url: string;
     current_page: number;
     last_page: number;
-    movePage: (e:number) => void;
+    movePage: (e: number) => void;
 };
 
+// ページング用コンポーネント
 export const Pagination: VFC<Props> = memo((props) => {
-    const { prev_page_url, next_page_url, current_page, last_page, movePage } = props;
+    // props
+    const { prev_page_url, next_page_url, current_page, last_page, movePage } =
+        props;
 
+    // ページ管理用state
     const [pages, setPages] = useState<number | number[]>([]);
 
+    // 前のページがある場合
     const hasPrev = prev_page_url !== null;
 
+    // 次のページがある場合
     const hasNext = next_page_url !== null;
 
+    // ページ数生成
     const hasPages = useMemo(() => {
         let start = _.max([current_page - 2, 1]);
 
@@ -36,6 +44,7 @@ export const Pagination: VFC<Props> = memo((props) => {
         setPages(page);
     }, [current_page, last_page]);
 
+    // ページ番号を押した場合移動
     const move = useCallback(
         (e: number) => {
             if (!isCurrentPage(e)) {
@@ -45,19 +54,19 @@ export const Pagination: VFC<Props> = memo((props) => {
         [current_page]
     );
 
+    // 現在のページかチェック
     const isCurrentPage = useCallback(
         (page: number) => current_page === page,
         [current_page]
     );
 
     return (
-        <SPagination className="c-pagination">
-            <SPaginationWrap className="c-pagination--wrap" role="navigation">
+        <SPagination>
+            <SPaginationWrap>
                 {hasPrev && (
-                    <SPaginationItem className="c-pagination__item">
+                    <SPaginationItem>
                         <SPaginationLink
                             to="#"
-                            className="c-pagination__link"
                             onClick={() => move(current_page - 1)}
                         >
                             &lt;
@@ -68,27 +77,21 @@ export const Pagination: VFC<Props> = memo((props) => {
                 {pages instanceof Array &&
                     pages.map((el) => (
                         <SPaginationItem
-                            className="c-pagination__item"
                             key={el}
                             page={el}
                             currentPage={current_page}
                             isActive={true}
                         >
-                            <SPaginationLink
-                                to="#"
-                                className="c-pagination__link"
-                                onClick={() => move(el)}
-                            >
+                            <SPaginationLink to="#" onClick={() => move(el)}>
                                 {el}
                             </SPaginationLink>
                         </SPaginationItem>
                     ))}
 
                 {hasNext && (
-                    <SPaginationItem className="c-pagination__item">
+                    <SPaginationItem>
                         <SPaginationLink
                             to="#"
-                            className="c-pagination__link"
                             onClick={() => move(current_page + 1)}
                         >
                             &gt;

@@ -16,7 +16,7 @@ export const Container: VFC<Props> = memo((props) => {
     return (
         <SPanelContainer
             className="c-panel__container p-index__panel"
-            to={`/items/${itemId}`}
+            to={`${itemId}`}
         >
             {children}
         </SPanelContainer>

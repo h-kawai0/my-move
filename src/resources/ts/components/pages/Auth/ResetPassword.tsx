@@ -73,7 +73,7 @@ export const ResetPassword: VFC = memo(() => {
                                 position: toast.POSITION.TOP_CENTER,
                                 autoClose: 3000,
                             });
-                            navigate("/forgot-password");
+                            navigate("/login/forgot-password");
                             break;
 
                         // バリデーションエラー
@@ -89,7 +89,7 @@ export const ResetPassword: VFC = memo(() => {
                                     position: toast.POSITION.TOP_CENTER,
                                     autoClose: 3000,
                                 });
-                                navigate("/forgot-password");
+                                navigate("/login/forgot-password");
                             }
 
                             setFormData(newFormData);

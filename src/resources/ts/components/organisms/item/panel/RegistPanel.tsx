@@ -78,7 +78,7 @@ export const RegistPanel: VFC<Props> = memo((props) => {
                 <SPanelList className="c-panel__list">
                     <SPanelItem className="c-panel__item">
                         <SPanelEdit
-                            to={`/items/${itemId}/editing`}
+                            to={`edit-item/${itemId}`}
                             className="c-panel__link c-panel__link--edit"
                         >
                             編集

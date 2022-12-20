@@ -9017,21 +9017,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+ // ページング用コンポーネント
 
 var Pagination = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
+  // props
   var prev_page_url = props.prev_page_url,
       next_page_url = props.next_page_url,
       current_page = props.current_page,
       last_page = props.last_page,
-      movePage = props.movePage;
+      movePage = props.movePage; // ページ管理用state
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       pages = _useState2[0],
-      setPages = _useState2[1];
+      setPages = _useState2[1]; // 前のページがある場合
 
-  var hasPrev = prev_page_url !== null;
-  var hasNext = next_page_url !== null;
+
+  var hasPrev = prev_page_url !== null; // 次のページがある場合
+
+  var hasNext = next_page_url !== null; // ページ数生成
+
   var hasPages = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
     var start = lodash__WEBPACK_IMPORTED_MODULE_1___default().max([current_page - 2, 1]);
 
@@ -9039,47 +9044,36 @@ var Pagination = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
     start = end ? lodash__WEBPACK_IMPORTED_MODULE_1___default().max([end - 5, 1]) : 0;
     var page = start && end ? lodash__WEBPACK_IMPORTED_MODULE_1___default().range(start, end) : 0;
     setPages(page);
-  }, [current_page, last_page]);
+  }, [current_page, last_page]); // ページ番号を押した場合移動
+
   var move = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (e) {
     if (!isCurrentPage(e)) {
       movePage(e);
     }
-  }, [current_page]);
+  }, [current_page]); // 現在のページかチェック
+
   var isCurrentPage = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (page) {
     return current_page === page;
   }, [current_page]);
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPagination, {
-    className: "c-pagination"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationWrap, {
-    className: "c-pagination--wrap",
-    role: "navigation"
-  }, hasPrev && react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationItem, {
-    className: "c-pagination__item"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationLink, {
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPagination, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationWrap, null, hasPrev && react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationLink, {
     to: "#",
-    className: "c-pagination__link",
     onClick: function onClick() {
       return move(current_page - 1);
     }
   }, "<")), pages instanceof Array && pages.map(function (el) {
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationItem, {
-      className: "c-pagination__item",
       key: el,
       page: el,
       currentPage: current_page,
       isActive: true
     }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationLink, {
       to: "#",
-      className: "c-pagination__link",
       onClick: function onClick() {
         return move(el);
       }
     }, el));
-  }), hasNext && react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationItem, {
-    className: "c-pagination__item"
-  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationLink, {
+  }), hasNext && react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPaginationLink, {
     to: "#",
-    className: "c-pagination__link",
     onClick: function onClick() {
       return move(current_page + 1);
     }
@@ -9538,7 +9532,7 @@ var Container = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
       children = props.children;
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPanelContainer, {
     className: "c-panel__container p-index__panel",
-    to: "/items/".concat(itemId)
+    to: "".concat(itemId)
   }, children);
 });
 var SPanelContainer = (0,styled_components__WEBPACK_IMPORTED_MODULE_4__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    display: flex;\n    flex-direction: column;\n    background: ", ";\n    width: calc(33.33% - ", ");\n    min-height: 300px;\n    margin-right: ", ";\n    margin-bottom: ", ";\n    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.2);\n    transition: all 0.3s;\n    &:hover {\n        opacity: 0.7;\n    }\n    ", "\n    ", "\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_1__.colors.base.paletteTrueWhite, _theme_setting_space__WEBPACK_IMPORTED_MODULE_2__.space.xl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_2__.space.xl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_2__.space.xxl, _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.sm(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n        width: 100%;\n        margin-right: initial;\n    "]))), _theme_setting_breakPoint__WEBPACK_IMPORTED_MODULE_3__.breakPoint.md(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n        width: calc(50% - ", ");\n    "])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_2__.space.xl));
@@ -9698,7 +9692,7 @@ var RegistPanel = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPanelItem, {
     className: "c-panel__item"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPanelEdit, {
-    to: "/items/".concat(itemId, "/editing"),
+    to: "edit-item/".concat(itemId),
     className: "c-panel__link c-panel__link--edit"
   }, "\u7DE8\u96C6")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SPanelItem, {
     className: "c-panel__item"
@@ -9856,21 +9850,21 @@ var Header = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   };
 
   var loggedIn = react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/index"
+    to: "items"
   }, "MyMove\u4E00\u89A7")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/items/new"
+    to: "new-item"
   }, "MyMove\u6295\u7A3F")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/mypage"
+    to: "mypage"
   }, "\u30DE\u30A4\u30DA\u30FC\u30B8")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
     as: "span",
     onClick: handleLogOut
   }, "\u30ED\u30B0\u30A2\u30A6\u30C8")));
   var notLoggedIn = react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/index"
+    to: "items"
   }, "MyMove\u4E00\u89A7")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/login"
+    to: "login"
   }, "\u30ED\u30B0\u30A4\u30F3")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SItem, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SLink, {
-    to: "/register"
+    to: "register"
   }, "\u7121\u6599\u4F1A\u54E1\u767B\u9332")));
   return react__WEBPACK_IMPORTED_MODULE_0__.createElement(SHeader, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Link, {
     to: "/"
@@ -10471,7 +10465,7 @@ var Login = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
     checked: isChecked,
     onChange: handleCheck
   }), "\u30ED\u30B0\u30A4\u30F3\u3057\u305F\u307E\u307E\u306B\u3059\u308B"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_molecules_inputForm_ContainerLink__WEBPACK_IMPORTED_MODULE_10__.ContainerLink, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_LinkButton__WEBPACK_IMPORTED_MODULE_8__.LinkButton, {
-    path: "/forgot-password"
+    path: "/login/forgot-password"
   }, "\u30D1\u30B9\u30EF\u30FC\u30C9\u3092\u5FD8\u308C\u305F\u304B\u305F\u306F\u3053\u3061\u3089"), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_LinkButton__WEBPACK_IMPORTED_MODULE_8__.LinkButton, {
     path: "/register"
   }, "\u521D\u3081\u3066\u306E\u304B\u305F(\u65B0\u898F\u4F1A\u54E1\u767B\u9332)\u306F\u3053\u3061\u3089")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_atoms_inputForm_Button__WEBPACK_IMPORTED_MODULE_5__.Button, {
@@ -10802,7 +10796,7 @@ var ResetPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
                 position: react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.POSITION.TOP_CENTER,
                 autoClose: 3000
               });
-              navigate("/forgot-password");
+              navigate("/login/forgot-password");
               break;
             // バリデーションエラー
 
@@ -10816,7 +10810,7 @@ var ResetPassword = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
                   position: react_toastify__WEBPACK_IMPORTED_MODULE_10__.toast.POSITION.TOP_CENTER,
                   autoClose: 3000
                 });
-                navigate("/forgot-password");
+                navigate("/login/forgot-password");
               }
 
               setFormData(newFormData);
@@ -12430,7 +12424,7 @@ var Mypage = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, "\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB\u3092\u7DE8\u96C6\u30FB\u767B\u9332\u3059\u308B")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SMypageItem, {
     className: "p-mypage__item"
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SMypageMyMoveEdit, {
-    to: "/items/new",
+    to: "/mypage/new-item",
     className: "p-mypage__link p-mypage__stepedit"
   }, "MyMove\u3092\u767B\u9332\u3059\u308B")), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SMypageItem, {
     className: "p-mypage__item"
@@ -12986,14 +12980,20 @@ var ItemForm = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function (props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Layout": () => (/* binding */ Layout)
+/* harmony export */   "Layout": () => (/* binding */ Layout),
+/* harmony export */   "routes": () => (/* binding */ routes)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-/* harmony import */ var _organisms_layout_Footer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../organisms/layout/Footer */ "./resources/ts/components/organisms/layout/Footer.tsx");
-/* harmony import */ var _organisms_layout_Header__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../organisms/layout/Header */ "./resources/ts/components/organisms/layout/Header.tsx");
-var _templateObject;
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var use_react_router_breadcrumbs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! use-react-router-breadcrumbs */ "./node_modules/use-react-router-breadcrumbs/dist/es/index.js");
+/* harmony import */ var _queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../queries/ItemsQuery */ "./resources/ts/queries/ItemsQuery.ts");
+/* harmony import */ var _theme_setting_colors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../theme/setting/colors */ "./resources/ts/theme/setting/colors.ts");
+/* harmony import */ var _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../theme/setting/space */ "./resources/ts/theme/setting/space.ts");
+/* harmony import */ var _organisms_layout_Footer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../organisms/layout/Footer */ "./resources/ts/components/organisms/layout/Footer.tsx");
+/* harmony import */ var _organisms_layout_Header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../organisms/layout/Header */ "./resources/ts/components/organisms/layout/Header.tsx");
+var _templateObject, _templateObject2, _templateObject3;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -13002,10 +13002,96 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
+
+
+
+
+ // 親MyMoveタイトル取得
+
+var DynamicIdBreadCrumb = function DynamicIdBreadCrumb(_ref) {
+  var match = _ref.match;
+
+  var _useDetailParentItem = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_2__.useDetailParentItem)(match.params.id),
+      data = _useDetailParentItem.data;
+
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, data === null || data === void 0 ? void 0 : data.parentItem.name);
+}; // 子MyMoveタイトル取得
+
+
+var DynamicPassBreadCrumb = function DynamicPassBreadCrumb(_ref2) {
+  var match = _ref2.match;
+
+  var _useChildDetailItem = (0,_queries_ItemsQuery__WEBPACK_IMPORTED_MODULE_2__.useChildDetailItem)({
+    id: match.params.id,
+    pass: match.params.pass
+  }),
+      data = _useChildDetailItem.data;
+
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, data === null || data === void 0 ? void 0 : data.childItem.name);
+};
+
+var routes = [{
+  path: "/",
+  breadcrumb: "TOP",
+  children: [{
+    path: "items",
+    breadcrumb: "MyMove一覧",
+    children: [{
+      path: ":id",
+      breadcrumb: DynamicIdBreadCrumb,
+      children: [{
+        path: ":pass",
+        breadcrumb: DynamicPassBreadCrumb
+      }]
+    }]
+  }, {
+    path: "login",
+    breadcrumb: "ログイン",
+    children: [{
+      path: "forgot-password",
+      breadcrumb: "パスワードをお忘れのかた"
+    }, {
+      path: "reset-password",
+      breadcrumb: "新しいパスワードの入力"
+    }]
+  }, {
+    path: "register",
+    breadcrumb: "会員登録"
+  }, {
+    path: "mypage",
+    breadcrumb: "マイページ",
+    children: [{
+      path: "edit-profile",
+      breadcrumb: "プロフィール登録・編集"
+    }, {
+      path: "edit-password",
+      breadcrumb: "パスワードを変更"
+    }, {
+      path: "new-item",
+      breadcrumb: "MyMove新規登録"
+    }, {
+      path: "edit-item/:id",
+      breadcrumb: "MyMove編集"
+    }]
+  }]
+}];
 var Layout = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
-  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_layout_Header__WEBPACK_IMPORTED_MODULE_2__.Header, null), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SMain, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Outlet, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_layout_Footer__WEBPACK_IMPORTED_MODULE_1__.Footer, null));
+  var breadcrumbs = (0,use_react_router_breadcrumbs__WEBPACK_IMPORTED_MODULE_1__["default"])(routes, {
+    disableDefaults: true
+  });
+  return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_layout_Header__WEBPACK_IMPORTED_MODULE_6__.Header, null), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SBread, null, breadcrumbs.map(function (_ref3, i) {
+    var match = _ref3.match,
+        breadcrumb = _ref3.breadcrumb;
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      key: match.pathname
+    }, !(breadcrumbs.length - 1 === i) ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(SBreadLink, {
+      to: match.pathname
+    }, breadcrumb), ">") : react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, breadcrumb));
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(SMain, null, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Outlet, null)), react__WEBPACK_IMPORTED_MODULE_0__.createElement(_organisms_layout_Footer__WEBPACK_IMPORTED_MODULE_5__.Footer, null));
 });
-var SMain = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].main(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    margin: 0 auto;\n    width: 100%;\n    padding-top: 100px;\n    padding-bottom: 100px;\n"])));
+var SMain = styled_components__WEBPACK_IMPORTED_MODULE_8__["default"].main(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    margin: 0 auto;\n    width: 100%;\n    padding-top: 100px;\n    padding-bottom: 100px;\n"])));
+var SBread = styled_components__WEBPACK_IMPORTED_MODULE_8__["default"].div(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    padding-top: 90px;\n    padding-left: ", ";\n    padding-right: ", ";\n    padding-bottom: ", ";\n    box-sizing: border-box;\n    background: ", ";\n    word-break: break-all;\n    display: flex;\n"])), _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.xl, _theme_setting_space__WEBPACK_IMPORTED_MODULE_4__.space.m, _theme_setting_colors__WEBPACK_IMPORTED_MODULE_3__.colors.base.paletteTrueWhite);
+var SBreadLink = (0,styled_components__WEBPACK_IMPORTED_MODULE_8__["default"])(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.NavLink)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n    &:hover {\n        color: ", ";\n    }\n"])), _theme_setting_colors__WEBPACK_IMPORTED_MODULE_3__.colors.base.paletteGambogeOrange);
 
 /***/ }),
 
@@ -13583,6 +13669,7 @@ var __rest = undefined && undefined.__rest || function (s, e) {
 
 
 
+ // ルーター
 
 var Router = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   var _useAuth = (0,_hooks_AuthContext__WEBPACK_IMPORTED_MODULE_14__.useAuth)(),
@@ -13608,7 +13695,7 @@ var Router = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
 
   var NotLoginRoute = function NotLoginRoute() {
     if (isAuth) return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Navigate, {
-      to: "/index"
+      to: "items"
     });
     return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Outlet, null);
   };
@@ -13635,50 +13722,58 @@ var Router = (0,react__WEBPACK_IMPORTED_MODULE_0__.memo)(function () {
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(NotLoginRoute, null)
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    index: true,
-    element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Top__WEBPACK_IMPORTED_MODULE_2__.Top, null)
-  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
     path: "/",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Top__WEBPACK_IMPORTED_MODULE_2__.Top, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/login",
+    index: true,
+    element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Top__WEBPACK_IMPORTED_MODULE_2__.Top, null)
+  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+    path: "login"
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+    index: true,
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Auth_Login__WEBPACK_IMPORTED_MODULE_3__.Login, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/register",
-    element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Auth_Register__WEBPACK_IMPORTED_MODULE_4__.Register, null)
-  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/forgot-password",
+    path: "forgot-password",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Auth_Forgot__WEBPACK_IMPORTED_MODULE_5__.Forgot, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/reset-password/:code",
+    path: "reset-password/:code",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Auth_ResetPassword__WEBPACK_IMPORTED_MODULE_6__.ResetPassword, null)
+  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+    path: "register",
+    element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Auth_Register__WEBPACK_IMPORTED_MODULE_4__.Register, null)
   })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(RequireAuth, null)
   }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/mypage",
+    path: "mypage"
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+    index: true,
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Mypage__WEBPACK_IMPORTED_MODULE_7__.Mypage, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/mypage/edit-profile",
+    path: "edit-profile",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EdifProfile__WEBPACK_IMPORTED_MODULE_8__.EdifProfile, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/mypage/edit-password",
+    path: "edit-password",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EditPassword__WEBPACK_IMPORTED_MODULE_9__.EditPassword, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/items/new",
+    path: "new-item",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_NewItem__WEBPACK_IMPORTED_MODULE_11__.NewItem, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/items/:id/editing",
+    path: "edit-item/:id",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_EditItem__WEBPACK_IMPORTED_MODULE_10__.EditItem, null)
-  })), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/index",
+  }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+    path: "items"
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+    index: true,
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_Items__WEBPACK_IMPORTED_MODULE_1__.Items, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/items/:id",
+    path: ":id"
+  }, react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+    index: true,
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_DetailParentItem__WEBPACK_IMPORTED_MODULE_12__.DetailParentItem, null)
   }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
-    path: "/items/:id/:pass",
+    path: ":pass",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_DetailChildItem__WEBPACK_IMPORTED_MODULE_13__.DetailChildItem, null)
-  }), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
+  }))), react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Route, {
     path: "*",
     element: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_pages_404__WEBPACK_IMPORTED_MODULE_16__.Page404, null)
   })));
@@ -71227,6 +71322,338 @@ var withProp = function withProp(needle, fn) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (withProp);
+
+/***/ }),
+
+/***/ "./node_modules/use-react-router-breadcrumbs/dist/es/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/use-react-router-breadcrumbs/dist/es/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Route": () => (/* binding */ BreadCrumbRoute),
+/* harmony export */   "createRoutesFromChildren": () => (/* binding */ createRoutesFromChildren),
+/* harmony export */   "default": () => (/* binding */ useReactRouterBreadcrumbs),
+/* harmony export */   "getBreadcrumbs": () => (/* binding */ getBreadcrumbs),
+/* harmony export */   "humanize": () => (/* binding */ humanize)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/@remix-run/router/dist/router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+
+
+
+var joinPaths = function joinPaths(paths) {
+  return paths.join('/').replace(/\/\/+/g, '/');
+};
+
+var paramRe = /^:\w+$/;
+var dynamicSegmentValue = 3;
+var indexRouteValue = 2;
+var emptySegmentValue = 1;
+var staticSegmentValue = 10;
+var splatPenalty = -2;
+
+var isSplat = function isSplat(s) {
+  return s === '*';
+};
+
+function computeScore(path, index) {
+  var segments = path.split('/');
+  var initialScore = segments.length;
+
+  if (segments.some(isSplat)) {
+    initialScore += splatPenalty;
+  }
+
+  if (index) {
+    initialScore += indexRouteValue;
+  }
+
+  return segments.filter(function (s) {
+    return !isSplat(s);
+  }).reduce(function (score, segment) {
+    if (paramRe.test(segment)) {
+      return score + dynamicSegmentValue;
+    }
+
+    if (segment === '') {
+      return score + emptySegmentValue;
+    }
+
+    return score + staticSegmentValue;
+  }, initialScore);
+}
+
+function compareIndexes(a, b) {
+  var siblings = a.length === b.length && a.slice(0, -1).every(function (n, i) {
+    return n === b[i];
+  });
+  return siblings ? a[a.length - 1] - b[b.length - 1] : 0;
+}
+
+function flattenRoutes(routes) {
+  var branches = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var parentsMeta = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  var parentPath = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '';
+  routes.forEach(function (route, index) {
+    var _a;
+
+    if (typeof route.path !== 'string' && !route.index && !((_a = route.children) === null || _a === void 0 ? void 0 : _a.length)) {
+      throw new Error('useBreadcrumbs: `path` or `index` must be provided in every route object');
+    }
+
+    if (route.path && route.index) {
+      throw new Error('useBreadcrumbs: `path` and `index` cannot be provided at the same time');
+    }
+
+    var meta = {
+      relativePath: route.path || '',
+      childrenIndex: index,
+      route: route
+    };
+
+    if (meta.relativePath.charAt(0) === '/') {
+      if (!meta.relativePath.startsWith(parentPath)) {
+        throw new Error('useBreadcrumbs: The absolute path of the child route must start with the parent path');
+      }
+
+      meta.relativePath = meta.relativePath.slice(parentPath.length);
+    }
+
+    var path = joinPaths([parentPath, meta.relativePath]);
+    var routesMeta = parentsMeta.concat(meta);
+
+    if (route.children && route.children.length > 0) {
+      if (route.index) {
+        throw new Error('useBreadcrumbs: Index route cannot have child routes');
+      }
+
+      flattenRoutes(route.children, branches, routesMeta, path);
+    }
+
+    branches.push({
+      path: path,
+      score: computeScore(path, route.index),
+      routesMeta: routesMeta
+    });
+  });
+  return branches;
+}
+
+function rankRouteBranches(branches) {
+  return branches.sort(function (a, b) {
+    return a.score !== b.score ? b.score - a.score : compareIndexes(a.routesMeta.map(function (meta) {
+      return meta.childrenIndex;
+    }), b.routesMeta.map(function (meta) {
+      return meta.childrenIndex;
+    }));
+  });
+}
+
+var NO_BREADCRUMB = Symbol('NO_BREADCRUMB');
+var humanize = function humanize(str) {
+  return str.replace(/^[\s_]+|[\s_]+$/g, '').replace(/[-_\s]+/g, ' ').replace(/^[a-z]/, function (m) {
+    return m.toUpperCase();
+  });
+};
+
+var render = function render(_ref) {
+  var Breadcrumb = _ref.breadcrumb,
+      match = _ref.match,
+      location = _ref.location,
+      props = _ref.props;
+  var componentProps = Object.assign({
+    match: match,
+    location: location,
+    key: match.pathname
+  }, props || {});
+  return Object.assign(Object.assign({}, componentProps), {
+    breadcrumb: typeof Breadcrumb === 'string' ? /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)('span', {
+      key: componentProps.key
+    }, Breadcrumb) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Breadcrumb, Object.assign({}, componentProps))
+  });
+};
+
+var getDefaultBreadcrumb = function getDefaultBreadcrumb(_ref2) {
+  var currentSection = _ref2.currentSection,
+      location = _ref2.location,
+      pathSection = _ref2.pathSection,
+      defaultFormatter = _ref2.defaultFormatter;
+  var match = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.matchPath)({
+    end: true,
+    path: pathSection
+  }, pathSection);
+  return render({
+    breadcrumb: defaultFormatter ? defaultFormatter(currentSection) : humanize(currentSection),
+    match: match,
+    location: location
+  });
+};
+
+var getBreadcrumbMatch = function getBreadcrumbMatch(_ref3) {
+  var currentSection = _ref3.currentSection,
+      disableDefaults = _ref3.disableDefaults,
+      excludePaths = _ref3.excludePaths,
+      defaultFormatter = _ref3.defaultFormatter,
+      location = _ref3.location,
+      pathSection = _ref3.pathSection,
+      branches = _ref3.branches;
+  var breadcrumb;
+
+  var getIsPathExcluded = function getIsPathExcluded(path) {
+    return (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.matchPath)({
+      path: path,
+      end: true
+    }, pathSection) != null;
+  };
+
+  if (excludePaths && excludePaths.some(getIsPathExcluded)) {
+    return NO_BREADCRUMB;
+  }
+
+  branches.some(function (_ref4) {
+    var path = _ref4.path,
+        routesMeta = _ref4.routesMeta;
+    var route = routesMeta[routesMeta.length - 1].route;
+    var userProvidedBreadcrumb = route.breadcrumb;
+
+    if (!userProvidedBreadcrumb && route.index) {
+      var parentMeta = routesMeta[routesMeta.length - 2];
+
+      if (parentMeta && parentMeta.route.breadcrumb) {
+        userProvidedBreadcrumb = parentMeta.route.breadcrumb;
+      }
+    }
+
+    var caseSensitive = route.caseSensitive,
+        props = route.props;
+    var match = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.matchPath)({
+      path: path,
+      end: true,
+      caseSensitive: caseSensitive
+    }, pathSection);
+
+    if (match && userProvidedBreadcrumb === null) {
+      breadcrumb = NO_BREADCRUMB;
+      return true;
+    }
+
+    if (match) {
+      if (!userProvidedBreadcrumb && disableDefaults) {
+        breadcrumb = NO_BREADCRUMB;
+        return true;
+      }
+
+      breadcrumb = render({
+        breadcrumb: userProvidedBreadcrumb || (defaultFormatter ? defaultFormatter(currentSection) : humanize(currentSection)),
+        match: Object.assign(Object.assign({}, match), {
+          route: route
+        }),
+        location: location,
+        props: props
+      });
+      return true;
+    }
+
+    return false;
+  });
+
+  if (breadcrumb) {
+    return breadcrumb;
+  }
+
+  if (disableDefaults) {
+    return NO_BREADCRUMB;
+  }
+
+  return getDefaultBreadcrumb({
+    pathSection: pathSection,
+    currentSection: pathSection === '/' ? 'Home' : currentSection,
+    location: location,
+    defaultFormatter: defaultFormatter
+  });
+};
+
+var getBreadcrumbs = function getBreadcrumbs(_ref5) {
+  var routes = _ref5.routes,
+      location = _ref5.location,
+      _ref5$options = _ref5.options,
+      options = _ref5$options === void 0 ? {} : _ref5$options;
+  var pathname = location.pathname;
+  var branches = rankRouteBranches(flattenRoutes(routes));
+  var breadcrumbs = [];
+  pathname.split('?')[0].split('/').reduce(function (previousSection, currentSection, index) {
+    var pathSection = !currentSection ? '/' : "".concat(previousSection, "/").concat(currentSection);
+
+    if (pathSection === '/' && index !== 0) {
+      return '';
+    }
+
+    var breadcrumb = getBreadcrumbMatch(Object.assign({
+      currentSection: currentSection,
+      location: location,
+      pathSection: pathSection,
+      branches: branches
+    }, options));
+
+    if (breadcrumb !== NO_BREADCRUMB) {
+      breadcrumbs.push(breadcrumb);
+    }
+
+    return pathSection === '/' ? '' : pathSection;
+  }, '');
+  return breadcrumbs;
+};
+
+var useReactRouterBreadcrumbs = function useReactRouterBreadcrumbs(routes, options) {
+  return getBreadcrumbs({
+    routes: routes || [],
+    location: (0,react_router_dom__WEBPACK_IMPORTED_MODULE_2__.useLocation)(),
+    options: options
+  });
+};
+
+function invariant(cond, message) {
+  if (!cond) throw new Error(message);
+}
+
+function createRoutesFromChildren(children) {
+  var routes = [];
+  react__WEBPACK_IMPORTED_MODULE_0__.Children.forEach(children, function (element) {
+    if (! /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.isValidElement(element)) {
+      return;
+    }
+
+    if (element.type === react__WEBPACK_IMPORTED_MODULE_0__.Fragment) {
+      routes.push.apply(routes, createRoutesFromChildren(element.props.children));
+      return;
+    }
+
+    invariant(element.type === react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Route, "[".concat(typeof element.type === 'string' ? element.type : element.type.name, "] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>"));
+    var route = {
+      caseSensitive: element.props.caseSensitive,
+      element: element.props.element,
+      index: element.props.index,
+      path: element.props.path,
+      breadcrumb: element.props.breadcrumb
+    };
+
+    if (element.props.children) {
+      route.children = createRoutesFromChildren(element.props.children);
+    }
+
+    routes.push(route);
+  });
+  return routes;
+}
+var BreadCrumbRoute = react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Route;
+
+
+
 
 /***/ }),
 

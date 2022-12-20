@@ -131,7 +131,7 @@ export const Login: VFC = memo(() => {
             </Label>
 
             <ContainerLink>
-                <LinkButton path="/forgot-password">
+                <LinkButton path="/login/forgot-password">
                     パスワードを忘れたかたはこちら
                 </LinkButton>
                 <LinkButton path="/register">

@@ -33,7 +33,7 @@ class SendCodeResetPassword extends Mailable
     {
         return $this->subject('パスワードリセット通知')
             ->view('emails.resetPassword', [
-                'reset_url' => url('reset-password', $this->code)
+                'reset_url' => url('login/reset-password', $this->code)
             ]);
     }
 }

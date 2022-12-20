@@ -38,14 +38,14 @@ export const Header: VFC = memo(() => {
     const loggedIn = (
         <>
             <SItem>
-                <SLink to="/index">MyMove一覧</SLink>
+                <SLink to="items">MyMove一覧</SLink>
             </SItem>
 
             <SItem>
-                <SLink to="/items/new">MyMove投稿</SLink>
+                <SLink to="new-item">MyMove投稿</SLink>
             </SItem>
             <SItem>
-                <SLink to="/mypage">マイページ</SLink>
+                <SLink to="mypage">マイページ</SLink>
             </SItem>
             <SItem>
                 <SLink as="span" onClick={handleLogOut}>
@@ -58,13 +58,13 @@ export const Header: VFC = memo(() => {
     const notLoggedIn = (
         <>
             <SItem>
-                <SLink to="/index">MyMove一覧</SLink>
+                <SLink to="items">MyMove一覧</SLink>
             </SItem>
             <SItem>
-                <SLink to="/login">ログイン</SLink>
+                <SLink to="login">ログイン</SLink>
             </SItem>
             <SItem>
-                <SLink to="/register">無料会員登録</SLink>
+                <SLink to="register">無料会員登録</SLink>
             </SItem>
         </>
     );

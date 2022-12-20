@@ -129,7 +129,7 @@ export const Mypage: VFC = memo(() => {
                             </SMypageItem>
                             <SMypageItem className="p-mypage__item">
                                 <SMypageMyMoveEdit
-                                    to="/items/new"
+                                    to="/mypage/new-item"
                                     className="p-mypage__link p-mypage__stepedit"
                                 >
                                     MyMoveを登録する
