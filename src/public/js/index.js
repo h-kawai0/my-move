@@ -13263,9 +13263,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
+var isProd = process.env.APP_ENV === 'production' ? true : false;
 var axios = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-  baseURL: "http://localhost:8080",
+  baseURL: isProd ? 'http://my-move.jp/' : "http://localhost:8080",
   headers: {
     "X-Requested-With": "XMLHttpRequest"
   },

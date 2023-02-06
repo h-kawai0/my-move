@@ -221,7 +221,7 @@ export const DetailChildItem: VFC = memo(() => {
                                 </SChildCompTime>
 
                                 <TwitterShare
-                                    name={`${itemData?.childItem?.name} %7C ${process.env.MIX_APP_ENV}`}
+                                    name={`${itemData?.childItem?.name} %7C ${process.env.MIX_APP_NAME}`}
                                 />
                             </SChildMeta>
 

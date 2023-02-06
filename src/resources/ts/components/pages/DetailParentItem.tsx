@@ -311,7 +311,7 @@ export const DetailParentItem: VFC = memo(() => {
                                         {itemData?.parentItem.category.name}
                                     </SParentDetailCategory>
                                     <TwitterShare
-                                        name={`${itemData?.parentItem.name}%7C${process.env.MIX_APP_ENV}`}
+                                        name={`${itemData?.parentItem.name}%7C${process.env.MIX_APP_NAME}`}
                                     />
                                 </SParentDetailMeta>
 
