@@ -83,7 +83,6 @@ const SHero = styled.section`
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    margin-top: 80px;
     &:after {
         padding-top: 77.26%;
         content: "";

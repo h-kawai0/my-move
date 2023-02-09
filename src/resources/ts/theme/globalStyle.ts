@@ -19,6 +19,7 @@ html,body{
   letter-spacing: 0.1em;
   width: 100%;
   background: ${colors.base.paletteBrightGray};
+}
 
   p,a{
     -webkit-font-smoothing: antialiased;
@@ -39,6 +40,20 @@ html,body{
     object-fit: cover;
     font-family: 'object-fit: cover';
     word-wrap: break-word;
-  }        
+  }
+  input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+input[type="submit"],
+textarea,
+select {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-family: Quicksand, Lato, "Noto Sans JP", "游ゴシック Medium",
+        "游ゴシック体", "Yu Gothic Medium", YuGothic, "ヒラギノ角ゴ ProN",
+        "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック",
+        "MS PGothic", sans-serif;
 }
+        
 `;

@@ -20,6 +20,7 @@ export const Form: VFC<Props> = memo((props) => {
 
 const SSection = styled.section`
     padding-top: ${space.xxxl};
+    padding-bottom: ${space.xxxl};
     box-sizing: border-box;
 `;
 
