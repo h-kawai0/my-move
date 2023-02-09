@@ -42,7 +42,7 @@ export const Header: VFC = memo(() => {
             </SItem>
 
             <SItem>
-                <SLink to="new-item">MyMove投稿</SLink>
+                <SLink to="mypage/new-item">MyMove投稿</SLink>
             </SItem>
             <SItem>
                 <SLink to="mypage">マイページ</SLink>

@@ -40,6 +40,7 @@ const SSelect = styled.select<{ isValid: string | undefined }>`
     text-indent: 0.01px;
     font-size: ${fonts.size.default};
     cursor: pointer;
+    color: ${colors.font.fontColorDefault};
     text-overflow: ellipsis;
     border: none;
     background: transparent;

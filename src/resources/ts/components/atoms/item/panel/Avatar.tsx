@@ -4,13 +4,26 @@ import { space } from "../../../../theme/setting/space";
 
 type Props = {
     userPic: string;
+    userName: string;
 };
 
 export const Avatar: VFC<Props> = memo((props) => {
-    const { userPic } = props;
+    const { userPic, userName } = props;
     return (
-        <SPanelAvatar className="c-panel__avatar">
-            <img src={`/storage/img/user/original/${userPic}`} />
+        <SPanelAvatar>
+            <img src={
+                            userPic
+                            ? `/storage/img/user/resize/${userPic}`
+                            : `/images/user/user_no_image.png`
+            }
+            srcSet={
+                userPic
+                ? `/storage/img/user/resize/${userPic} 1x,/storage/img/user/original/${userPic} 2x`
+                : `/images/user/user_no_image.png 1x, /images/user/user_no_image@2x.png 2x`
+
+            }
+            alt={userName}
+            />
         </SPanelAvatar>
     );
 });

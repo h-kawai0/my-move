@@ -22,7 +22,7 @@ export const Author: VFC<Props> = memo((props) => {
                     <img
                         src={
                             pic
-                                ? `/storage/img/user/reseize/${pic}`
+                                ? `/storage/img/user/resize/${pic}`
                                 : `/images/user/user_no_image.png`
                         }
                         alt={name}

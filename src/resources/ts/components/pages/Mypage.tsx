@@ -1,10 +1,4 @@
-import React, {
-    memo,
-    MouseEvent,
-    useMemo,
-    useState,
-    VFC,
-} from "react";
+import React, { memo, MouseEvent, useMemo, useState, VFC } from "react";
 import { Oval } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -96,30 +90,35 @@ export const Mypage: VFC = memo(() => {
                     />
                 </Spinner>
             ) : (
-                <SMyPage className="p-mypage">
-                    <SMypageTitle className="p-mypage__title">
-                        マイページ
-                    </SMypageTitle>
+                <SMyPage>
+                    <SMypageTitle>マイページ</SMypageTitle>
 
-                    <SMyPageContainer className="p-mypage__container">
-                        <SMypageAuthor className="p-mypage__author">
-                            <SMypageAvatar className="p-mypage__avatar">
+                    <SMyPageContainer>
+                        <SMypageAuthor>
+                            <SMypageAvatar>
                                 <img
-                                    src={`/storage/img/user/original/${user?.pic}`}
+                                    src={
+                                        user?.pic
+                                            ? `/storage/img/user/resize/${user?.pic}`
+                                            : `/images/user/user_no_image.png`
+                                    }
                                     alt={user?.name}
+                                    srcSet={
+                                        user?.pic
+                                            ? `/storage/img/user/resize/${user?.pic} 1x,/storage/img/user/original/${user?.pic} 2x`
+                                            : `/images/user/user_no_image.png 1x, /images/user/user_no_image@2x.png 2x`
+                                    }
                                 />
                             </SMypageAvatar>
-                            <SMypageUserName className="p-mypage__username">
-                                {user?.name}
-                            </SMypageUserName>
+                            <SMypageUserName>{user?.name}</SMypageUserName>
                         </SMypageAuthor>
 
-                        <SMypageProfile className="p-mypage__profile">
+                        <SMypageProfile>
                             <p>{user?.profile}</p>
                         </SMypageProfile>
 
-                        <SMypageList className="p-mypage__list">
-                            <SMypageItem className="p-mypage__item">
+                        <SMypageList>
+                            <SMypageItem>
                                 <SMypageProfEdit
                                     to="/mypage/edit-profile"
                                     className="p-mypage__link p-mypage__profedit"
@@ -127,23 +126,17 @@ export const Mypage: VFC = memo(() => {
                                     プロフィールを編集・登録する
                                 </SMypageProfEdit>
                             </SMypageItem>
-                            <SMypageItem className="p-mypage__item">
-                                <SMypageMyMoveEdit
-                                    to="/mypage/new-item"
-                                    className="p-mypage__link p-mypage__stepedit"
-                                >
+                            <SMypageItem>
+                                <SMypageMyMoveEdit to="/mypage/new-item">
                                     MyMoveを登録する
                                 </SMypageMyMoveEdit>
                             </SMypageItem>
-                            <SMypageItem className="p-mypage__item">
-                                <SMypagePassEdit
-                                    to="/mypage/edit-password"
-                                    className="p-mypage__link p-mypage__passedit"
-                                >
+                            <SMypageItem>
+                                <SMypagePassEdit to="/mypage/edit-password">
                                     パスワードを変更する
                                 </SMypagePassEdit>
                             </SMypageItem>
-                            <SMypageItem className="p-mypage__item">
+                            <SMypageItem>
                                 <SMypageWithDraw as="button" onClick={withDraw}>
                                     退会する
                                 </SMypageWithDraw>

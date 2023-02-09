@@ -128,8 +128,6 @@ export const Layout: VFC = memo(() => {
 const SMain = styled.main`
     margin: 0 auto;
     width: 100%;
-    padding-top: 100px;
-    padding-bottom: 100px;
 `;
 
 const SBread = styled.div`

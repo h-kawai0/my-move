@@ -429,6 +429,7 @@ const SSelectBox = styled.div`
 const SSelect = styled.select`
     width: 100%;
     padding: ${space.m} ${space.xxxl} ${space.m} ${space.m};
+    color: ${colors.font.fontColorDefault};
     cursor: pointer;
     text-indent: 0.01px;
     text-overflow: ellipsis;

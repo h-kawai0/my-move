@@ -1,8 +1,6 @@
 import React, { memo, VFC } from "react";
 
 import styled from "styled-components";
-import { breakPoint } from "../../../theme/setting/breakPoint";
-import { space } from "../../../theme/setting/space";
 
 export const Footer: VFC = memo(() => {
     return (
@@ -21,7 +19,4 @@ const SFooter = styled.footer`
     box-sizing: border-box;
     color: #fff;
     margin-top: auto;
-    ${breakPoint.sm`
-    font-size: ${space.s};
-`}
 `;

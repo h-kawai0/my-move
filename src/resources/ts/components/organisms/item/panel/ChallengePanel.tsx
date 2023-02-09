@@ -84,7 +84,7 @@ export const ChallengePanel: VFC<Props> = memo((props) => {
                 <Content>
                     <Meta>
                         <Author>
-                            <Avatar userPic={userPic} />
+                            <Avatar userPic={userPic} userName={userName} />
 
                             <div>
                                 <UserName userName={userName} />
