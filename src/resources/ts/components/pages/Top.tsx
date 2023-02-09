@@ -92,7 +92,7 @@ const SHero = styled.section`
 
 const SContainer = styled.div`
     background: rgba(50, 50, 50, 0.5);
-    padding: ${space.l};
+    padding: ${space.xxl};
     box-sizing: border-box;
 `;
 
@@ -101,9 +101,6 @@ const SHeroCatch = styled.h1`
     color: ${colors.font.fontColorSub};
     font-family: ${fonts.family.catch};
     text-align: center;
-    ${breakPoint.sm`
-        font-size: ${fonts.size.xl};
-    `}
 `;
 
 const SHeroLine = styled.br`

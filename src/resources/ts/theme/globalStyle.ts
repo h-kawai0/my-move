@@ -6,6 +6,23 @@ import { fonts } from "./setting/fonts";
 
 export const GlobalStyle = createGlobalStyle`
 ${reset}
+
+// -------------------------------
+// oswald
+// -------------------------------
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+// -------------------------------
+// QuickSand
+// -------------------------------
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+// -------------------------------
+// さわらびゴシック
+// -------------------------------
+@import url('https://fonts.googleapis.com/css?family=Sawarabi+Gothic');
+
+
 html,body{
   line-height: 1.6;
   width: 100%;
