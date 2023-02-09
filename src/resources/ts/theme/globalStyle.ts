@@ -10,18 +10,15 @@ ${reset}
 // -------------------------------
 // oswald
 // -------------------------------
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Quicksand&display=swap');
 // -------------------------------
 // QuickSand
 // -------------------------------
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 // -------------------------------
 // さわらびゴシック
 // -------------------------------
-@import url('https://fonts.googleapis.com/css?family=Sawarabi+Gothic');
-
+@import url('https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&display=swap');
 
 html,body{
   line-height: 1.6;
@@ -31,7 +28,7 @@ html,body{
   Lato, "Noto Sans JP", "游ゴシック Medium",
         "游ゴシック体", "Yu Gothic Medium", YuGothic, "ヒラギノ角ゴ ProN",
         "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "ＭＳ Ｐゴシック",
-        "MS PGothic", sans-serif;
+        "MS PGothic";
   text-size-adjust: 100%;
   letter-spacing: 0.1em;
   width: 100%;

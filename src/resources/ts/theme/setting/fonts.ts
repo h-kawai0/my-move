@@ -10,8 +10,9 @@ export const fonts = {
         xxxl: "40px",
     },
     family: {
-        main: "Quicksand",
-        logo: "Oswald ,sans-serif",
-        catch: "Sawarabi Gothic",
+        main: '"Quicksand", sans-serif',
+        logo: '"Oswald", sans-serif',
+        catch: '"Sawarabi Gothic", sans-serif'
+        ,
     },
 };
