@@ -8,7 +8,7 @@ type Props = {
 
 export const PanelMaster: VFC<Props> = memo((props) => {
     const { children } = props;
-    return <SPanel className="c-panel">{children}</SPanel>;
+    return <SPanel>{children}</SPanel>;
 });
 
 const SPanel = styled.div`

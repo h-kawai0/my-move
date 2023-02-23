@@ -12,7 +12,7 @@ export const DetailTitle:VFC<Props> = memo((props) => {
 
   const { children } = props;
   return(
-    <SDetailTitle className="p-childDetail__title">{children}</SDetailTitle>
+    <SDetailTitle>{children}</SDetailTitle>
 
   );
 });

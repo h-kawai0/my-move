@@ -8,7 +8,7 @@ type Props = {
 export const DetailList:VFC<Props> = memo((props) => {
   const { children } = props;
   return(
-    <SChildList className="p-childDetail__list">{children}</SChildList>
+    <SChildList>{children}</SChildList>
 
   );
 });

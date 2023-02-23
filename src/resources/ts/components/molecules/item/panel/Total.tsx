@@ -10,11 +10,11 @@ type Props = {
 export const Total:VFC<Props> = memo((props) => {
    const { children } = props;
   return(
-    <SPanelTotal className="c-panel__total">
-    <SPanelNumber className="c-panel__number">
+    <SPanelTotal>
+    <SPanelNumber>
         {children}
     </SPanelNumber>
-    <SPanelMove className="c-panel__move">Move</SPanelMove>
+    <SPanelMove>Move</SPanelMove>
 </SPanelTotal>
 
   );

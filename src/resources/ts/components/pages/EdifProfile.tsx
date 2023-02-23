@@ -3,6 +3,7 @@ import React, {
     FormEvent,
     memo,
     useEffect,
+    useRef,
     useState,
     VFC,
 } from "react";
@@ -62,6 +63,9 @@ export const EdifProfile: VFC = memo(() => {
     // プロフィール情報更新用
     const updateProfile = useUpdateProfile();
 
+    // ボタン送信制御用
+    const processing = useRef(false);
+
     // 最初にプロフィール情報を取得
     useEffect(() => {
         if (data) {
@@ -107,6 +111,11 @@ export const EdifProfile: VFC = memo(() => {
         // 画面を遷移させないよう停止
         e.preventDefault();
 
+        // 処理中ならボタンを連打できないようにする
+        if (processing.current) return;
+
+        processing.current = true;
+
         // フォームへの入力データを変数に詰める
         const data = {
             name: formData.name,
@@ -126,7 +135,12 @@ export const EdifProfile: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
+                        processing.current = false;
+
                     } else {
+
+                        processing.current = false;
+
                         toast.error(
                             "エラーが発生しました。しばらくたってからやり直してください。",
                             {

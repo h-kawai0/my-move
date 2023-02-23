@@ -12,7 +12,7 @@ export const Category: VFC<Props> = memo((props) => {
 
   const { categoryName } = props;
   return(
-    <SPanelCategory className="c-panel__category">
+    <SPanelCategory>
     {categoryName}
 </SPanelCategory>
 

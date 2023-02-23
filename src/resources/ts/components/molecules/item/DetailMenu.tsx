@@ -12,7 +12,7 @@ type Props = {
 export const DetailMenu:VFC<Props> = memo((props) => {
   const {children} = props;
   return(
-    <SDetailMenu className="p-childDetail__menu">{children}</SDetailMenu>
+    <SDetailMenu>{children}</SDetailMenu>
   );
 })
 

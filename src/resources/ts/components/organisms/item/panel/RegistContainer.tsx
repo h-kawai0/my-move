@@ -13,9 +13,7 @@ export const RegistContainer: VFC<Props> = memo((props) => {
     const { children } = props;
 
     return (
-        <SPanelContainer
-            className="c-panel__container p-mypage__article"
-            
+        <SPanelContainer            
         >
             {children}
         </SPanelContainer>

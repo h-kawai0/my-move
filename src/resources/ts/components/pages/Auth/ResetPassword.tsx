@@ -1,4 +1,12 @@
-import React, { VFC, memo, useState, ChangeEvent, FormEvent, useEffect } from "react";
+import React, {
+    VFC,
+    memo,
+    useState,
+    ChangeEvent,
+    FormEvent,
+    useEffect,
+    useRef,
+} from "react";
 import { useNavigate, useParams } from "react-router";
 import axios from "../../../libs/axios";
 import { useResetPassword } from "../../../queries/AuthQuery";
@@ -21,8 +29,8 @@ export const ResetPassword: VFC = memo(() => {
 
     const navigate = useNavigate();
 
-    // ボタン連打禁止用state
-    const [isLoading, setIsLoading] = useState(false);
+    // ボタン送信制御用
+    const processing = useRef(false);
 
     // フォーム入力用データ
     const [formData, setFormData] = useState({
@@ -48,8 +56,10 @@ export const ResetPassword: VFC = memo(() => {
         // 画面遷移防止
         e.preventDefault();
 
-        // ボタン連打防止
-        setIsLoading(true);
+        // 処理中ならボタンを連打できないようにする
+        if (processing.current) return;
+
+        processing.current = true;
 
         // 入力情報を変数に詰める
         const data = {
@@ -64,11 +74,12 @@ export const ResetPassword: VFC = memo(() => {
             resetPassword.mutate(data, {
                 // エラー時処理
                 onError: (err: any) => {
-                    console.log(err.response);
+                    console.log(err.response, err.response.status);
 
                     switch (err.response.status) {
                         // 有効期限切れの場合
                         case 401:
+                            console.log("401です");
                             toast.error(err.response.data.message, {
                                 position: toast.POSITION.TOP_CENTER,
                                 autoClose: 3000,
@@ -84,7 +95,7 @@ export const ResetPassword: VFC = memo(() => {
                             };
 
                             // パスワードコードがDBに存在しない場合
-                            if (err.response.data.errors.code[0]) {
+                            if ("code" in err.response.data.errors) {
                                 toast.error(err.response.data.errors.code[0], {
                                     position: toast.POSITION.TOP_CENTER,
                                     autoClose: 3000,
@@ -93,10 +104,13 @@ export const ResetPassword: VFC = memo(() => {
                             }
 
                             setFormData(newFormData);
-                            setIsLoading(false);
+                            processing.current = false;
+
                             break;
 
                         default:
+                            processing.current = false;
+
                             toast.error(
                                 "エラーが発生しました。しばらくたってからやり直してください。",
                                 {
@@ -104,7 +118,6 @@ export const ResetPassword: VFC = memo(() => {
                                     autoClose: 3000,
                                 }
                             );
-                            setIsLoading(false);
                             break;
                     }
                 },
@@ -113,11 +126,9 @@ export const ResetPassword: VFC = memo(() => {
     };
 
     useEffect(() => {
-
         // GETパラメータが空の場合はTOPへ戻す
-        if(!code){
-        navigate('/');
-
+        if (!code) {
+            navigate("/");
         }
     }, []);
 
@@ -174,7 +185,10 @@ export const ResetPassword: VFC = memo(() => {
                 </Label>
             </UserComponent>
 
-            <Button value="新しいパスワードを保存" isLoading={isLoading} />
+            <Button
+                value="新しいパスワードを保存"
+                isLoading={resetPassword.isLoading}
+            />
         </Form>
     );
 });

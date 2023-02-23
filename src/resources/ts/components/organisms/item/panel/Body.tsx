@@ -9,7 +9,7 @@ type Props = {
 
 export const Body: VFC<Props> = memo((props) => {
     const { children } = props;
-    return <SBody className="c-panel__body">{children}</SBody>;
+    return <SBody>{children}</SBody>;
 });
 
 const SBody = styled.div`

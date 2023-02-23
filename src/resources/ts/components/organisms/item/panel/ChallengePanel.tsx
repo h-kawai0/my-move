@@ -68,8 +68,8 @@ export const ChallengePanel: VFC<Props> = memo((props) => {
             <Top>
                 <Total>{itemLength}</Total>
 
-                <SStatus className="c-panel__status">
-                    <SCompInfo className="c-panel__compInfo">
+                <SStatus>
+                    <SCompInfo>
                         進捗状況
                         <br />
                         { totalChallenge}/{childItems.length}

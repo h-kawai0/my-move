@@ -137,7 +137,9 @@ const SBread = styled.div`
     padding-bottom: ${space.m};
     box-sizing: border-box;
     background: ${colors.base.paletteTrueWhite};
-    word-break: break-all;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow-x: scroll;
     display: flex;
 `;
 

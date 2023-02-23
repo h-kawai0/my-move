@@ -12,7 +12,7 @@ export const CompTime: VFC<Props> = memo((props) => {
   const {itemClearTime } = props;
   
   return(
-    <SPanelCompTime className="c-panel__compTime">
+    <SPanelCompTime>
     目安達成時間:{itemClearTime}時間
 </SPanelCompTime>
 

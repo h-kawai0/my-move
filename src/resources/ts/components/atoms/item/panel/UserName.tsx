@@ -12,7 +12,7 @@ export const UserName: VFC<Props> = memo((props) => {
     const { userName } = props;
 
     return (
-        <SPanelUserName className="c-panel__username">
+        <SPanelUserName>
             {userName}
         </SPanelUserName>
     );

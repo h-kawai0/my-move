@@ -176,7 +176,6 @@ export const DetailParentItem: VFC = memo(() => {
         if (processing.current) return;
 
         processing.current = true;
-        console.log("ちゃれんじ");
 
         // チャレンジ処理
         await axios.get("/sanctum/csrf-cookie").then(() => {
@@ -230,7 +229,6 @@ export const DetailParentItem: VFC = memo(() => {
         if (processing.current) return;
 
         processing.current = true;
-        console.log("おきにいり");
 
         await axios.get("/sanctum/csrf-cookie").then(() => {
             addFavorite.mutate(

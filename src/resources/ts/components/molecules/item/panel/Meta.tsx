@@ -9,7 +9,7 @@ type Props = {
 export const Meta: VFC<Props> = memo((props) => {
     const { children } = props;
 
-    return <SPanelMeta className="c-panel__meta">{children}</SPanelMeta>;
+    return <SPanelMeta>{children}</SPanelMeta>;
 });
 
 const SPanelMeta = styled.div`

@@ -82,14 +82,12 @@ export const DetailItems: VFC<Props> = memo((props) => {
             {user && isChallenge && isSuccess && current ? (
                 <SChildComplete
                     as="span"
-                    className="c-btn c-btn--comped c-btn--notAllowed p-childDetail__btn"
                 >
                     クリア済み
                 </SChildComplete>
             ) : user && isChallenge && !isSuccess && current ? (
                 <SChildClear
                     as="button"
-                    className="c-btn c-btn--clear p-childDetail__btn"
                     onClick={() => toggleClear(clearId)}
                     $isClearRequest={isClearRequest}
                 >
@@ -98,14 +96,12 @@ export const DetailItems: VFC<Props> = memo((props) => {
             ) : user && isChallenge && !isSuccess && !current ? (
                 <SChildComplete
                     as="span"
-                    className="c-btn c-btn--comped c-btn--notAllowed p-childDetail__btn"
                 >
                     ロック中
                 </SChildComplete>
             ) : user && !isChallenge ? (
                 <SChildChallenge
                     as="button"
-                    className="c-btn c-btn--challenge p-childDetail__btn"
                     onClick={toggleChallenge}
                     $isChallengeRequest={isChallengeRequest}
                 >
@@ -114,7 +110,6 @@ export const DetailItems: VFC<Props> = memo((props) => {
             ) : (
                 <SChildRegister
                     to="/login"
-                    className="c-btn c-btn--signup p-childDetail__btn"
                 >
                     会員登録してチャレンジする
                 </SChildRegister>

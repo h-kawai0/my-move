@@ -12,7 +12,7 @@ type Props = {
 export const SelectBox: VFC<Props> = memo((props) => {
     const { children } = props;
     return (
-        <SBox className="c-edit__selectBox c-edit__sl c-edit--err">
+        <SBox>
                 {children}
         </SBox>
     );

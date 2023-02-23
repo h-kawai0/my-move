@@ -8,9 +8,8 @@ type Props = {
 export const Thumbnail: VFC<Props> = memo((props) => {
     const { itemPic } = props;
     return (
-        <SPanelThumbnail className="c-panel__thumbnail">
+        <SPanelThumbnail>
             <SPanelImg
-                className="c-panel__img"
                 src={
                     itemPic
                         ? `/storage/img/items/original/${itemPic}`

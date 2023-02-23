@@ -8,7 +8,7 @@ type Props = {
 
 export const Index: VFC<Props> = memo((props) => {
     const { children } = props;
-    return <SIndex className="p-mypage__indexMymove">{children}</SIndex>;
+    return <SIndex>{children}</SIndex>;
 });
 
 const SIndex = styled.div`

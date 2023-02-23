@@ -1,4 +1,11 @@
-import React, { memo, VFC, useState, ChangeEvent, FormEvent } from "react";
+import React, {
+    memo,
+    VFC,
+    useState,
+    ChangeEvent,
+    FormEvent,
+    useRef,
+} from "react";
 import axios from "../../../libs/axios";
 
 import { UserComponent } from "../../molecules/inputForm/UserComponent";
@@ -32,6 +39,9 @@ export const Register: VFC = memo(() => {
         },
     });
 
+    // ボタン送信制御用
+    const processing = useRef(false);
+
     // フォームへデータが入力された時にstateへ詰める
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -43,6 +53,11 @@ export const Register: VFC = memo(() => {
     const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
         // 画面を遷移させないよう停止
         e.preventDefault();
+
+        // 処理中ならボタンを連打できないようにする
+        if (processing.current) return;
+
+        processing.current = true;
 
         // フォームへの入力データを変数に詰める
         const data = {
@@ -62,7 +77,10 @@ export const Register: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
+                        processing.current = false;
                     } else {
+                        processing.current = false;
+
                         toast.error(
                             "会員登録に失敗しました。しばらくたってからやり直してください。",
                             {

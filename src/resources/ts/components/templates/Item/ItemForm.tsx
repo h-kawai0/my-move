@@ -6,6 +6,7 @@ import React, {
     ChangeEvent,
     FormEvent,
     useMemo,
+    useRef,
 } from "react";
 import { Oval } from "react-loader-spinner";
 
@@ -81,6 +82,9 @@ export const ItemForm: VFC<Props> = memo((props) => {
 
     // MyMove更新処理
     const updateItem = useUpdateItem();
+
+    // ボタン送信制御用
+    const processing = useRef(false);
 
     // 入力データ
     const [formData, setFormData] = useState<Form>({
@@ -274,6 +278,13 @@ export const ItemForm: VFC<Props> = memo((props) => {
         // 画面遷移防止
         e.preventDefault();
 
+                // 処理中ならボタンを連打できないようにする
+                if (processing.current) return;
+
+                processing.current = true;
+        
+        
+
         // 入力内容を変数に詰める
         const data = {
             parent_name: formData.parent_name,
@@ -348,8 +359,12 @@ export const ItemForm: VFC<Props> = memo((props) => {
                         }));
 
                         console.log("Send Error", err.response.data.errors);
+                        processing.current = false;
+
                     } else {
                         console.log("Send Error", err.response.data.errors);
+                        processing.current = false;
+
                     }
                 },
             });

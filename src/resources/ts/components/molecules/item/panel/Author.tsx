@@ -7,7 +7,7 @@ type Props = {
 
 export const Author: VFC<Props> = memo((props) => {
     const { children } = props;
-    return <SPanelAuthor className="c-panel__author">{children}</SPanelAuthor>;
+    return <SPanelAuthor>{children}</SPanelAuthor>;
 });
 
 const SPanelAuthor = styled.div`

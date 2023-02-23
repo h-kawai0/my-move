@@ -11,7 +11,7 @@ type Props = {
 export const Empty:VFC<Props> = memo((props) => {
   const { children } = props;
   return(
-    <SEmpty className="p-mypage__empty">
+    <SEmpty>
       {children}
 </SEmpty>
 

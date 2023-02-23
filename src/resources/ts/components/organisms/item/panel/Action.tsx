@@ -10,7 +10,7 @@ type Props = {
 export const Action: VFC<Props> = memo((props) => {
     const { itemId, children } = props;
     return (
-        <SAction to={`/items/${itemId}`} className="p-mypage__action">
+        <SAction to={`/items/${itemId}`}>
             {children}
         </SAction>
     );

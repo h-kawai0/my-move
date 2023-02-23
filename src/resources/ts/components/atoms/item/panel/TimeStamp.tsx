@@ -13,7 +13,7 @@ export const TimeStamp: VFC<Props> = memo((props) => {
   const {itemDate} = props;
   
   return(
-    <SPanelTimeStamp className="c-panel__timeStamp">
+    <SPanelTimeStamp>
     {dayjs(itemDate).format(
         "YYYY[年]M[月]D[日]"
     )}

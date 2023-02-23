@@ -51,7 +51,7 @@ const login = async ({
 
 // ログアウト
 const logout = async () => {
-    const { data } = await axios.post<GetUser>(`/api/logout`);
+    const { data } = await axios.post(`/api/logout`);
     return data;
 };
 

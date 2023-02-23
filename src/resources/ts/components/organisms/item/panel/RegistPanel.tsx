@@ -75,19 +75,17 @@ export const RegistPanel: VFC<Props> = memo((props) => {
 
                 <CompTime itemClearTime={itemClearTime} />
 
-                <SPanelList className="c-panel__list">
-                    <SPanelItem className="c-panel__item">
+                <SPanelList>
+                    <SPanelItem>
                         <SPanelEdit
                             to={`edit-item/${itemId}`}
-                            className="c-panel__link c-panel__link--edit"
                         >
                             編集
                         </SPanelEdit>
                     </SPanelItem>
-                    <SPanelItem className="c-panel__item">
+                    <SPanelItem>
                         <SPanelDelete
                             as='span'
-                            className="c-panel__link c-panel__link--delete"
                             onClick={() => deleteItem(itemId)}
                         >
                             削除

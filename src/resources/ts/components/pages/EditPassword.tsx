@@ -1,4 +1,11 @@
-import React, { VFC, memo, useState, ChangeEvent, FormEvent } from "react";
+import React, {
+    VFC,
+    memo,
+    useState,
+    ChangeEvent,
+    FormEvent,
+    useRef,
+} from "react";
 import { toast } from "react-toastify";
 import axios from "../../libs/axios";
 import { useUpdatePassword } from "../../queries/AuthQuery";
@@ -24,6 +31,9 @@ export const EditPassword: VFC = memo(() => {
         },
     });
 
+    // ボタン送信制御用
+    const processing = useRef(false);
+
     // パスワード更新処理用
     const updatePassword = useUpdatePassword();
 
@@ -38,6 +48,11 @@ export const EditPassword: VFC = memo(() => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         // 画面遷移防止
         e.preventDefault();
+
+        // 処理中ならボタンを連打できないようにする
+        if (processing.current) return;
+
+        processing.current = true;
 
         // 入力データを変数に詰める
         const data = {
@@ -56,7 +71,11 @@ export const EditPassword: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
+                        processing.current = false;
+                        
                     } else {
+                        processing.current = false;
+
                         toast.error(
                             "エラーが発生しました。しばらくたってからやり直してください。",
                             {

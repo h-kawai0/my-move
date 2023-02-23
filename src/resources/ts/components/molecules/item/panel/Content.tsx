@@ -9,7 +9,7 @@ type Props = {
 export const Content: VFC<Props> = memo((props) => {
     const { children } = props;
     return (
-        <SPanelContent className="c-panel__content">{children}</SPanelContent>
+        <SPanelContent>{children}</SPanelContent>
     );
 });
 

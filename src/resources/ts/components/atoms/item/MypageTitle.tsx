@@ -10,7 +10,7 @@ type Props = {
 export const MypageTitle:VFC<Props> = memo((props) => {
   const { children } = props;
   return(
-    <STitle className="p-mypage__title">{children}</STitle>
+    <STitle>{children}</STitle>
 
   );
 })

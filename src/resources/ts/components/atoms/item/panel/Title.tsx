@@ -10,7 +10,7 @@ export const Title: VFC<Props> = memo((props) => {
 
   const { itemName } = props;
   return(
-    <SPanelTitle className="c-panel__title">{itemName}</SPanelTitle>
+    <SPanelTitle>{itemName}</SPanelTitle>
 
   );
 })

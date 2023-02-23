@@ -121,7 +121,6 @@ export const Mypage: VFC = memo(() => {
                             <SMypageItem>
                                 <SMypageProfEdit
                                     to="/mypage/edit-profile"
-                                    className="p-mypage__link p-mypage__profedit"
                                 >
                                     プロフィールを編集・登録する
                                 </SMypageProfEdit>

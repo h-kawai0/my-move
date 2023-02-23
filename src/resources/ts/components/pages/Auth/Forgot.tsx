@@ -1,4 +1,11 @@
-import React, { ChangeEvent, FormEvent, memo, useState, VFC } from "react";
+import React, {
+    ChangeEvent,
+    FormEvent,
+    memo,
+    useRef,
+    useState,
+    VFC,
+} from "react";
 import { toast } from "react-toastify";
 import axios from "../../../libs/axios";
 
@@ -25,6 +32,9 @@ export const Forgot: VFC = memo(() => {
         },
     });
 
+    // ボタン送信制御用
+    const processing = useRef(false);
+
     // フォーム入力情報をstateに詰める
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -36,6 +46,11 @@ export const Forgot: VFC = memo(() => {
         // 画面遷移防止
         e.preventDefault();
 
+        // 処理中ならボタンを連打できないようにする
+        if (processing.current) return;
+
+        processing.current = true;
+
         // 入力情報を変数に詰める
         const data = {
             email: formData.email,
@@ -45,8 +60,7 @@ export const Forgot: VFC = memo(() => {
         axios.get("/sanctum/csrf-cookie").then((res) => {
             forgotPassword.mutate(data, {
                 // 成功時処理
-                onSuccess: () => {
-                },
+                onSuccess: () => {},
                 // エラー時処理
                 onError: (err: any) => {
                     if (err.response.status === 422) {
@@ -56,7 +70,10 @@ export const Forgot: VFC = memo(() => {
                         };
 
                         setFormData(newFormData);
+                        processing.current = false;
                     } else {
+                        processing.current = false;
+
                         toast.error(
                             "エラーが発生しました。しばらくたってからやり直してください。",
                             {
