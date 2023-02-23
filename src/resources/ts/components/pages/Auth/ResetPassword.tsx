@@ -34,11 +34,9 @@ export const ResetPassword: VFC = memo(() => {
 
     // フォーム入力用データ
     const [formData, setFormData] = useState({
-        email: "",
         password: "",
         passwordConfirmation: "",
         error_list: {
-            email: "",
             password: "",
             password_confirmation: "",
         },
@@ -63,7 +61,6 @@ export const ResetPassword: VFC = memo(() => {
 
         // 入力情報を変数に詰める
         const data = {
-            email: formData.email,
             password: formData.password,
             password_confirmation: formData.passwordConfirmation,
             code: code,
@@ -136,22 +133,6 @@ export const ResetPassword: VFC = memo(() => {
         <Form onSubmit={handleSubmit}>
             <Title>新しいパスワードの入力</Title>
 
-            <UserComponent>
-                <Label>
-                    メールアドレス
-                    <Input
-                        type="text"
-                        name="email"
-                        value={formData.email}
-                        placeholder="ご登録されたメールアドレス"
-                        autoFocus
-                        autoComplete="email"
-                        isValid={formData.error_list.email}
-                        onChange={handleChange}
-                    />
-                    <Alert>{formData.error_list.email}</Alert>
-                </Label>
-            </UserComponent>
 
             <UserComponent>
                 <Label>

@@ -43,7 +43,6 @@ class ResetPasswordController extends Controller
         // バリデーション処理
         $request->validate([
             'code' => ['required', 'string', 'exists:reset_code_passwords'],
-            'email' => ['required', 'email:filter,dns'],
             'password' => ['required', 'string', 'max:255', 'min:8', 'confirmed', new AlphaNumHalf],
             'password_confirmation' => ['required']
         ], ['exists' => '不正なリクエスト操作です。もう一度はじめからやり直してください。']);
@@ -70,7 +69,7 @@ class ResetPasswordController extends Controller
         Log::debug($user);
 
         // パスワードリセット完了のメールを送信
-        Mail::to($request->email)->send(new SendUpdatePassword($user->name));
+        Mail::to($passwordReset->email)->send(new SendUpdatePassword($user->name));
 
         return response(['message' => 'パスワードがリセットされました。'], 200);
     }

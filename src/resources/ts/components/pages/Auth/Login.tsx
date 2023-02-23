@@ -118,6 +118,7 @@ export const Login: VFC = memo(() => {
                         onChange={handleChange}
                         isValid={formData.error_list.email}
                         autoComplete="email"
+                        autoFocus
                     />
                 </Label>
                 <Alert>{formData.error_list.email}</Alert>

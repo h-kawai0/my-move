@@ -64,18 +64,15 @@ const forgotPassword = async ({ email }: { email: string }) => {
 
 // パスワードリセット
 const resetPassword = async ({
-    email,
     password,
     password_confirmation,
     code,
 }: {
-    email: string;
     password: string;
     password_confirmation: string;
     code?: string;
 }) => {
     const { data } = await axios.post(`/password/reset`, {
-        email,
         password,
         password_confirmation,
         code,

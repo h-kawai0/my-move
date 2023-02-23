@@ -35,17 +35,21 @@ export const Header: VFC = memo(() => {
         setIsActive((prevState) => !prevState);
     };
 
+    const naviClose = () => {
+        setIsActive(false);
+    };
+
     const loggedIn = (
         <>
             <SItem>
-                <SLink to="items" onClick={naviOpen}>MyMove一覧</SLink>
+                <SLink to="items" onClick={naviClose}>MyMove一覧</SLink>
             </SItem>
 
             <SItem>
-                <SLink to="mypage/new-item" onClick={naviOpen}>MyMove投稿</SLink>
+                <SLink to="mypage/new-item" onClick={naviClose}>MyMove投稿</SLink>
             </SItem>
             <SItem>
-                <SLink to="mypage" onClick={naviOpen}>マイページ</SLink>
+                <SLink to="mypage" onClick={naviClose}>マイページ</SLink>
             </SItem>
             <SItem>
                 <SLink as="span" onClick={handleLogOut}>
@@ -58,13 +62,13 @@ export const Header: VFC = memo(() => {
     const notLoggedIn = (
         <>
             <SItem>
-                <SLink to="items" onClick={naviOpen}>MyMove一覧</SLink>
+                <SLink to="items" onClick={naviClose}>MyMove一覧</SLink>
             </SItem>
             <SItem>
-                <SLink to="login" onClick={naviOpen}>ログイン</SLink>
+                <SLink to="login" onClick={naviClose}>ログイン</SLink>
             </SItem>
             <SItem>
-                <SLink to="register" onClick={naviOpen}>無料会員登録</SLink>
+                <SLink to="register" onClick={naviClose}>無料会員登録</SLink>
             </SItem>
         </>
     );

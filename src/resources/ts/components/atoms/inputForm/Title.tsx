@@ -17,7 +17,4 @@ const STitle = styled.h1`
     margin-bottom: ${space.xxxl};
     text-align: center;
     font-size: ${fonts.size.xxl};
-    ${breakPoint.sm`
-  font-size: ${fonts.size.l};
-  `}
 `;

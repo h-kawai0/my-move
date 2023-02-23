@@ -473,7 +473,7 @@ const SParentDetailTitle = styled.h2`
     margin-bottom: ${space.xl};
     word-wrap: break-word;
     ${breakPoint.sm`
-    fonts-size: ${fonts.size.l};
+    font-size: ${fonts.size.l};
   `}
 `;
 
